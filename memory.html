@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Карточки памяти</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: #0a0a0f;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* ── HEADER ── */
+#header {
+  position: fixed; top: 0; left: 0; right: 0; height: 48px;
+  background: rgba(8,8,16,0.97);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 12px; z-index: 200; gap: 8px;
+}
+#header-left { display:flex; align-items:center; gap:7px; min-width:0; flex:1; }
+.nav-arrow {
+  width:32px; height:32px;
+  border:1px solid rgba(255,255,255,0.14); background:rgba(255,255,255,0.05);
+  color:rgba(255,255,255,0.65); border-radius:6px; font-size:13px;
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; transition:background .15s, color .15s;
+}
+.nav-arrow:hover { background:rgba(255,255,255,0.11); color:#fff; }
+.nav-arrow:disabled { opacity:.22; pointer-events:none; }
+#card-title {
+  font-size:clamp(11px,2.4vw,14px); color:rgba(255,255,255,0.8);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+#card-counter { font-size:11px; color:rgba(255,255,255,0.28); flex-shrink:0; }
+#header-right { display:flex; align-items:center; gap:9px; flex-shrink:0; }
+#score-badge {
+  font-size:11px; color:rgba(255,255,255,0.4);
+  background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.07);
+  border-radius:20px; padding:3px 9px; white-space:nowrap;
+}
+#score-badge b { color:#3ecf8e; }
+#timer-wrap { display:flex; align-items:center; gap:5px; }
+#timer-dot {
+  width:7px; height:7px; border-radius:50%; background:#333; transition:background .3s; flex-shrink:0;
+}
+#timer-dot.memorize { background:#f0a500; animation:dp 1s infinite; }
+#timer-dot.answer   { background:#3ecf8e; animation:dp .8s infinite; }
+#timer-dot.danger   { background:#e84545; animation:dp .35s infinite; }
+@keyframes dp { 0%,100%{opacity:1} 50%{opacity:.2} }
+#timer-val {
+  font-size:clamp(15px,3.5vw,19px); font-weight:700; color:#f0a500;
+  font-variant-numeric:tabular-nums; letter-spacing:1px;
+  min-width:36px; text-align:right; transition:color .3s;
+}
+#timer-val.answer { color:#3ecf8e; }
+#timer-val.danger { color:#e84545; }
+
+/* ── STAGE ── */
+#stage {
+  position:fixed; top:48px; left:0; right:0; bottom:0;
+  overflow:hidden; background:#0a0a0f;
+}
+
+/* Image always fills stage, object-fit:contain */
+#card-image {
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:contain; object-position:center; display:block;
+  user-select:none; -webkit-user-drag:none;
+  transition:opacity .28s ease;
+}
+#card-image.fading { opacity:0; }
+
+/* ── VEIL — shown before start, overlays image ── */
+#veil {
+  position:absolute; inset:0; z-index:50;
+  display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
+  padding-bottom: clamp(28px,7vh,60px);
+  /* semi-transparent so part of task image shows through top */
+  background: linear-gradient(to bottom,
+    rgba(8,8,16,0.55) 0%,
+    rgba(8,8,16,0.72) 55%,
+    rgba(8,8,16,0.95) 100%);
+  transition:opacity .35s ease;
+}
+#veil.hidden { opacity:0; pointer-events:none; }
+
+/* Cropped preview rendered on a canvas inside the veil */
+#preview-canvas {
+  position:absolute; top:0; left:0; right:0;
+  width:100%; height:100%;
+  /* canvas fills veil, we draw the cropped portion into it */
+  pointer-events:none;
+  z-index:0;
+}
+/* Veil bottom controls */
+.veil-controls {
+  position:relative; z-index:1;
+  display:flex; flex-direction:column; align-items:center; gap:14px;
+}
+.veil-title {
+  font-size:clamp(14px,3.2vw,20px); color:rgba(255,255,255,0.75);
+  text-align:center; padding:0 24px;
+}
+.btn-start {
+  padding:clamp(12px,2.8vw,15px) clamp(30px,7vw,52px);
+  background:#e84545; color:#fff; border:none; border-radius:10px;
+  font-family:inherit; font-size:clamp(13px,3vw,17px); font-weight:700;
+  letter-spacing:2px; text-transform:uppercase; cursor:pointer;
+  box-shadow:0 6px 28px rgba(232,69,69,.4);
+  transition:transform .12s, box-shadow .12s;
+}
+.btn-start:active { transform:scale(.96); box-shadow:0 2px 10px rgba(232,69,69,.25); }
+
+/* ── PROGRESS BAR ── */
+#pbar { position:absolute; bottom:0; left:0; right:0; height:3px; background:rgba(255,255,255,.05); z-index:30; }
+#pfill { height:100%; background:#f0a500; width:100%; transition:width 1s linear, background .3s; }
+#pfill.danger { background:#e84545; }
+
+/* ── WIDGET LAYER ── */
+#widget-layer { position:absolute; inset:0; z-index:40; pointer-events:none; }
+#widget-layer.active { pointer-events:all; }
+
+/* Anchor: positioned by JS using image-relative px coords converted to stage % */
+.w-anchor { position:absolute; transform:translate(-50%,-50%); pointer-events:all; }
+
+/* SELECT */
+.w-sel {
+  appearance:none; -webkit-appearance:none;
+  font-family:inherit; font-size:clamp(12px,2.4vw,15px); font-weight:600;
+  background:rgba(8,8,18,.88); color:#fff;
+  border:1.5px solid rgba(255,255,255,.18); border-radius:7px;
+  padding:6px 24px 6px 9px; min-width:clamp(58px,12vw,112px);
+  cursor:pointer; outline:none;
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+  transition:border-color .18s;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(255,255,255,0.35)'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 8px center;
+}
+.w-sel option { background:#111; }
+.w-sel:focus  { border-color:#f0a500; }
+.w-sel.ok  { border-color:#3ecf8e !important; background-color:rgba(62,207,142,.2) !important; }
+.w-sel.bad { border-color:#e84545 !important; background-color:rgba(232,69,69,.2)  !important; }
+.w-sel:disabled { opacity:.7; cursor:default; }
+
+/* TEXT */
+.w-inp {
+  font-family:inherit; font-size:clamp(12px,2.4vw,15px); font-weight:600;
+  background:rgba(8,8,18,.88); color:#fff;
+  border:1.5px solid rgba(255,255,255,.18); border-radius:7px;
+  padding:6px 9px; min-width:clamp(90px,17vw,160px); outline:none;
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+  transition:border-color .18s;
+}
+.w-inp::placeholder { color:rgba(255,255,255,.22); }
+.w-inp:focus  { border-color:#f0a500; }
+.w-inp.ok  { border-color:#3ecf8e !important; background:rgba(62,207,142,.2)  !important; }
+.w-inp.bad { border-color:#e84545 !important; background:rgba(232,69,69,.2)   !important; }
+.w-inp:disabled { opacity:.7; cursor:default; }
+
+/* CHECKBOX */
+.w-cb {
+  width:clamp(28px,6vw,40px); height:clamp(28px,6vw,40px);
+  background:rgba(8,8,18,.88); border:2px solid rgba(255,255,255,.2);
+  border-radius:8px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  font-size:clamp(15px,3.2vw,22px);
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+  transition:border-color .15s, background .15s;
+  user-select:none; -webkit-user-select:none;
+}
+.w-cb:hover   { border-color:rgba(255,255,255,.4); }
+.w-cb.checked { border-color:#f0a500; background:rgba(240,165,0,.18); }
+.w-cb.ok  { border-color:#3ecf8e !important; background:rgba(62,207,142,.2)  !important; pointer-events:none; }
+.w-cb.bad { border-color:#e84545 !important; background:rgba(232,69,69,.2)   !important; pointer-events:none; }
+
+/* RESULT ICONS */
+.r-icon {
+  position:absolute; transform:translate(-50%,-50%);
+  font-size:clamp(16px,3.5vw,24px); z-index:55; pointer-events:none;
+  filter:drop-shadow(0 2px 5px rgba(0,0,0,.7));
+  animation:pop .22s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+@keyframes pop {
+  from { transform:translate(-50%,-50%) scale(0); opacity:0; }
+  to   { transform:translate(-50%,-50%) scale(1); opacity:1; }
+}
+
+/* CHECK BUTTON (on image) */
+.btn-check {
+  position:absolute; transform:translate(-50%,-50%);
+  padding:clamp(9px,2.2vw,13px) clamp(20px,4.5vw,32px);
+  background:#3ecf8e; color:#050c08; border:none; border-radius:9px;
+  font-family:inherit; font-size:clamp(12px,2.4vw,15px); font-weight:700;
+  letter-spacing:1.5px; text-transform:uppercase; cursor:pointer;
+  box-shadow:0 4px 22px rgba(62,207,142,.5); z-index:45;
+  transition:transform .12s, box-shadow .12s;
+  backdrop-filter:blur(4px); white-space:nowrap;
+}
+.btn-check:active { transform:translate(-50%,-50%) scale(.95); }
+
+/* DRAWING */
+#draw-canvas { position:absolute; z-index:41; cursor:crosshair; touch-action:none; }
+#draw-toolbar {
+  position:absolute; bottom:14px; left:50%; transform:translateX(-50%);
+  display:flex; gap:6px;
+  background:rgba(8,8,16,.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.1); border-radius:10px; padding:8px 12px;
+  z-index:46; white-space:nowrap;
+}
+.tb-btn {
+  padding:7px 13px; border:1px solid rgba(255,255,255,.1); background:transparent;
+  color:rgba(255,255,255,.55); border-radius:6px; font-family:inherit;
+  font-size:clamp(11px,2.2vw,13px); cursor:pointer; transition:all .13s; white-space:nowrap;
+}
+.tb-btn:hover { background:rgba(255,255,255,.07); color:#fff; }
+.tb-btn.active { background:#e84545; color:#fff; border-color:#e84545; }
+.tb-btn.t-clear { color:rgba(255,100,100,.65); }
+.tb-btn.t-clear:hover { background:rgba(232,69,69,.12); color:#e84545; border-color:rgba(232,69,69,.3); }
+
+/* RESULT OVERLAY */
+#result-overlay {
+  position:absolute; inset:0;
+  background:rgba(5,5,12,.5); backdrop-filter:blur(3px); -webkit-backdrop-filter:blur(3px);
+  z-index:60; display:none; align-items:flex-end; justify-content:center;
+  padding-bottom:clamp(14px,4vw,28px);
+}
+#result-overlay.show { display:flex; animation:fadeIn .28s ease; }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+#result-card {
+  background:rgba(8,8,18,.96); border:1px solid rgba(255,255,255,.1);
+  border-radius:14px; padding:14px 20px;
+  display:flex; align-items:center; gap:18px;
+  box-shadow:0 10px 44px rgba(0,0,0,.7);
+  flex-wrap:wrap; justify-content:center; max-width:90vw;
+}
+.res-stat { text-align:center; }
+.res-val  { display:block; font-size:clamp(22px,5vw,32px); font-weight:700; color:#f0a500; }
+.res-lbl  { font-size:10px; color:rgba(255,255,255,.3); letter-spacing:.5px; text-transform:uppercase; margin-top:2px; }
+.res-div  { width:1px; height:34px; background:rgba(255,255,255,.08); flex-shrink:0; }
+.btn-next-res {
+  padding:10px 22px; background:#e84545; color:#fff;
+  border:none; border-radius:8px; font-family:inherit;
+  font-size:13px; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+  cursor:pointer; transition:transform .12s; white-space:nowrap;
+}
+.btn-next-res:active { transform:scale(.95); }
+
+/* LOADING */
+#loading {
+  position:fixed; inset:0; background:#0a0a0f;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; z-index:999;
+}
+.spin {
+  width:34px; height:34px; border:3px solid rgba(255,255,255,.07);
+  border-top-color:#e84545; border-radius:50%; animation:spin .75s linear infinite;
+}
+@keyframes spin { to{transform:rotate(360deg)} }
+.load-lbl { color:rgba(255,255,255,.25); font-size:12px; letter-spacing:2px; }
+
+/* ERROR */
+#error-screen {
+  position:fixed; inset:0; background:#0a0a0f; display:none;
+  flex-direction:column; align-items:center; justify-content:center; gap:16px; z-index:998;
+}
+#error-screen.show { display:flex; }
+.err-icon { font-size:52px; }
+.err-msg { color:rgba(255,255,255,.5); font-size:14px; text-align:center; padding:0 32px; line-height:1.7; }
+.err-file { color:#e84545; font-family:monospace; font-size:13px; }
+</style>
+</head>
+<body>
+
+<div id="loading"><div class="spin"></div><div class="load-lbl">ЗАГРУЗКА</div></div>
+
+<div id="error-screen">
+  <div class="err-icon">⚠️</div>
+  <div class="err-msg">
+    Не удалось загрузить конфигурационный файл.<br>
+    Убедитесь, что файл <span class="err-file">cards-config.json</span><br>
+    находится в той же папке, что и HTML.
+  </div>
+</div>
+
+<!-- HEADER -->
+<div id="header">
+  <div id="header-left">
+    <button class="nav-arrow" id="btn-prev">◀</button>
+    <button class="nav-arrow" id="btn-next">▶</button>
+    <span id="card-title"></span>
+    <span id="card-counter"></span>
+  </div>
+  <div id="header-right">
+    <span id="score-badge">✓ <b id="score-val">0</b></span>
+    <div id="timer-wrap">
+      <div id="timer-dot"></div>
+      <div id="timer-val">—</div>
+    </div>
+  </div>
+</div>
+
+<!-- STAGE -->
+<div id="stage">
+  <img id="card-image" src="" alt="">
+
+  <!-- Canvas for the cropped-task preview shown in the veil -->
+  <canvas id="preview-canvas"></canvas>
+
+  <!-- Veil: shown before memorize starts, overlays image -->
+  <div id="veil">
+    <div class="veil-controls">
+      <div class="veil-title" id="veil-title"></div>
+      <button class="btn-start" id="btn-start">▶ НАЧАТЬ ЗАДАНИЕ</button>
+    </div>
+  </div>
+
+  <div id="pbar"><div id="pfill"></div></div>
+  <div id="widget-layer"></div>
+
+  <div id="result-overlay">
+    <div id="result-card">
+      <div class="res-stat"><span class="res-val" id="r-correct">—</span><div class="res-lbl">правильно</div></div>
+      <div class="res-div"></div>
+      <div class="res-stat"><span class="res-val" id="r-total">—</span><div class="res-lbl">вопросов</div></div>
+      <div class="res-div"></div>
+      <div class="res-stat"><span class="res-val" id="r-time">—</span><div class="res-lbl">время ответа</div></div>
+      <div class="res-div"></div>
+      <button class="btn-next-res" id="btn-next-res">Далее ▶</button>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// ═══════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════
+let CONFIG = null, cards = [], ci = 0;
+const S = {
+  phase: 'idle',    // idle | memorize | answer | done
+  memSec: 0, ansSec: 0,
+  memTimer: null, ansTimer: null,
+  cbState: {},
+  drawTool: 'pencil', drawCtx: null,
+  drawing: false, lx: 0, ly: 0,
+  totalCorrect: 0, totalAnswered: 0,
+  // Image layout (computed when image loads)
+  imgX: 0, imgY: 0, imgW: 0, imgH: 0,  // rendered image rect inside stage
+  imgNatW: 1, imgNatH: 1,               // natural image size
+};
+
+const ge  = id => document.getElementById(id);
+const stage       = ge('stage');
+const cardImage   = ge('card-image');
+const veil        = ge('veil');
+const veilTitle   = ge('veil-title');
+const btnStart    = ge('btn-start');
+const pfill       = ge('pfill');
+const wLayer      = ge('widget-layer');
+const resOverlay  = ge('result-overlay');
+const timerDot    = ge('timer-dot');
+const timerVal    = ge('timer-val');
+const prevCanvas  = ge('preview-canvas');
+
+// ═══════════════════════════════════════════════
+//  BOOT
+// ═══════════════════════════════════════════════
+async function boot() {
+  try {
+    const r = await fetch('cards-config.json');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    CONFIG = await r.json();
+  } catch(e) {
+    ge('loading').style.display = 'none';
+    ge('error-screen').classList.add('show');
+    return;
+  }
+  cards = CONFIG.cards;
+  ge('loading').style.display = 'none';
+  loadCard(0);
+}
+
+// ═══════════════════════════════════════════════
+//  IMAGE LAYOUT — compute rendered rect of
+//  object-fit:contain image inside stage
+// ═══════════════════════════════════════════════
+function computeImgLayout(natW, natH) {
+  const sw = stage.offsetWidth, sh = stage.offsetHeight;
+  const scale = Math.min(sw / natW, sh / natH);
+  S.imgNatW = natW; S.imgNatH = natH;
+  S.imgW = natW * scale; S.imgH = natH * scale;
+  S.imgX = (sw - S.imgW) / 2;
+  S.imgY = (sh - S.imgH) / 2;
+}
+
+// Convert image-native px coords → stage px
+function imgToStage(x, y) {
+  const sx = S.imgX + x * (S.imgW / S.imgNatW);
+  const sy = S.imgY + y * (S.imgH / S.imgNatH);
+  return { x: sx, y: sy };
+}
+
+// ═══════════════════════════════════════════════
+//  DRAW CROPPED PREVIEW on preview-canvas
+//  Shows the taskHiddenArea portion of taskImage
+//  (blurred/dimmed surroundings stay as background)
+// ═══════════════════════════════════════════════
+function renderPreview(card) {
+  const area = card.taskHiddenArea;  // {x,y,w,h} in image-native px
+
+  // Size preview-canvas to fill the stage
+  const sw = stage.offsetWidth, sh = stage.offsetHeight;
+  prevCanvas.width  = sw;
+  prevCanvas.height = sh;
+  prevCanvas.style.cssText = `position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;`;
+
+  const ctx = prevCanvas.getContext('2d');
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = () => {
+    computeImgLayout(img.naturalWidth, img.naturalHeight);
+    ctx.clearRect(0,0,sw,sh);
+
+    // Draw dim overlay over the whole canvas
+    ctx.fillStyle = 'rgba(8,8,16,0.82)';
+    ctx.fillRect(0,0,sw,sh);
+
+    if (!area) return; // no preview area specified
+
+    // Destination rect in stage coords
+    const dx = S.imgX + area.x * (S.imgW / S.imgNatW);
+    const dy = S.imgY + area.y * (S.imgH / S.imgNatH);
+    const dw = area.w * (S.imgW / S.imgNatW);
+    const dh = area.h * (S.imgH / S.imgNatH);
+
+    // Draw the crop — clear the dim, then draw image slice
+    ctx.clearRect(dx, dy, dw, dh);
+    ctx.drawImage(img, area.x, area.y, area.w, area.h, dx, dy, dw, dh);
+
+    // Subtle border around the revealed area
+    ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(dx, dy, dw, dh);
+  };
+  img.src = card.taskImage;
+}
+
+// ═══════════════════════════════════════════════
+//  LOAD CARD
+// ═══════════════════════════════════════════════
+function loadCard(idx) {
+  stopAll();
+  ci = idx;
+  const card = cards[ci];
+
+  ge('card-title').textContent   = card.title;
+  ge('card-counter').textContent = `${ci+1}/${cards.length}`;
+  ge('btn-prev').disabled = ci === 0;
+  ge('btn-next').disabled = ci === cards.length - 1;
+
+  S.phase = 'idle'; S.ansSec = 0; S.cbState = {}; S.drawCtx = null;
+
+  wLayer.innerHTML = '';
+  wLayer.classList.remove('active');
+  resOverlay.classList.remove('show');
+  stage.querySelectorAll('.btn-check').forEach(b => b.remove());
+  stage.querySelectorAll('#draw-canvas,#draw-toolbar').forEach(e => e.remove());
+
+  pfill.style.transition = 'none';
+  pfill.style.width = '100%';
+  pfill.classList.remove('danger');
+
+  // Show task image (behind veil)
+  cardImage.src = card.taskImage || '';
+  cardImage.classList.remove('fading');
+
+  // Veil on
+  veil.classList.remove('hidden');
+  veil.style.display = 'flex';
+  veilTitle.textContent = card.title;
+  prevCanvas.style.display = '';
+
+  // Render the cropped preview
+  renderPreview(card);
+
+  setTimer(fmt(card.memorizeTime), 'idle');
+}
+
+// ═══════════════════════════════════════════════
+//  PHASE 1 — MEMORIZE (full task image shown,
+//  veil hides, timer counts down, btn-start
+//  stays visible to skip to answers early)
+// ═══════════════════════════════════════════════
+function startMemorize() {
+  const card = cards[ci];
+  S.phase = 'memorize';
+  S.memSec = card.memorizeTime;
+
+  // Hide veil & preview canvas — show full image
+  veil.classList.add('hidden');
+  prevCanvas.style.display = 'none';
+  setTimeout(() => { if (S.phase !== 'idle') veil.style.display = 'none'; }, 380);
+
+  // Recompute layout now that image is visible
+  if (cardImage.naturalWidth) computeImgLayout(cardImage.naturalWidth, cardImage.naturalHeight);
+  cardImage.onload = () => computeImgLayout(cardImage.naturalWidth, cardImage.naturalHeight);
+
+  // Progress bar drains left→right
+  void pfill.offsetWidth;
+  pfill.style.transition = `width ${card.memorizeTime}s linear`;
+  pfill.style.width = '0%';
+  setTimer(fmt(S.memSec), 'memorize');
+
+  // "Skip to answers" button — overlaid on top-right area of image
+  const skipBtn = document.createElement('button');
+  skipBtn.id = 'skip-btn';
+  skipBtn.textContent = 'Перейти к ответам ▶';
+  skipBtn.style.cssText = [
+    'position:absolute','top:12px','right:12px','z-index:48',
+    'padding:8px 16px','background:rgba(8,8,18,.82)',
+    'color:rgba(255,255,255,.7)','border:1px solid rgba(255,255,255,.18)',
+    'border-radius:8px','font-family:inherit','font-size:clamp(11px,2.2vw,13px)',
+    'cursor:pointer','backdrop-filter:blur(6px)','letter-spacing:.5px',
+    'transition:background .15s,color .15s'
+  ].join(';');
+  skipBtn.addEventListener('mouseenter', () => {
+    skipBtn.style.background='rgba(232,69,69,.22)';
+    skipBtn.style.color='#fff';
+    skipBtn.style.borderColor='rgba(232,69,69,.4)';
+  });
+  skipBtn.addEventListener('mouseleave', () => {
+    skipBtn.style.background='rgba(8,8,18,.82)';
+    skipBtn.style.color='rgba(255,255,255,.7)';
+    skipBtn.style.borderColor='rgba(255,255,255,.18)';
+  });
+  skipBtn.addEventListener('click', () => {
+    clearInterval(S.memTimer);
+    skipBtn.remove();
+    startAnswer();
+  });
+  stage.appendChild(skipBtn);
+
+  S.memTimer = setInterval(() => {
+    S.memSec--;
+    const dang = S.memSec <= 5;
+    pfill.classList.toggle('danger', dang);
+    setTimer(fmt(S.memSec), dang ? 'danger' : 'memorize');
+    if (S.memSec <= 0) {
+      clearInterval(S.memTimer);
+      const sb = ge('skip-btn'); if (sb) sb.remove();
+      startAnswer();
+    }
+  }, 1000);
+}
+
+// ═══════════════════════════════════════════════
+//  PHASE 2 — ANSWER
+// ═══════════════════════════════════════════════
+function startAnswer() {
+  const card = cards[ci];
+  S.phase = 'answer'; S.ansSec = 0;
+
+  // Swap to answer image
+  cardImage.classList.add('fading');
+  setTimeout(() => {
+    cardImage.src = card.answerImage || '';
+    cardImage.classList.remove('fading');
+    // Recompute layout after answer image loads
+    cardImage.onload = () => {
+      computeImgLayout(cardImage.naturalWidth, cardImage.naturalHeight);
+      buildWidgets(card);
+    };
+    // If already cached
+    if (cardImage.complete && cardImage.naturalWidth) {
+      computeImgLayout(cardImage.naturalWidth, cardImage.naturalHeight);
+      buildWidgets(card);
+    }
+  }, 160);
+
+  pfill.style.transition = 'none';
+  pfill.style.width = '0%';
+  pfill.classList.remove('danger');
+  setTimer('0с', 'answer');
+
+  S.ansTimer = setInterval(() => {
+    S.ansSec++;
+    setTimer(fmt(S.ansSec), 'answer');
+  }, 1000);
+}
+
+// ═══════════════════════════════════════════════
+//  PHASE 3 — CHECK
+// ═══════════════════════════════════════════════
+function checkAnswers() {
+  if (S.phase !== 'answer') return;
+  stopAll(); S.phase = 'done';
+  const card = cards[ci];
+  let correct = 0;
+  const total = card.widgets.length;
+
+  if (card.widgets[0]?.type === 'drawing') {
+    correct = evalDrawing(card.widgets[0]) ? 1 : 0;
+    showDrawingResult(correct === 1);
+  } else {
+    card.widgets.forEach(w => {
+      const ok = evalWidget(w);
+      if (ok) correct++;
+      markWidget(w, ok);
+    });
+  }
+
+  wLayer.querySelectorAll('select,input').forEach(el => el.disabled = true);
+  stage.querySelectorAll('.btn-check').forEach(b => b.remove());
+  const tb = ge('draw-toolbar'); if (tb) tb.style.opacity = '0.3';
+
+  S.totalCorrect  += correct;
+  S.totalAnswered += total;
+  ge('score-val').textContent = `${S.totalCorrect}/${S.totalAnswered}`;
+
+  ge('r-correct').textContent = `${correct}/${total}`;
+  ge('r-total').textContent   = total;
+  ge('r-time').textContent    = fmt(S.ansSec);
+  resOverlay.classList.add('show');
+  setTimer(fmt(S.ansSec), 'done');
+}
+
+// ═══════════════════════════════════════════════
+//  BUILD WIDGETS
+//  Positions are in image-native pixels (from config).
+//  We convert to stage px using imgToStage().
+// ═══════════════════════════════════════════════
+function buildWidgets(card) {
+  wLayer.innerHTML = '';
+  wLayer.classList.add('active');
+
+  if (card.widgets[0]?.type === 'drawing') { buildDrawing(card); return; }
+
+  card.widgets.forEach(w => {
+    const sp = imgToStage(w.x, w.y);
+    const anchor = document.createElement('div');
+    anchor.className = 'w-anchor';
+    anchor.style.left = sp.x + 'px';
+    anchor.style.top  = sp.y + 'px';
+    anchor.dataset.wid = w.id;
+
+    let el;
+    switch (w.type) {
+      case 'number':   el = makeNumSel(w);  break;
+      case 'month':    el = makeMonSel(w);  break;
+      case 'digit':    el = makeDigSel(w);  break;
+      case 'text':     el = makeText(w);    break;
+      case 'checkbox': el = makeCB(w);      break;
+    }
+    if (el) anchor.appendChild(el);
+    wLayer.appendChild(anchor);
+  });
+
+  placeCheckBtn(card);
+}
+
+function makeNumSel(w) {
+  const s = mkSel(w.id);
+  addOpt(s,'','—');
+  for (let i=w.min||1; i<=(w.max||31); i++) addOpt(s,i,i);
+  return s;
+}
+function makeMonSel(w) {
+  const ms=['январь','февраль','март','апрель','май','июнь','июль','август','сентябрь','октябрь','ноябрь','декабрь'];
+  const s=mkSel(w.id); addOpt(s,'','—');
+  ms.forEach(m=>addOpt(s,m,m[0].toUpperCase()+m.slice(1)));
+  return s;
+}
+function makeDigSel(w) {
+  const s=mkSel(w.id); addOpt(s,'','—');
+  for(let i=1;i<=9;i++) addOpt(s,i,i);
+  return s;
+}
+function makeText(w) {
+  const inp=document.createElement('input');
+  inp.type='text'; inp.className='w-inp';
+  inp.placeholder=w.placeholder||'...'; inp.dataset.wid=w.id;
+  return inp;
+}
+function makeCB(w) {
+  S.cbState[w.id]=false;
+  const d=document.createElement('div');
+  d.className='w-cb'; d.dataset.wid=w.id;
+  d.addEventListener('click',()=>{
+    if(S.phase!=='answer') return;
+    S.cbState[w.id]=!S.cbState[w.id];
+    d.classList.toggle('checked',S.cbState[w.id]);
+    d.textContent=S.cbState[w.id]?'✓':'';
+  });
+  return d;
+}
+function mkSel(wid){const s=document.createElement('select');s.className='w-sel';s.dataset.wid=wid;return s;}
+function addOpt(s,v,t){const o=document.createElement('option');o.value=v;o.textContent=t;s.appendChild(o);}
+
+function placeCheckBtn(card) {
+  const cb = card.checkButton;
+  const sp = imgToStage(cb.x, cb.y);
+  const btn = document.createElement('button');
+  btn.className = 'btn-check';
+  btn.style.left = sp.x + 'px';
+  btn.style.top  = sp.y + 'px';
+  btn.textContent = '✓ Проверить';
+  btn.addEventListener('click', checkAnswers);
+  stage.appendChild(btn);
+}
+
+// ═══════════════════════════════════════════════
+//  EVAL
+// ═══════════════════════════════════════════════
+function evalWidget(w) {
+  if (w.type==='checkbox') return String(!!S.cbState[w.id])===w.answer.toLowerCase();
+  const el=wLayer.querySelector(`[data-wid="${w.id}"]`);
+  if (!el) return false;
+  return el.value.trim().toLowerCase()===w.answer.toLowerCase();
+}
+function markWidget(w, ok) {
+  const el=wLayer.querySelector(`[data-wid="${w.id}"]`);
+  if (el) el.classList.add(ok?'ok':'bad');
+  const sp=imgToStage(w.x,w.y);
+  const ic=document.createElement('div');
+  ic.className='r-icon';
+  ic.style.left=sp.x+'px';
+  ic.style.top=(sp.y)+'px';
+  // offset icon above the widget
+  ic.style.transform='translate(-50%, calc(-50% - clamp(18px,3.5vw,26px)))';
+  ic.textContent=ok?'✅':'❌';
+  wLayer.appendChild(ic);
+}
+
+// ═══════════════════════════════════════════════
+//  DRAWING
+// ═══════════════════════════════════════════════
+function buildDrawing(card) {
+  const w = card.widgets[0];
+  // drawing area in image-native px
+  const tl = imgToStage(w.x, w.y);
+  const br = imgToStage(w.x + w.w, w.y + w.h);
+  const dx=tl.x, dy=tl.y, dw=br.x-tl.x, dh=br.y-tl.y;
+
+  const dc = document.createElement('canvas');
+  dc.id='draw-canvas'; dc.width=Math.round(dw); dc.height=Math.round(dh);
+  dc.style.cssText=`left:${dx}px;top:${dy}px;width:${dw}px;height:${dh}px;`;
+  stage.appendChild(dc);
+
+  S.drawCtx=dc.getContext('2d');
+  S.drawCtx.lineCap=S.drawCtx.lineJoin='round';
+
+  const getP=(e,el)=>{
+    const r=el.getBoundingClientRect();
+    return{x:(e.clientX-r.left)*dc.width/r.width,y:(e.clientY-r.top)*dc.height/r.height};
+  };
+  const draw=(e,el)=>{
+    const p=getP(e,el),ctx=S.drawCtx;
+    ctx.beginPath();
+    if(S.drawTool==='eraser'){ctx.globalCompositeOperation='destination-out';ctx.lineWidth=26;}
+    else{ctx.globalCompositeOperation='source-over';ctx.strokeStyle='#111';ctx.lineWidth=4;}
+    ctx.moveTo(S.lx,S.ly);ctx.lineTo(p.x,p.y);ctx.stroke();
+    S.lx=p.x;S.ly=p.y;
+  };
+  dc.addEventListener('mousedown',e=>{S.drawing=true;const p=getP(e,dc);S.lx=p.x;S.ly=p.y;});
+  dc.addEventListener('mousemove',e=>{if(S.drawing)draw(e,dc);});
+  dc.addEventListener('mouseup',()=>S.drawing=false);
+  dc.addEventListener('mouseleave',()=>S.drawing=false);
+  dc.addEventListener('touchstart',e=>{e.preventDefault();S.drawing=true;const p=getP(e.touches[0],dc);S.lx=p.x;S.ly=p.y;},{passive:false});
+  dc.addEventListener('touchmove',e=>{e.preventDefault();if(S.drawing)draw(e.touches[0],dc);},{passive:false});
+  dc.addEventListener('touchend',e=>{e.preventDefault();S.drawing=false;},{passive:false});
+
+  const tb=document.createElement('div'); tb.id='draw-toolbar';
+  [['pencil','✏️ Карандаш','active'],['eraser','⬜ Ластик',''],['clear','🗑','t-clear']].forEach(([id,lbl,cls])=>{
+    const b=document.createElement('button');
+    b.className='tb-btn '+cls; b.textContent=lbl;
+    b.addEventListener('click',()=>{
+      if(id==='clear'){S.drawCtx.clearRect(0,0,dc.width,dc.height);return;}
+      S.drawTool=id;
+      tb.querySelectorAll('.tb-btn').forEach(b2=>b2.classList.remove('active'));
+      b.classList.add('active');
+    });
+    tb.appendChild(b);
+  });
+  stage.appendChild(tb);
+  S.drawTool='pencil';
+  placeCheckBtn(card);
+}
+
+function evalDrawing(w) {
+  if (!S.drawCtx||!w.referenceImage) return false;
+  const dc=S.drawCtx.canvas;
+  const ref=new Image(); ref.src=w.referenceImage;
+  const oc=document.createElement('canvas');
+  oc.width=dc.width;oc.height=dc.height;
+  const octx=oc.getContext('2d');
+  octx.fillStyle='white';octx.fillRect(0,0,oc.width,oc.height);
+  octx.drawImage(ref,0,0,oc.width,oc.height);
+  const rd=octx.getImageData(0,0,oc.width,oc.height).data;
+  const ud=S.drawCtx.getImageData(0,0,dc.width,dc.height).data;
+  let refPx=0,matchPx=0;
+  for(let i=0;i<rd.length;i+=4){
+    if(0.299*rd[i]+0.587*rd[i+1]+0.114*rd[i+2]<128){
+      refPx++;if(ud[i+3]>50)matchPx++;
+    }
+  }
+  return refPx===0?true:(matchPx/refPx)>=(w.matchThreshold||0.75);
+}
+function showDrawingResult(ok) {
+  const ic=document.createElement('div');
+  ic.style.cssText='position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:55;pointer-events:none;font-size:clamp(20px,5vw,34px);background:rgba(8,8,18,.9);padding:12px 24px;border-radius:12px;animation:fadeIn .3s ease;text-align:center;backdrop-filter:blur(6px);';
+  ic.textContent=ok?'✅ Зачтено!':'❌ Мало совпадений';
+  wLayer.appendChild(ic);
+}
+
+// ═══════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════
+function setTimer(text,mode){
+  timerVal.textContent=text;
+  timerVal.className=mode==='answer'?'answer':mode==='danger'?'danger':'';
+  timerDot.className=['memorize','answer','danger'].includes(mode)?mode:'';
+}
+function fmt(s){s=Math.max(0,s);const m=Math.floor(s/60),sec=s%60;return m>0?`${m}:${String(sec).padStart(2,'0')}`:`${s}с`;}
+function stopAll(){clearInterval(S.memTimer);S.memTimer=null;clearInterval(S.ansTimer);S.ansTimer=null;}
+
+// ═══════════════════════════════════════════════
+//  EVENTS
+// ═══════════════════════════════════════════════
+btnStart.addEventListener('click',()=>{if(S.phase==='idle')startMemorize();});
+ge('btn-prev').addEventListener('click',()=>{if(ci>0)loadCard(ci-1);});
+ge('btn-next').addEventListener('click',()=>{if(ci<cards.length-1)loadCard(ci+1);});
+ge('btn-next-res').addEventListener('click',()=>{
+  resOverlay.classList.remove('show');
+  if(ci<cards.length-1)loadCard(ci+1);
+});
+
+// Rebuild widget positions on resize
+let rszTm;
+window.addEventListener('resize',()=>{
+  clearTimeout(rszTm);
+  rszTm=setTimeout(()=>{
+    if(S.phase==='memorize'||S.phase==='idle'){
+      computeImgLayout(S.imgNatW,S.imgNatH);
+      renderPreview(cards[ci]);
+    }
+    if(S.phase==='answer') buildWidgets(cards[ci]);
+  },180);
+});
+
+boot();
+</script>
+</body>
+</html>

@@ -17,68 +17,86 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;
   display:flex;align-items:center;justify-content:space-between;
   padding:0 12px;z-index:200;gap:8px}
 #hdr-l{display:flex;align-items:center;gap:7px;min-width:0;flex:1;overflow:hidden}
-.nav-arr{width:32px;height:32px;border:1px solid rgba(255,255,255,.14);
+.nav-arr{width:30px;height:30px;border:1px solid rgba(255,255,255,.14);
   background:rgba(255,255,255,.05);color:rgba(255,255,255,.65);
-  border-radius:6px;font-size:13px;cursor:pointer;
+  border-radius:6px;font-size:12px;cursor:pointer;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;transition:background .15s,color .15s}
+  transition:background .15s,color .15s}
 .nav-arr:hover{background:rgba(255,255,255,.11);color:#fff}
 .nav-arr:disabled{opacity:.22;pointer-events:none}
-#card-title{font-size:clamp(11px,2.2vw,13px);color:rgba(255,255,255,.75);
+#card-title{font-size:clamp(10px,2vw,13px);color:rgba(255,255,255,.75);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
-#card-ctr{font-size:11px;color:rgba(255,255,255,.28);flex-shrink:0}
+#card-ctr{font-size:10px;color:rgba(255,255,255,.28);flex-shrink:0}
 
-/* header-right: timer + per-card result + total score */
-#hdr-r{display:flex;align-items:center;gap:8px;flex-shrink:0}
-#tdot{width:7px;height:7px;border-radius:50%;background:#333;
-  transition:background .3s;flex-shrink:0}
+#hdr-r{display:flex;align-items:center;gap:6px;flex-shrink:0}
+#tdot{width:7px;height:7px;border-radius:50%;background:#333;flex-shrink:0;transition:background .3s}
 #tdot.mem{background:#f0a500;animation:dp 1s infinite}
 #tdot.ans{background:#3ecf8e;animation:dp .8s infinite}
 #tdot.dng{background:#e84545;animation:dp .35s infinite}
 @keyframes dp{0%,100%{opacity:1}50%{opacity:.2}}
-#tval{font-size:clamp(14px,3vw,18px);font-weight:700;color:#f0a500;
-  font-variant-numeric:tabular-nums;letter-spacing:1px;
-  min-width:34px;text-align:right;transition:color .3s;flex-shrink:0}
+#tval{font-size:clamp(13px,2.8vw,17px);font-weight:700;color:#f0a500;
+  font-variant-numeric:tabular-nums;letter-spacing:1px;min-width:32px;
+  text-align:right;transition:color .3s;flex-shrink:0}
 #tval.ans{color:#3ecf8e}#tval.dng{color:#e84545}
 
-/* Card result badge — shown after check, hidden otherwise */
-#card-result{font-size:clamp(10px,1.8vw,12px);padding:3px 9px;border-radius:20px;
-  font-weight:700;letter-spacing:.5px;white-space:nowrap;display:none;flex-shrink:0}
-#card-result.ok {display:block;background:rgba(62,207,142,.18);color:#3ecf8e;
-  border:1px solid rgba(62,207,142,.35)}
-#card-result.bad{display:block;background:rgba(232,69,69,.18);color:#e84545;
-  border:1px solid rgba(232,69,69,.35)}
+#card-result{font-size:10px;padding:2px 8px;border-radius:20px;
+  font-weight:700;white-space:nowrap;display:none;flex-shrink:0}
+#card-result.ok {display:block;background:rgba(62,207,142,.18);color:#3ecf8e;border:1px solid rgba(62,207,142,.35)}
+#card-result.bad{display:block;background:rgba(232,69,69,.18);color:#e84545;border:1px solid rgba(232,69,69,.35)}
 
-/* Total score — always visible */
-#total-score{font-size:clamp(10px,1.8vw,12px);padding:3px 9px;border-radius:20px;
+#total-score{font-size:10px;padding:2px 8px;border-radius:20px;
   color:rgba(255,255,255,.4);background:rgba(255,255,255,.05);
   border:1px solid rgba(255,255,255,.07);white-space:nowrap;flex-shrink:0}
 #total-score b{color:#3ecf8e}
 
 /* ── STAGE ── */
 #stage{position:fixed;top:48px;left:0;right:0;bottom:0;overflow:hidden;background:#0a0a0f}
-
 #cimg{position:absolute;inset:0;width:100%;height:100%;
   object-fit:contain;object-position:center;display:block;
-  user-select:none;-webkit-user-drag:none;transition:opacity .28s ease}
+  user-select:none;-webkit-user-drag:none;transition:opacity .25s ease}
 #cimg.fade{opacity:0}
 
 /* ── VEIL ── */
 #veil{position:absolute;inset:0;z-index:50;
   display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
-  padding-bottom:clamp(28px,7vh,60px);transition:opacity .35s ease}
+  padding-bottom:clamp(24px,6vh,52px);transition:opacity .35s ease}
 #veil.off{opacity:0;pointer-events:none}
 #pcanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
 #veil-grad{position:absolute;inset:0;z-index:1;
-  background:linear-gradient(to bottom,transparent 0%,rgba(8,8,16,.6) 55%,rgba(8,8,16,.96) 100%)}
-.veil-ctrls{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:14px}
-.veil-title{font-size:clamp(14px,3.2vw,20px);color:rgba(255,255,255,.75);text-align:center;padding:0 24px}
-.btn-start{padding:clamp(12px,2.8vw,15px) clamp(30px,7vw,52px);
+  background:linear-gradient(to bottom,transparent 0%,rgba(8,8,16,.55) 50%,rgba(8,8,16,.95) 100%)}
+.veil-ctrls{position:relative;z-index:2;display:flex;flex-direction:row;
+  align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;padding:0 20px}
+.veil-title{width:100%;font-size:clamp(13px,3vw,19px);color:rgba(255,255,255,.7);
+  text-align:center;margin-bottom:4px}
+
+/* "Открыть условие" → becomes hidden after click */
+#btn-open{padding:clamp(11px,2.5vw,14px) clamp(24px,5.5vw,44px);
   background:#e84545;color:#fff;border:none;border-radius:10px;
-  font-family:inherit;font-size:clamp(13px,3vw,17px);font-weight:700;
-  letter-spacing:2px;text-transform:uppercase;cursor:pointer;
-  box-shadow:0 6px 28px rgba(232,69,69,.4);transition:transform .12s,box-shadow .12s}
-.btn-start:active{transform:scale(.96)}
+  font-family:inherit;font-size:clamp(12px,2.8vw,16px);font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;
+  box-shadow:0 5px 24px rgba(232,69,69,.4);transition:transform .12s,opacity .2s}
+#btn-open:active{transform:scale(.96)}
+#btn-open.gone{opacity:0;pointer-events:none}
+
+/* "Начать отвечать" — fixed to bottom of stage, outside veil */
+#btn-answer{
+  position:absolute;
+  bottom:clamp(24px,6vh,52px);
+  left:50%;transform:translateX(-50%);
+  z-index:55;
+  padding:clamp(11px,2.5vw,14px) clamp(24px,5.5vw,44px);
+  background:rgba(62,207,142,.18);color:#3ecf8e;
+  border:1.5px solid rgba(62,207,142,.5);
+  border-radius:10px;font-family:inherit;
+  font-size:clamp(12px,2.8vw,16px);font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  pointer-events:all;
+  display:none;
+  white-space:nowrap;
+  animation:fadeIn .25s ease}
+#btn-answer.show{display:block}
+@keyframes fadeIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
 
 /* ── PROGRESS BAR ── */
 #pbar{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,.05);z-index:30}
@@ -86,40 +104,41 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;
 #pfill.dng{background:#e84545}
 
 /* ── WIDGET LAYER ──
-   The layer div itself has pointer-events:none so it never blocks clicks on the image.
-   Each .wa anchor sets pointer-events:all individually. ── */
+   Layer itself: pointer-events:none — never blocks clicks.
+   Individual widgets: pointer-events:all.
+   Positioned by top-left corner (translate(0,0)) to match config coords. ── */
 #wlayer{position:absolute;inset:0;z-index:40;pointer-events:none}
 
-.wa{position:absolute;transform:translate(-50%,-50%);
-  display:flex;align-items:center;gap:6px;pointer-events:all}
+/* Each widget anchor: top-left = config coords, no centering transform */
+.wa{position:absolute;display:flex;align-items:center;gap:5px;pointer-events:all}
 
-.wa-icon{font-size:clamp(15px,3vw,20px);line-height:1;flex-shrink:0;
-  display:none;filter:drop-shadow(0 1px 4px rgba(0,0,0,.7))}
-.wa-icon.show{display:block;animation:pop .22s cubic-bezier(.34,1.56,.64,1)}
+.wa-icon{font-size:clamp(14px,2.8vw,19px);line-height:1;flex-shrink:0;
+  display:none;filter:drop-shadow(0 1px 4px rgba(0,0,0,.8))}
+.wa-icon.show{display:block;animation:pop .2s cubic-bezier(.34,1.56,.64,1)}
 @keyframes pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
 
 /* SELECT */
 .w-sel{appearance:none;-webkit-appearance:none;
-  font-family:inherit;font-size:clamp(12px,2.4vw,15px);font-weight:600;
+  font-family:inherit;font-size:clamp(12px,2.4vw,14px);font-weight:600;
   background:rgba(8,8,18,.88);color:#fff;
   border:1.5px solid rgba(255,255,255,.18);border-radius:7px;
-  padding:6px 24px 6px 9px;min-width:clamp(58px,12vw,112px);
+  padding:5px 22px 5px 8px;min-width:clamp(52px,10vw,100px);
   cursor:pointer;outline:none;
   backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
   transition:border-color .18s;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(255,255,255,0.35)'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 8px center}
+  background-repeat:no-repeat;background-position:right 7px center}
 .w-sel option{background:#111}
 .w-sel:focus{border-color:#f0a500}
 .w-sel.ok {border-color:#3ecf8e!important;background-color:rgba(62,207,142,.2)!important}
 .w-sel.bad{border-color:#e84545!important;background-color:rgba(232,69,69,.2)!important}
 .w-sel:disabled{opacity:.7;cursor:default}
 
-/* TEXT */
-.w-inp{font-family:inherit;font-size:clamp(12px,2.4vw,15px);font-weight:600;
+/* TEXT INPUT */
+.w-inp{font-family:inherit;font-size:clamp(12px,2.4vw,14px);font-weight:600;
   background:rgba(8,8,18,.88);color:#fff;
   border:1.5px solid rgba(255,255,255,.18);border-radius:7px;
-  padding:6px 9px;min-width:clamp(90px,17vw,160px);outline:none;
+  padding:5px 8px;min-width:clamp(80px,15vw,150px);outline:none;
   backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
   transition:border-color .18s}
 .w-inp::placeholder{color:rgba(255,255,255,.22)}
@@ -129,11 +148,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;
 .w-inp:disabled{opacity:.7;cursor:default}
 
 /* CHECKBOX */
-.w-cb{width:clamp(28px,6vw,40px);height:clamp(28px,6vw,40px);
+.w-cb{width:clamp(26px,5.5vw,38px);height:clamp(26px,5.5vw,38px);
   background:rgba(8,8,18,.88);border:2px solid rgba(255,255,255,.2);
-  border-radius:8px;cursor:pointer;
+  border-radius:7px;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
-  font-size:clamp(15px,3.2vw,22px);
+  font-size:clamp(13px,3vw,20px);
   backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
   transition:border-color .15s,background .15s;
   user-select:none;-webkit-user-select:none}
@@ -142,51 +161,50 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;
 .w-cb.ok {border-color:#3ecf8e!important;background:rgba(62,207,142,.2)!important;pointer-events:none}
 .w-cb.bad{border-color:#e84545!important;background:rgba(232,69,69,.2)!important;pointer-events:none}
 
-/* CHECK BUTTON — inside #wlayer, always above draw-canvas */
-.btn-chk{position:absolute;transform:translate(-50%,-50%);z-index:10;
-  padding:clamp(9px,2.2vw,13px) clamp(20px,4.5vw,32px);
+/* CHECK BUTTON — lives in #wlayer, z-index above draw-canvas */
+.btn-chk{position:absolute;z-index:10;
+  padding:clamp(8px,2vw,12px) clamp(18px,4vw,28px);
   background:#3ecf8e;color:#050c08;border:none;border-radius:9px;
-  font-family:inherit;font-size:clamp(12px,2.4vw,15px);font-weight:700;
+  font-family:inherit;font-size:clamp(11px,2.2vw,14px);font-weight:700;
   letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;
-  box-shadow:0 4px 22px rgba(62,207,142,.5);
+  box-shadow:0 4px 20px rgba(62,207,142,.5);
   pointer-events:all;backdrop-filter:blur(4px);white-space:nowrap;
   transition:background .2s,color .2s,box-shadow .2s}
-.btn-chk:active{transform:translate(-50%,-50%) scale(.95)}
+.btn-chk:active{filter:brightness(.9)}
 .btn-chk.done-ok {background:#3ecf8e;color:#050c08;cursor:default;pointer-events:none}
-.btn-chk.done-bad{background:#e84545;color:#fff;   cursor:default;pointer-events:none}
+.btn-chk.done-bad{background:#e84545;color:#fff;cursor:default;pointer-events:none;
+  box-shadow:0 4px 20px rgba(232,69,69,.5)}
 
-/* NEXT TASK button — inside #wlayer, anchored at left edge */
-.btn-next-task{position:absolute;transform:translate(0,-50%);z-index:10;
-  padding:clamp(9px,2.2vw,13px) clamp(20px,4.5vw,32px);
+/* NEXT TASK button — appears right of check btn after checking */
+.btn-next-task{position:absolute;z-index:10;
+  padding:clamp(8px,2vw,12px) clamp(18px,4vw,28px);
   background:#e84545;color:#fff;border:none;border-radius:9px;
-  font-family:inherit;font-size:clamp(12px,2.4vw,15px);font-weight:700;
+  font-family:inherit;font-size:clamp(11px,2.2vw,14px);font-weight:700;
   letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;
-  box-shadow:0 4px 22px rgba(232,69,69,.5);
+  box-shadow:0 4px 20px rgba(232,69,69,.5);
   pointer-events:all;backdrop-filter:blur(4px);white-space:nowrap;
-  animation:slideIn .3s cubic-bezier(.34,1.56,.64,1)}
-.btn-next-task:active{transform:translate(0,-50%) scale(.95)}
-@keyframes slideIn{from{opacity:0;transform:translate(0,-50%) scale(.7)}
-                   to  {opacity:1;transform:translate(0,-50%) scale(1)}}
+  animation:slideIn .28s cubic-bezier(.34,1.56,.64,1)}
+.btn-next-task:active{filter:brightness(.9)}
+@keyframes slideIn{from{opacity:0;transform:scale(.75)}to{opacity:1;transform:scale(1)}}
 
-/* SKIP button */
-#skip-btn{position:absolute;top:12px;right:12px;z-index:48;
-  padding:8px 16px;background:rgba(8,8,18,.82);
+/* SKIP button (memorize phase top-right) */
+#skip-btn{position:absolute;top:10px;right:10px;z-index:48;
+  padding:7px 14px;background:rgba(8,8,18,.82);
   color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.18);
-  border-radius:8px;font-family:inherit;font-size:clamp(11px,2.2vw,13px);
-  cursor:pointer;backdrop-filter:blur(6px);letter-spacing:.5px;
-  pointer-events:all;
+  border-radius:8px;font-family:inherit;font-size:clamp(10px,2vw,12px);
+  cursor:pointer;backdrop-filter:blur(6px);pointer-events:all;
   transition:background .15s,color .15s,border-color .15s}
 #skip-btn:hover{background:rgba(232,69,69,.22);color:#fff;border-color:rgba(232,69,69,.4)}
 
-/* DRAWING — canvas z-index BELOW wlayer (40) so btn-chk inside wlayer is clickable */
+/* DRAWING */
 #draw-canvas{position:absolute;z-index:39;cursor:crosshair;touch-action:none}
-#draw-toolbar{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);
-  display:flex;gap:6px;z-index:46;white-space:nowrap;pointer-events:all;
+#draw-toolbar{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);
+  display:flex;gap:5px;z-index:46;pointer-events:all;white-space:nowrap;
   background:rgba(8,8,16,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px 12px}
-.tb-btn{padding:7px 13px;border:1px solid rgba(255,255,255,.1);background:transparent;
+  border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:7px 11px}
+.tb-btn{padding:6px 12px;border:1px solid rgba(255,255,255,.1);background:transparent;
   color:rgba(255,255,255,.55);border-radius:6px;font-family:inherit;
-  font-size:clamp(11px,2.2vw,13px);cursor:pointer;transition:all .13s;white-space:nowrap}
+  font-size:clamp(10px,2vw,13px);cursor:pointer;transition:all .13s;white-space:nowrap}
 .tb-btn:hover{background:rgba(255,255,255,.07);color:#fff}
 .tb-btn.active{background:#e84545;color:#fff;border-color:#e84545}
 .tb-btn.tcl{color:rgba(255,100,100,.65)}
@@ -195,25 +213,22 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;
 /* LOADING / ERROR */
 #loading{position:fixed;inset:0;background:#0a0a0f;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:999}
-.spin{width:34px;height:34px;border:3px solid rgba(255,255,255,.07);
+.spin{width:32px;height:32px;border:3px solid rgba(255,255,255,.07);
   border-top-color:#e84545;border-radius:50%;animation:spin .75s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .load-lbl{color:rgba(255,255,255,.25);font-size:12px;letter-spacing:2px}
 #err{position:fixed;inset:0;background:#0a0a0f;display:none;
   flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:998}
 #err.show{display:flex}
-.err-ico{font-size:52px}
-.err-msg{color:rgba(255,255,255,.5);font-size:14px;text-align:center;padding:0 32px;line-height:1.7}
-.err-f{color:#e84545;font-family:monospace;font-size:13px}
-
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.err-msg{color:rgba(255,255,255,.5);font-size:14px;text-align:center;padding:0 32px;line-height:1.8}
+.err-f{color:#e84545;font-family:monospace}
 </style>
 </head>
 <body>
 
 <div id="loading"><div class="spin"></div><div class="load-lbl">ЗАГРУЗКА</div></div>
 <div id="err">
-  <div class="err-ico">⚠️</div>
+  <div style="font-size:48px">⚠️</div>
   <div class="err-msg">Не удалось загрузить конфигурацию.<br>
   Файл <span class="err-f">cards-config.json</span> должен быть рядом с HTML.</div>
 </div>
@@ -227,8 +242,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;
   </div>
   <div id="hdr-r">
     <span id="card-result"></span>
-    <span id="total-score">Итог: <b id="score-v">0/0</b></span>
-    <div style="display:flex;align-items:center;gap:5px;flex-shrink:0">
+    <span id="total-score">✓ <b id="score-v">0/0</b></span>
+    <div style="display:flex;align-items:center;gap:4px">
       <div id="tdot"></div>
       <div id="tval">—</div>
     </div>
@@ -243,9 +258,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;
     <div id="veil-grad"></div>
     <div class="veil-ctrls">
       <div class="veil-title" id="veil-title"></div>
-      <button class="btn-start" id="btn-start">▶ НАЧАТЬ ЗАДАНИЕ</button>
+      <button id="btn-open">▶ Открыть условие</button>
     </div>
   </div>
+
+  <!-- btn-answer lives outside veil so it stays visible after veil fades -->
+  <button id="btn-answer">⚡ Начать отвечать</button>
 
   <div id="pbar"><div id="pfill"></div></div>
   <div id="wlayer"></div>
@@ -254,21 +272,28 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;
 <script>
 'use strict';
 
-// ══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
+//  MONTHS LOOKUP
+// ═══════════════════════════════════════════════════
+const MONTHS = ['январь','февраль','март','апрель','май','июнь',
+                'июль','август','сентябрь','октябрь','ноябрь','декабрь'];
+
+// ═══════════════════════════════════════════════════
 //  STATE
-// ══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 let CONFIG = null, cards = [], ci = 0;
 const S = {
-  phase: 'idle',  // idle | memorize | answer | done
-  memSec: 0, ansSec: 0,
-  memTm: null, ansTm: null,
+  phase: 'idle',   // idle | memorize | answer | done
+  memSec: 0,
+  ansSec: 0,       // cumulative answer time across ALL cards
+  memTm: null,
+  ansTm: null,
   cbState: {},
   drawTool: 'pencil', drawCtx: null,
   drawing: false, lx: 0, ly: 0,
   totOk: 0, totAns: 0,
-  // rendered image rect inside stage (set by setLayout)
-  imgX: 0, imgY: 0, imgW: 1, imgH: 1,
-  natW: 1, natH: 1,
+  // image layout (set when answer image loads)
+  imgX: 0, imgY: 0, imgW: 1, imgH: 1, natW: 1, natH: 1,
 };
 
 const ge     = id => document.getElementById(id);
@@ -280,10 +305,12 @@ const wlayer = ge('wlayer');
 const pfill  = ge('pfill');
 const tdot   = ge('tdot');
 const tval   = ge('tval');
+const btnOpen   = ge('btn-open');
+const btnAnswer = ge('btn-answer');
 
-// ══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 //  BOOT
-// ══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 async function boot() {
   try {
     const r = await fetch('cards-config.json');
@@ -296,13 +323,13 @@ async function boot() {
   }
   cards = CONFIG.cards;
   ge('loading').style.display = 'none';
-  updateTotalScore();
+  updateScore();
   loadCard(0);
 }
 
-// ══════════════════════════════════════════════════════
-//  IMAGE LAYOUT — compute object-fit:contain rect
-// ══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
+//  IMAGE LAYOUT
+// ═══════════════════════════════════════════════════
 function setLayout(natW, natH) {
   if (!natW || !natH) return;
   const sw = stage.offsetWidth, sh = stage.offsetHeight;
@@ -313,7 +340,8 @@ function setLayout(natW, natH) {
   S.imgY = (sh - S.imgH) / 2;
 }
 
-// image-native px → stage px (clamped to image bounds)
+// image-native px (top-left) → stage px (top-left)
+// coords clamped to image bounds
 function i2s(x, y) {
   const cx = Math.max(0, Math.min(x, S.natW));
   const cy = Math.max(0, Math.min(y, S.natH));
@@ -323,15 +351,32 @@ function i2s(x, y) {
   };
 }
 
-// ══════════════════════════════════════════════════════
-//  PREVIEW CANVAS — taskHiddenArea bright, rest dimmed
-// ══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
+//  LOAD IMAGE and wait for it reliably
+//  Works for both fresh loads and cached images
+// ═══════════════════════════════════════════════════
+function loadImage(imgEl, src) {
+  return new Promise(resolve => {
+    const done = () => {
+      imgEl.onload = imgEl.onerror = null;
+      resolve();
+    };
+    imgEl.onload  = done;
+    imgEl.onerror = done;
+    imgEl.src = src;
+    // Cached: browser sets complete=true synchronously, no onload fires
+    if (imgEl.complete) done();
+  });
+}
+
+// ═══════════════════════════════════════════════════
+//  PREVIEW CANVAS — taskHiddenArea at full brightness
+// ═══════════════════════════════════════════════════
 function renderPreview(card) {
   const sw = stage.offsetWidth, sh = stage.offsetHeight;
-  pcanv.width  = sw;
-  pcanv.height = sh;
-  pcanv.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;';
-
+  pcanv.width  = sw; pcanv.height = sh;
+  pcanv.style.cssText =
+    'position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;';
   const ctx = pcanv.getContext('2d');
   ctx.clearRect(0, 0, sw, sh);
 
@@ -340,32 +385,29 @@ function renderPreview(card) {
     setLayout(img.naturalWidth, img.naturalHeight);
     ctx.clearRect(0, 0, sw, sh);
 
-    // Step 1: dim entire canvas
+    // 1. Full dim over entire canvas
     ctx.fillStyle = 'rgba(8,8,16,0.82)';
     ctx.fillRect(0, 0, sw, sh);
 
+    // 2. Bright crop on top
     const area = card.taskHiddenArea;
     if (!area) return;
-
-    // Step 2: draw bright crop on top of dim
     const scX = S.imgW / S.natW, scY = S.imgH / S.natH;
-    const dx = S.imgX + area.x * scX;
-    const dy = S.imgY + area.y * scY;
-    const dw = area.w * scX;
-    const dh = area.h * scY;
+    const dx = S.imgX + area.x * scX, dy = S.imgY + area.y * scY;
+    const dw = area.w * scX,          dh = area.h * scY;
     ctx.drawImage(img, area.x, area.y, area.w, area.h, dx, dy, dw, dh);
 
-    // Step 3: subtle border
-    ctx.strokeStyle = 'rgba(255,255,255,0.22)';
+    // 3. Border
+    ctx.strokeStyle = 'rgba(255,255,255,0.2)';
     ctx.lineWidth = 1.5;
     ctx.strokeRect(dx + 0.75, dy + 0.75, dw - 1.5, dh - 1.5);
   };
   img.src = card.taskImage;
 }
 
-// ══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 //  LOAD CARD
-// ══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 function loadCard(idx) {
   stopAll();
   ci = idx;
@@ -376,27 +418,32 @@ function loadCard(idx) {
   ge('btn-prev').disabled = ci === 0;
   ge('btn-next').disabled = ci === cards.length - 1;
 
-  S.phase = 'idle'; S.ansSec = 0; S.cbState = {}; S.drawCtx = null;
+  S.phase = 'idle'; S.cbState = {}; S.drawCtx = null;
 
-  // Clear widget layer (includes btn-chk, btn-next-task that live there)
+  // Clear widgets, draw canvas, toolbar, skip
   wlayer.innerHTML = '';
-  // Remove draw canvas / toolbar / skip (attached to stage directly)
   stage.querySelectorAll('#draw-canvas,#draw-toolbar,#skip-btn').forEach(e => e.remove());
 
-  // Reset progress bar
+  // Reset progress bar (memorize)
   pfill.style.transition = 'none';
   pfill.style.width = '100%';
   pfill.classList.remove('dng');
 
-  // Reset per-card result badge
+  // Reset card result badge
   const cr = ge('card-result');
   cr.className = ''; cr.textContent = '';
 
-  // Task image (behind veil)
+  // Reset veil buttons
+  btnOpen.classList.remove('gone');
+  btnAnswer.classList.remove('show');
+  btnAnswer.style.display = 'none';
+
+  // Task image behind veil
   cimg.classList.remove('fade');
+  cimg.onload = cimg.onerror = null;
   cimg.src = card.taskImage || '';
 
-  // Veil + preview
+  // Show veil + preview
   veil.classList.remove('off');
   veil.style.display = 'flex';
   pcanv.style.display = '';
@@ -406,38 +453,38 @@ function loadCard(idx) {
   setTimer(fmt(card.memorizeTime), 'idle');
 }
 
-// ══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 //  PHASE 1 — MEMORIZE
-// ══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 function startMemorize() {
   const card = cards[ci];
   S.phase = 'memorize';
   S.memSec = card.memorizeTime;
 
-  // Hide veil
+  // Hide "Открыть условие", show "Начать отвечать" beside it
+  btnOpen.classList.add('gone');
+  btnAnswer.style.display = 'block';
+  btnAnswer.classList.add('show');
+
+  // After veil fades: hide it to reveal full task image
   veil.classList.add('off');
   pcanv.style.display = 'none';
-  setTimeout(() => { if (S.phase !== 'idle') veil.style.display = 'none'; }, 380);
+  setTimeout(() => {
+    if (S.phase !== 'idle') veil.style.display = 'none';
+  }, 380);
 
-  // Compute layout now if task image already loaded, else on load
+  // Layout for task image
   if (cimg.complete && cimg.naturalWidth) {
     setLayout(cimg.naturalWidth, cimg.naturalHeight);
   } else {
     cimg.onload = () => { cimg.onload = null; setLayout(cimg.naturalWidth, cimg.naturalHeight); };
   }
 
-  // Progress bar
+  // Progress bar (memorize countdown)
   void pfill.offsetWidth;
   pfill.style.transition = `width ${card.memorizeTime}s linear`;
   pfill.style.width = '0%';
   setTimer(fmt(S.memSec), 'memorize');
-
-  // Skip button
-  const skip = document.createElement('button');
-  skip.id = 'skip-btn';
-  skip.textContent = 'Перейти к ответам ▶';
-  skip.addEventListener('click', () => { clearInterval(S.memTm); skip.remove(); startAnswer(); });
-  stage.appendChild(skip);
 
   S.memTm = setInterval(() => {
     S.memSec--;
@@ -445,66 +492,64 @@ function startMemorize() {
     pfill.classList.toggle('dng', dng);
     setTimer(fmt(S.memSec), dng ? 'dng' : 'memorize');
     if (S.memSec <= 0) {
-      clearInterval(S.memTm);
-      ge('skip-btn')?.remove();
+      clearInterval(S.memTm); S.memTm = null;
       startAnswer();
     }
   }, 1000);
 }
 
-// ══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 //  PHASE 2 — ANSWER
-// ══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 function startAnswer() {
+  if (S.phase === 'answer' || S.phase === 'done') return;
+  if (S.memTm) { clearInterval(S.memTm); S.memTm = null; }
+
+  // Hide "Начать отвечать" button and veil entirely
+  btnAnswer.classList.remove('show');
+  btnAnswer.style.display = 'none';
+  veil.classList.add('off');
+  veil.style.display = 'none';
+
   const card = cards[ci];
-  S.phase = 'answer'; S.ansSec = 0;
+  S.phase = 'answer';
 
   pfill.style.transition = 'none';
   pfill.style.width = '0%';
   pfill.classList.remove('dng');
-  setTimer('0с', 'answer');
 
-  S.ansTm = setInterval(() => { S.ansSec++; setTimer(fmt(S.ansSec), 'answer'); }, 1000);
+  // Cumulative answer timer (keeps running across cards, never resets)
+  if (!S.ansTm) {
+    setTimer(fmt(S.ansSec), 'answer');
+    S.ansTm = setInterval(() => {
+      S.ansSec++;
+      setTimer(fmt(S.ansSec), 'answer');
+    }, 1000);
+  } else {
+    setTimer(fmt(S.ansSec), 'answer');
+  }
 
+  // Swap to answer image, wait for load, then build widgets
   cimg.classList.add('fade');
-
   setTimeout(() => {
     cimg.classList.remove('fade');
-
-    // Clear any lingering handlers
-    cimg.onload  = null;
-    cimg.onerror = null;
-
-    const answerSrc = card.answerImage || '';
-
-    const proceed = () => {
+    loadImage(cimg, card.answerImage || '').then(() => {
       setLayout(cimg.naturalWidth || 1, cimg.naturalHeight || 1);
       buildWidgets(card);
-    };
-
-    if (cimg.src.endsWith(answerSrc) || cimg.currentSrc === new URL(answerSrc, location.href).href) {
-      // src unchanged — just use current layout
-      proceed();
-    } else {
-      cimg.onload  = () => { cimg.onload = cimg.onerror = null; proceed(); };
-      cimg.onerror = () => { cimg.onload = cimg.onerror = null; proceed(); };
-      cimg.src = answerSrc;
-
-      // Cached images fire no onload — check immediately after src set
-      if (cimg.complete && cimg.naturalWidth) {
-        cimg.onload = cimg.onerror = null;
-        proceed();
-      }
-    }
+    });
   }, 160);
 }
 
-// ══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 //  PHASE 3 — CHECK
-// ══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 function checkAnswers() {
   if (S.phase !== 'answer') return;
-  stopAll();
+
+  // Stop answer timer while checking (it will resume if user goes to next card)
+  // Actually keep it running — it's cumulative and we don't stop between cards.
+  // We DO stop it here because phase changes to 'done'.
+  clearInterval(S.ansTm); S.ansTm = null;
   S.phase = 'done';
 
   const card = cards[ci];
@@ -522,112 +567,85 @@ function checkAnswers() {
     });
   }
 
-  // Disable all inputs
+  // Disable inputs
   wlayer.querySelectorAll('select,input').forEach(el => el.disabled = true);
   wlayer.querySelectorAll('.w-cb').forEach(el => el.style.pointerEvents = 'none');
-  ge('draw-toolbar')?.style && (ge('draw-toolbar').style.opacity = '0.3');
+  const tb = ge('draw-toolbar');
+  if (tb) tb.style.opacity = '0.4';
 
   // Accumulate global score
   S.totOk  += correct;
   S.totAns += total;
-  updateTotalScore();
-
-  setTimer(fmt(S.ansSec), 'done');
+  updateScore();
 
   const allOk = correct === total;
 
-  // Update per-card result badge in header
+  // Header badge
   const cr = ge('card-result');
   cr.textContent = allOk ? `✅ ${correct}/${total}` : `❌ ${correct}/${total}`;
-  cr.className = allOk ? 'ok' : 'bad';
+  cr.className   = allOk ? 'ok' : 'bad';
 
-  // Update check button
+  // Update check button text/style
   const chkBtn = wlayer.querySelector('.btn-chk');
   if (chkBtn) {
     chkBtn.classList.add(allOk ? 'done-ok' : 'done-bad');
     chkBtn.textContent = allOk ? '✅ Верно!' : `❌ ${correct}/${total}`;
 
-    // Place "Следующее задание" to the right after layout tick
+    // Place "Следующее" button to the right after layout is painted
     requestAnimationFrame(() => {
-      const cbW = chkBtn.offsetWidth;
-      const cbL = parseFloat(chkBtn.style.left);
-      const cbT = parseFloat(chkBtn.style.top);
+      const cbRect = chkBtn.getBoundingClientRect();
+      const stRect = stage.getBoundingClientRect();
+      // Position relative to stage
+      const nxtLeft = cbRect.right - stRect.left + 10;
+      const nxtTop  = cbRect.top - stRect.top + cbRect.height / 2;
 
       const nxt = document.createElement('button');
       nxt.className = 'btn-next-task';
-      nxt.textContent = ci < cards.length - 1 ? 'Следующее ▶' : '✓ Завершить';
-      // Left edge = right edge of chkBtn + 12px gap
-      nxt.style.left = (cbL + cbW / 2 + 12) + 'px';
-      nxt.style.top  = cbT + 'px';
+      nxt.style.left = nxtLeft + 'px';
+      nxt.style.top  = nxtTop + 'px';
+      nxt.style.transform = 'translateY(-50%)';
+      nxt.textContent = ci < cards.length - 1 ? 'Следующее ▶' : '✓ Готово';
       nxt.addEventListener('click', () => {
-        if (ci < cards.length - 1) loadCard(ci + 1);
-        else showFinalScore();
+        if (ci < cards.length - 1) {
+          loadCard(ci + 1);
+          // Resume cumulative answer timer on next card's answer phase start
+        } else {
+          showFinal();
+        }
       });
       wlayer.appendChild(nxt);
     });
   }
 }
 
-function updateTotalScore() {
-  ge('score-v').textContent = `${S.totOk}/${S.totAns}`;
-}
-
-function showFinalScore() {
-  // Simple inline notification — no overlay, no blur
-  const el = document.createElement('div');
-  el.style.cssText = [
-    'position:absolute','left:50%','top:50%',
-    'transform:translate(-50%,-50%)',
-    'background:rgba(8,8,18,.95)',
-    'border:1px solid rgba(255,255,255,.12)',
-    'border-radius:16px','padding:28px 36px',
-    'text-align:center','z-index:55','pointer-events:all',
-    'animation:fadeIn .3s ease','color:#fff',
-    'font-size:clamp(14px,3vw,18px)','line-height:1.9',
-    'backdrop-filter:blur(4px)',
-  ].join(';');
-  el.innerHTML = `
-    <div style="font-size:clamp(28px,6vw,42px);margin-bottom:8px">🏆</div>
-    <div style="font-weight:700;letter-spacing:1px;margin-bottom:4px">Все задания выполнены!</div>
-    <div>Правильных ответов: <b style="color:#3ecf8e">${S.totOk}</b> из <b>${S.totAns}</b></div>
-    <div>Общее время: <b style="color:#f0a500">${fmt(cards.reduce((s,_,i) => s + (S['cardTime_'+i]||0), 0))}</b></div>
-    <button onclick="this.parentElement.remove()" style="margin-top:18px;padding:10px 24px;
-      background:#e84545;color:#fff;border:none;border-radius:8px;
-      font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;
-      letter-spacing:1px;text-transform:uppercase">Закрыть</button>
-  `;
-  stage.appendChild(el);
-}
-
-// ══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 //  BUILD WIDGETS
-// ══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 function buildWidgets(card) {
   wlayer.innerHTML = '';
 
   if (card.widgets[0]?.type === 'drawing') { buildDrawing(card); return; }
 
   card.widgets.forEach(w => {
-    const sp = i2s(w.x, w.y);
+    const sp = i2s(w.x, w.y);   // top-left of widget in stage px
 
     const anchor = document.createElement('div');
     anchor.className = 'wa';
+    // Position by top-left corner — no centering transform
     anchor.style.left = sp.x + 'px';
     anchor.style.top  = sp.y + 'px';
-    // NOTE: data-wid only on anchor for layout reference, NOT on the input
-    // The input gets data-wid, the icon gets data-icon-for
-    // We do NOT put data-wid on anchor to avoid querySelector ambiguity
 
-    let input;
+    let input = null;
     switch (w.type) {
-      case 'number':   input = makeNumSel(w); break;
-      case 'month':    input = makeMonSel(w); break;
-      case 'digit':    input = makeDigSel(w); break;
-      case 'text':     input = makeText(w);   break;
-      case 'checkbox': input = makeCB(w);     break;
+      case 'number':   input = makeNumSel(w);  break;
+      case 'month':    input = makeMonSel(w);  break;
+      case 'digit':    input = makeDigSel(w);  break;
+      case 'text':     input = makeText(w);    break;
+      case 'checkbox': input = makeCB(w);      break;
     }
     if (input) anchor.appendChild(input);
 
+    // Result icon to the right of input
     const icon = document.createElement('span');
     icon.className = 'wa-icon';
     icon.dataset.iconFor = w.id;
@@ -639,26 +657,49 @@ function buildWidgets(card) {
   placeCheckBtn(card);
 }
 
-// ══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 //  WIDGET FACTORIES
-// ══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
+
+// Build number select: uses w.values[] if present, else min..max range
 function makeNumSel(w) {
-  const s = mkSel(w.id); addOpt(s,'','—');
-  for (let i = w.min||1; i <= (w.max||31); i++) addOpt(s,i,i);
+  const s = mkSel(w.id);
+  addOpt(s, '', '—');
+  if (Array.isArray(w.values)) {
+    w.values.forEach(v => addOpt(s, String(v), String(v)));
+  } else {
+    for (let i = w.min || 1; i <= (w.max || 31); i++) addOpt(s, i, i);
+  }
   return s;
 }
+
+// Build month select: uses w.values[] (1-based month numbers) if present, else all 12 months
 function makeMonSel(w) {
-  const ms = ['январь','февраль','март','апрель','май','июнь',
-              'июль','август','сентябрь','октябрь','ноябрь','декабрь'];
-  const s = mkSel(w.id); addOpt(s,'','—');
-  ms.forEach(m => addOpt(s, m, m[0].toUpperCase()+m.slice(1)));
+  const s = mkSel(w.id);
+  addOpt(s, '', '—');
+  if (Array.isArray(w.values)) {
+    w.values.forEach(n => {
+      const m = MONTHS[n - 1] || String(n);
+      addOpt(s, m, m[0].toUpperCase() + m.slice(1));
+    });
+  } else {
+    MONTHS.forEach(m => addOpt(s, m, m[0].toUpperCase() + m.slice(1)));
+  }
   return s;
 }
+
+// Build digit select: uses w.values[] if present, else 1..9
 function makeDigSel(w) {
-  const s = mkSel(w.id); addOpt(s,'','—');
-  for (let i=1;i<=9;i++) addOpt(s,i,i);
+  const s = mkSel(w.id);
+  addOpt(s, '', '—');
+  if (Array.isArray(w.values)) {
+    w.values.forEach(v => addOpt(s, String(v), String(v)));
+  } else {
+    for (let i = 1; i <= 9; i++) addOpt(s, i, i);
+  }
   return s;
 }
+
 function makeText(w) {
   const inp = document.createElement('input');
   inp.type = 'text'; inp.className = 'w-inp';
@@ -666,10 +707,12 @@ function makeText(w) {
   inp.dataset.wid = w.id;
   return inp;
 }
+
 function makeCB(w) {
   S.cbState[w.id] = false;
   const d = document.createElement('div');
-  d.className = 'w-cb'; d.dataset.wid = w.id;
+  d.className = 'w-cb';
+  d.dataset.wid = w.id;
   d.addEventListener('click', () => {
     if (S.phase !== 'answer') return;
     S.cbState[w.id] = !S.cbState[w.id];
@@ -678,18 +721,19 @@ function makeCB(w) {
   });
   return d;
 }
+
 function mkSel(wid) {
   const s = document.createElement('select');
   s.className = 'w-sel'; s.dataset.wid = wid; return s;
 }
-function addOpt(s,v,t) {
+function addOpt(s, v, t) {
   const o = document.createElement('option');
-  o.value = v; o.textContent = t; s.appendChild(o);
+  o.value = String(v); o.textContent = String(t); s.appendChild(o);
 }
 
 function placeCheckBtn(card) {
-  const cb = card.checkButton;
-  const sp = i2s(cb.x, cb.y);
+  const cb  = card.checkButton;
+  const sp  = i2s(cb.x, cb.y);   // top-left of button
   const btn = document.createElement('button');
   btn.className = 'btn-chk';
   btn.style.left = sp.x + 'px';
@@ -699,131 +743,184 @@ function placeCheckBtn(card) {
   wlayer.appendChild(btn);
 }
 
-// ══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 //  EVAL & MARK
-// ══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 function evalWidget(w) {
-  if (w.type === 'checkbox')
+  if (w.type === 'checkbox') {
     return String(!!S.cbState[w.id]) === w.answer.toLowerCase();
+  }
+  // For select/input: find element by data-wid
   const el = wlayer.querySelector(`[data-wid="${w.id}"]`);
   if (!el) return false;
   return el.value.trim().toLowerCase() === w.answer.toLowerCase();
 }
 
 function markWidget(w, ok) {
-  const inputEl = wlayer.querySelector(`[data-wid="${w.id}"]`);
-  if (inputEl) inputEl.classList.add(ok ? 'ok' : 'bad');
+  // Style the input/select/checkbox element
+  const el = wlayer.querySelector(`[data-wid="${w.id}"]`);
+  if (el) el.classList.add(ok ? 'ok' : 'bad');
+
+  // Show result icon in the same anchor row
   const icon = wlayer.querySelector(`[data-icon-for="${w.id}"]`);
-  if (icon) { icon.textContent = ok ? '✅' : '❌'; icon.classList.add('show'); }
+  if (icon) {
+    icon.textContent = ok ? '✅' : '❌';
+    icon.classList.add('show');
+  }
 }
 
-// ══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 //  DRAWING
-// ══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 function buildDrawing(card) {
   const w  = card.widgets[0];
   const tl = i2s(w.x, w.y);
   const br = i2s(w.x + w.w, w.y + w.h);
-  const dx = tl.x, dy = tl.y, dw = br.x - tl.x, dh = br.y - tl.y;
+  const dw = Math.max(1, br.x - tl.x);
+  const dh = Math.max(1, br.y - tl.y);
 
   const dc = document.createElement('canvas');
   dc.id = 'draw-canvas';
-  dc.width  = Math.round(dw); dc.height = Math.round(dh);
-  dc.style.cssText = `position:absolute;left:${dx}px;top:${dy}px;width:${dw}px;height:${dh}px;`;
+  dc.width = Math.round(dw); dc.height = Math.round(dh);
+  dc.style.cssText =
+    `position:absolute;left:${tl.x}px;top:${tl.y}px;width:${dw}px;height:${dh}px;`;
   stage.appendChild(dc);
 
   S.drawCtx = dc.getContext('2d');
   S.drawCtx.lineCap = S.drawCtx.lineJoin = 'round';
 
-  const gp = (e,el) => { const r=el.getBoundingClientRect();
-    return{x:(e.clientX-r.left)*dc.width/r.width,y:(e.clientY-r.top)*dc.height/r.height}; };
-  const dl = (e,el) => {
-    const p=gp(e,el),ctx=S.drawCtx; ctx.beginPath();
-    if(S.drawTool==='eraser'){ctx.globalCompositeOperation='destination-out';ctx.lineWidth=26;}
-    else{ctx.globalCompositeOperation='source-over';ctx.strokeStyle='#111';ctx.lineWidth=4;}
-    ctx.moveTo(S.lx,S.ly);ctx.lineTo(p.x,p.y);ctx.stroke();S.lx=p.x;S.ly=p.y;
+  const gp = (e, el) => {
+    const r = el.getBoundingClientRect();
+    return { x: (e.clientX-r.left)*dc.width/r.width,
+             y: (e.clientY-r.top)*dc.height/r.height };
   };
-  dc.addEventListener('mousedown', e=>{S.drawing=true;const p=gp(e,dc);S.lx=p.x;S.ly=p.y;});
-  dc.addEventListener('mousemove', e=>{if(S.drawing)dl(e,dc);});
-  dc.addEventListener('mouseup',   ()=>S.drawing=false);
-  dc.addEventListener('mouseleave',()=>S.drawing=false);
-  dc.addEventListener('touchstart',e=>{e.preventDefault();S.drawing=true;const p=gp(e.touches[0],dc);S.lx=p.x;S.ly=p.y;},{passive:false});
-  dc.addEventListener('touchmove', e=>{e.preventDefault();if(S.drawing)dl(e.touches[0],dc);},{passive:false});
-  dc.addEventListener('touchend',  e=>{e.preventDefault();S.drawing=false;},{passive:false});
+  const dl = (e, el) => {
+    const p = gp(e,el), ctx = S.drawCtx;
+    ctx.beginPath();
+    if (S.drawTool === 'eraser') {
+      ctx.globalCompositeOperation = 'destination-out'; ctx.lineWidth = 26;
+    } else {
+      ctx.globalCompositeOperation = 'source-over'; ctx.strokeStyle = '#111'; ctx.lineWidth = 4;
+    }
+    ctx.moveTo(S.lx, S.ly); ctx.lineTo(p.x, p.y); ctx.stroke();
+    S.lx = p.x; S.ly = p.y;
+  };
+  dc.addEventListener('mousedown',  e=>{S.drawing=true;const p=gp(e,dc);S.lx=p.x;S.ly=p.y;});
+  dc.addEventListener('mousemove',  e=>{if(S.drawing)dl(e,dc);});
+  dc.addEventListener('mouseup',    ()=>S.drawing=false);
+  dc.addEventListener('mouseleave', ()=>S.drawing=false);
+  dc.addEventListener('touchstart', e=>{e.preventDefault();S.drawing=true;
+    const p=gp(e.touches[0],dc);S.lx=p.x;S.ly=p.y;},{passive:false});
+  dc.addEventListener('touchmove',  e=>{e.preventDefault();
+    if(S.drawing)dl(e.touches[0],dc);},{passive:false});
+  dc.addEventListener('touchend',   e=>{e.preventDefault();S.drawing=false;},{passive:false});
 
   const tb = document.createElement('div'); tb.id = 'draw-toolbar';
-  [['pencil','✏️ Карандаш','active'],['eraser','⬜ Ластик',''],['clear','🗑','tcl']].forEach(([id,lbl,cls])=>{
-    const b = document.createElement('button');
-    b.className='tb-btn '+cls; b.textContent=lbl;
-    b.addEventListener('click',()=>{
-      if(id==='clear'){S.drawCtx.clearRect(0,0,dc.width,dc.height);return;}
-      S.drawTool=id;
-      tb.querySelectorAll('.tb-btn').forEach(x=>x.classList.remove('active'));
-      b.classList.add('active');
+  [['pencil','✏️ Карандаш','active'],['eraser','⬜ Ластик',''],['clear','🗑','tcl']]
+    .forEach(([id,lbl,cls]) => {
+      const b = document.createElement('button');
+      b.className = 'tb-btn ' + cls; b.textContent = lbl;
+      b.addEventListener('click', () => {
+        if (id === 'clear') { S.drawCtx.clearRect(0,0,dc.width,dc.height); return; }
+        S.drawTool = id;
+        tb.querySelectorAll('.tb-btn').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active');
+      });
+      tb.appendChild(b);
     });
-    tb.appendChild(b);
-  });
   stage.appendChild(tb);
   S.drawTool = 'pencil';
   placeCheckBtn(card);
 }
 
 function evalDrawing(w) {
-  if (!S.drawCtx||!w.referenceImage) return false;
-  const dc=S.drawCtx.canvas;
-  const ref=new Image(); ref.src=w.referenceImage;
-  const oc=document.createElement('canvas');
-  oc.width=dc.width;oc.height=dc.height;
-  const ox=oc.getContext('2d');
-  ox.fillStyle='white';ox.fillRect(0,0,oc.width,oc.height);
-  ox.drawImage(ref,0,0,oc.width,oc.height);
-  const rd=ox.getImageData(0,0,oc.width,oc.height).data;
-  const ud=S.drawCtx.getImageData(0,0,dc.width,dc.height).data;
-  let rp=0,mp=0;
-  for(let i=0;i<rd.length;i+=4){
-    if(0.299*rd[i]+0.587*rd[i+1]+0.114*rd[i+2]<128){rp++;if(ud[i+3]>50)mp++;}
+  if (!S.drawCtx || !w.referenceImage) return false;
+  const dc  = S.drawCtx.canvas;
+  const ref = new Image(); ref.src = w.referenceImage;
+  const oc  = document.createElement('canvas');
+  oc.width  = dc.width; oc.height = dc.height;
+  const ox  = oc.getContext('2d');
+  ox.fillStyle = 'white'; ox.fillRect(0,0,oc.width,oc.height);
+  ox.drawImage(ref, 0,0, oc.width, oc.height);
+  const rd = ox.getImageData(0,0,oc.width,oc.height).data;
+  const ud = S.drawCtx.getImageData(0,0,dc.width,dc.height).data;
+  let rp=0, mp=0;
+  for (let i=0; i<rd.length; i+=4) {
+    if (0.299*rd[i]+0.587*rd[i+1]+0.114*rd[i+2] < 128) {
+      rp++; if (ud[i+3]>50) mp++;
+    }
   }
-  return rp===0?true:mp/rp>=(w.matchThreshold||0.75);
+  return rp===0 ? true : mp/rp >= (w.matchThreshold||0.75);
 }
 
 function showDrawingResult(ok) {
-  const ic=document.createElement('div');
-  ic.style.cssText='position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);'+
-    'z-index:55;pointer-events:none;font-size:clamp(20px,5vw,34px);'+
+  const ic = document.createElement('div');
+  ic.style.cssText = 'position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);'+
+    'z-index:55;pointer-events:none;font-size:clamp(20px,5vw,32px);'+
     'background:rgba(8,8,18,.9);padding:12px 24px;border-radius:12px;'+
     'animation:fadeIn .3s ease;text-align:center;color:#fff;';
-  ic.textContent=ok?'✅ Зачтено!':'❌ Мало совпадений';
+  ic.textContent = ok ? '✅ Зачтено!' : '❌ Мало совпадений';
   wlayer.appendChild(ic);
 }
 
-// ══════════════════════════════════════════════════════
-//  HELPERS
-// ══════════════════════════════════════════════════════
-function setTimer(txt,mode){
-  tval.textContent=txt;
-  tval.className=mode==='answer'?'ans':mode==='dng'?'dng':'';
-  tdot.className=mode==='memorize'?'mem':mode==='answer'?'ans':mode==='dng'?'dng':'';
+// ═══════════════════════════════════════════════════
+//  FINAL SCREEN
+// ═══════════════════════════════════════════════════
+function showFinal() {
+  const el = document.createElement('div');
+  el.style.cssText = 'position:absolute;left:50%;top:50%;'+
+    'transform:translate(-50%,-50%);background:rgba(8,8,18,.96);'+
+    'border:1px solid rgba(255,255,255,.12);border-radius:16px;'+
+    'padding:28px 36px;text-align:center;z-index:55;pointer-events:all;'+
+    'animation:fadeIn .3s ease;color:#fff;font-size:clamp(14px,3vw,18px);line-height:2;';
+  el.innerHTML =
+    `<div style="font-size:clamp(30px,7vw,46px);margin-bottom:8px">🏆</div>`+
+    `<div style="font-weight:700;letter-spacing:1px;margin-bottom:6px">Все задания выполнены!</div>`+
+    `<div>Правильных: <b style="color:#3ecf8e">${S.totOk}</b> из <b>${S.totAns}</b></div>`+
+    `<div>Время ответов: <b style="color:#f0a500">${fmt(S.ansSec)}</b></div>`+
+    `<button onclick="this.parentElement.remove()" style="margin-top:18px;padding:10px 24px;`+
+    `background:#e84545;color:#fff;border:none;border-radius:8px;`+
+    `font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;`+
+    `letter-spacing:1px;text-transform:uppercase">Закрыть</button>`;
+  stage.appendChild(el);
 }
-function fmt(s){
-  s=Math.max(0,s);
-  const m=Math.floor(s/60),sec=s%60;
-  return m>0?`${m}:${String(sec).padStart(2,'0')}`:`${s}с`;
-}
-function stopAll(){clearInterval(S.memTm);S.memTm=null;clearInterval(S.ansTm);S.ansTm=null;}
 
-// ══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════════
+function updateScore() {
+  ge('score-v').textContent = `${S.totOk}/${S.totAns}`;
+}
+function setTimer(txt, mode) {
+  tval.textContent = txt;
+  tval.className   = mode==='answer'?'ans' : mode==='dng'?'dng' : '';
+  tdot.className   = mode==='memorize'?'mem' : mode==='answer'?'ans' : mode==='dng'?'dng' : '';
+}
+function fmt(s) {
+  s = Math.max(0, s);
+  const m = Math.floor(s/60), sec = s%60;
+  return m>0 ? `${m}:${String(sec).padStart(2,'0')}` : `${s}с`;
+}
+function stopAll() {
+  clearInterval(S.memTm); S.memTm = null;
+  // NOTE: ansTm is NOT stopped by stopAll — it's cumulative.
+  // It only stops on checkAnswers (done) and resumes on next card's startAnswer.
+}
+
+// ═══════════════════════════════════════════════════
 //  EVENTS
-// ══════════════════════════════════════════════════════
-ge('btn-start').addEventListener('click', ()=>{ if(S.phase==='idle') startMemorize(); });
-ge('btn-prev').addEventListener('click',  ()=>{ if(ci>0) loadCard(ci-1); });
-ge('btn-next').addEventListener('click',  ()=>{ if(ci<cards.length-1) loadCard(ci+1); });
+// ═══════════════════════════════════════════════════
+btnOpen.addEventListener('click', () => { if (S.phase==='idle') startMemorize(); });
+btnAnswer.addEventListener('click', () => startAnswer());
+ge('btn-prev').addEventListener('click', () => { if (ci>0) loadCard(ci-1); });
+ge('btn-next').addEventListener('click', () => { if (ci<cards.length-1) loadCard(ci+1); });
 
 let rszTm;
-window.addEventListener('resize', ()=>{
+window.addEventListener('resize', () => {
   clearTimeout(rszTm);
-  rszTm=setTimeout(()=>{
-    if(S.phase==='idle')   renderPreview(cards[ci]);
-    if(S.phase==='answer') buildWidgets(cards[ci]);
+  rszTm = setTimeout(() => {
+    if (S.phase==='idle')   renderPreview(cards[ci]);
+    if (S.phase==='answer') buildWidgets(cards[ci]);
   }, 180);
 });
 

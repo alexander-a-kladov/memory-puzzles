@@ -108,6 +108,25 @@
         { "id": "w10",  "type": "checkbox", "x": 568, "y": 893, "answer": "false" }
       ],
       "checkButton": { "x": 205, "y": 972 }
+    },
+    {
+      "id": 7,
+      "title": "Концертный тур",
+      "memorizeTime": 60,
+      "taskImage": "images/memory13.jpg",
+      "answerImage": "images/memory14.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 691, "h": 340 },
+      "widgets": [
+        { "id": "w1", "type": "text", "x": 74, "y": 526, "answer": "Нью-йорк" },
+        { "id": "w2", "type": "number", "min": 1, "max": 31, "x": 465, "y": 512, "answer": "30" },
+        { "id": "w3", "type": "text", "x": 267, "y": 419, "answer": "Париж" },
+        { "id": "w4", "type": "text", "x": 73, "y": 889, "answer": "Франция" },
+        { "id": "w5", "type": "number", "min": 1, "max": 31, "x": 269, "y": 834, "answer": "1" },
+        { "id": "w6", "type": "month", "x": 468, "y": 841, "answer": "Ноября" },
+        { "id": "w7", "type": "number", "min": 1, "max": 31, "x": 269, "y": 834, "answer": "3" },
+        { "id": "w8", "type": "text", "x": 73, "y": 889, "answer": "Австралия" }
+      ],
+      "checkButton": { "x": 245, "y": 951 }
     }
   ]
 }

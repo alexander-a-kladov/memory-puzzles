@@ -8,14 +8,14 @@
       "answerImage": "images/memory2.jpg",
       "taskHiddenArea": { "x": 0, "y": 0, "w": 691, "h": 340 },
       "widgets": [
-        { "id": "w1", "type": "number", "min": 1, "max": 31, "x": 150, "y": 100, "answer": "12" },
-        { "id": "w2", "type": "month",                       "x": 200, "y": 150, "answer": "октябрь" },
-        { "id": "w3", "type": "number", "min": 1, "max": 31, "x": 250, "y": 200, "answer": "4" },
-        { "id": "w4", "type": "month",                       "x": 300, "y": 250, "answer": "сентябрь" },
-        { "id": "w5", "type": "number", "min": 1, "max": 31, "x": 350, "y": 300, "answer": "28" },
-        { "id": "w6", "type": "month",                       "x": 400, "y": 350, "answer": "июль" }
+        { "id": "w1", "type": "number", "min": 1, "max": 31, "x": 74, "y": 526, "answer": "6" },
+        { "id": "w2", "type": "month",                       "x": 267, "y": 419, "answer": "июня" },
+        { "id": "w3", "type": "number", "min": 1, "max": 31, "x": 465, "y": 512, "answer": "30" },
+        { "id": "w4", "type": "number", "min": 1, "max": 31, "x": 73, "y": 889, "answer": "1" },
+        { "id": "w5", "type": "number", "min": 1, "max": 31, "x": 269, "y": 834, "answer": "19" },
+        { "id": "w6", "type": "month",                       "x": 468, "y": 841, "answer": "апрель" }
       ],
-      "checkButton": { "x": 200, "y": 600 }
+      "checkButton": { "x": 245, "y": 951 }
     },
     {
       "id": 2,
@@ -25,12 +25,12 @@
       "answerImage": "images/memory4.jpg",
       "taskHiddenArea": { "x": 0, "y": 0, "w": 643, "h": 270 },
       "widgets": [
-        { "id": "w1", "type": "digit", "x": 150, "y": 100, "answer": "7" },
-        { "id": "w2", "type": "digit", "x": 200, "y": 150, "answer": "3" },
-        { "id": "w3", "type": "digit", "x": 250, "y": 200, "answer": "9" },
-        { "id": "w4", "type": "digit", "x": 300, "y": 250, "answer": "1" }
+        { "id": "w1", "type": "digit", "x": 164, "y": 365, "answer": "3" },
+        { "id": "w2", "type": "digit", "x": 216, "y": 573, "answer": "2" },
+        { "id": "w3", "type": "digit", "x": 413, "y": 475, "answer": "5" },
+        { "id": "w4", "type": "digit", "x": 501, "y": 838, "answer": "4" }
       ],
-      "checkButton": { "x": 200, "y": 600 }
+      "checkButton": { "x": 244, "y": 958 }
     },
     {
       "id": 3,
@@ -40,9 +40,9 @@
       "answerImage": "images/memory6.jpg",
       "taskHiddenArea": { "x": 0, "y": 0, "w": 634, "h": 320 },
       "widgets": [
-        { "id": "w1",  "type": "text", "x": 100, "y": 200, "answer": "москва",          "placeholder": "город..." }
+        { "id": "w1",  "type": "text", "x": 201, "y": 894, "answer": "Белье",          "placeholder": "предмет..." }
       ],
-      "checkButton": { "x": 100, "y": 600 }
+      "checkButton": { "x": 223, "y": 949 }
     },
     {
       "id": 4,
@@ -52,22 +52,22 @@
       "answerImage": "images/memory8.jpg",
       "taskHiddenArea": { "x": 0, "y": 0, "w": 648, "h": 250 },
       "widgets": [
-        { "id": "w1",  "type": "checkbox", "x": 120, "y": 200, "answer": "true" },
-        { "id": "w2",  "type": "checkbox", "x": 120, "y": 320, "answer": "true" },
-        { "id": "w3",  "type": "checkbox", "x": 120, "y": 440, "answer": "false" },
-        { "id": "w4",  "type": "checkbox", "x": 120, "y": 560, "answer": "true" },
-        { "id": "w5",  "type": "checkbox", "x": 120, "y": 680, "answer": "true" },
-        { "id": "w6",  "type": "checkbox", "x": 120, "y": 200, "answer": "false" },
-        { "id": "w7",  "type": "checkbox", "x": 120, "y": 320, "answer": "true" },
-        { "id": "w8",  "type": "checkbox", "x": 120, "y": 440, "answer": "true" },
-        { "id": "w9",  "type": "checkbox", "x": 120, "y": 560, "answer": "true" },
-        { "id": "w10", "type": "checkbox", "x": 120, "y": 680, "answer": "true" },
-        { "id": "w11",  "type": "checkbox", "x": 120, "y": 320, "answer": "true" },
-        { "id": "w12",  "type": "checkbox", "x": 120, "y": 440, "answer": "true" },
-        { "id": "w13",  "type": "checkbox", "x": 120, "y": 560, "answer": "true" },
-        { "id": "w14", "type": "checkbox", "x": 120, "y": 680, "answer": "true" }
+        { "id": "w1",  "type": "checkbox", "x": 203, "y": 307, "answer": "false" },
+        { "id": "w2",  "type": "checkbox", "x": 415, "y": 288, "answer": "false" },
+        { "id": "w3",  "type": "checkbox", "x": 176, "y": 466, "answer": "false" },
+        { "id": "w4",  "type": "checkbox", "x": 359, "y": 448, "answer": "false" },
+        { "id": "w5",  "type": "checkbox", "x": 499, "y": 424, "answer": "false" },
+        { "id": "w6",  "type": "checkbox", "x": 147, "y": 644, "answer": "true" },
+        { "id": "w7",  "type": "checkbox", "x": 286, "y": 633, "answer": "false" },
+        { "id": "w8",  "type": "checkbox", "x": 456, "y": 593, "answer": "false" },
+        { "id": "w9",  "type": "checkbox", "x": 184, "y": 801, "answer": "true" },
+        { "id": "w10", "type": "checkbox", "x": 368, "y": 811, "answer": "false" },
+        { "id": "w11",  "type": "checkbox", "x": 505, "y": 772, "answer": "false" },
+        { "id": "w12",  "type": "checkbox", "x": 172, "y": 939, "answer": "false" },
+        { "id": "w13",  "type": "checkbox", "x": 390, "y": 962, "answer": "true" },
+        { "id": "w14", "type": "checkbox", "x": 575, "y": 939, "answer": "flase" }
       ],
-      "checkButton": { "x": 200, "y": 620 }
+      "checkButton": { "x": 223, "y": 973 }
     },
     {
       "id": 5,
@@ -86,7 +86,7 @@
           "answer": "drawn"
         }
       ],
-      "checkButton": { "x": 200, "y": 640 }
+      "checkButton": { "x": 687, "y": 572 }
     },
     {
       "id": 6,
@@ -96,16 +96,19 @@
       "answerImage": "images/memory12.jpg",
       "taskHiddenArea": { "x": 0, "y": 0, "w": 648, "h": 250 },
       "widgets": [
-        { "id": "w1",  "type": "checkbox", "x": 120, "y": 200, "answer": "true" },
-        { "id": "w2",  "type": "checkbox", "x": 120, "y": 320, "answer": "true" },
-        { "id": "w3",  "type": "checkbox", "x": 120, "y": 440, "answer": "false" },
-        { "id": "w4",  "type": "checkbox", "x": 120, "y": 560, "answer": "true" },
-        { "id": "w5",  "type": "checkbox", "x": 120, "y": 680, "answer": "true" },
-        { "id": "w6",  "type": "checkbox", "x": 120, "y": 200, "answer": "false" },
-        { "id": "w7",  "type": "checkbox", "x": 120, "y": 320, "answer": "true" },
-        { "id": "w8",  "type": "checkbox", "x": 120, "y": 440, "answer": "true" }
+        { "id": "w1",  "type": "checkbox", "x": 183, "y": 371, "answer": "true" },
+        { "id": "w2",  "type": "checkbox", "x": 271, "y": 193, "answer": "false" },
+        { "id": "w3",  "type": "checkbox", "x": 349, "y": 413, "answer": "true" },
+        { "id": "w4",  "type": "checkbox", "x": 514, "y": 527, "answer": "false" },
+        { "id": "w5",  "type": "checkbox", "x": 69, "y": 616, "answer": "true" },
+        { "id": "w6",  "type": "checkbox", "x": 324, "y": 687, "answer": "false" },
+        { "id": "w7",  "type": "checkbox", "x": 515, "y": 767, "answer": "false" },
+        { "id": "w8",  "type": "checkbox", "x": 112, "y": 874, "answer": "true" },
+	{ "id": "w9",  "type": "checkbox", "x": 448, "y": 934, "answer": "false" },
+        { "id": "w10",  "type": "checkbox", "x": 568, "y": 893, "answer": "false" }
       ],
-      "checkButton": { "x": 200, "y": 640 }
+      "checkButton": { "x": 205, "y": 972 }
     }
   ]
 }
+

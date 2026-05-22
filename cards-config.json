@@ -4,8 +4,8 @@
       "id": 1,
       "title": "Скоро День рождения!",
       "memorizeTime": 60,
-      "taskImage": "images/logic1_ru.jpg",
-      "answerImage": "images/logic2_ru.jpg",
+      "taskImage": "images/memory1.jpg",
+      "answerImage": "images/memory2.jpg",
       "taskHiddenArea": { "x": 0, "y": 0, "w": 691, "h": 340 },
       "widgets": [
         { "id": "w1", "type": "number", "min": 1, "max": 31, "x": 150, "y": 100, "answer": "12" },
@@ -21,9 +21,9 @@
       "id": 2,
       "title": "Пятнистые собачки",
       "memorizeTime": 60,
-      "taskImage": "images/logic3_ru.jpg",
-      "answerImage": "images/logic4_ru.jpg",
-      "taskHiddenArea": { "x": 0, "y": 0, "w": 740, "h": 300 },
+      "taskImage": "images/memory3.jpg",
+      "answerImage": "images/memory4.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 643, "h": 270 },
       "widgets": [
         { "id": "w1", "type": "digit", "x": 150, "y": 100, "answer": "7" },
         { "id": "w2", "type": "digit", "x": 200, "y": 150, "answer": "3" },
@@ -36,9 +36,9 @@
       "id": 3,
       "title": "Готовимся в путешествие",
       "memorizeTime": 60,
-      "taskImage": "images/logic5_ru.jpg",
-      "answerImage": "images/logic6_ru.jpg",
-      "taskHiddenArea": { "x": 55, "y": 80, "w": 510, "h": 640 },
+      "taskImage": "images/memory5.jpg",
+      "answerImage": "images/memory6.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 634, "h": 320 },
       "widgets": [
         { "id": "w1",  "type": "text", "x": 100, "y": 200, "answer": "москва",          "placeholder": "город..." }
       ],
@@ -48,9 +48,9 @@
       "id": 4,
       "title": "Найди жука",
       "memorizeTime": 60,
-      "taskImage": "images/logic7_ru.jpg",
-      "answerImage": "images/logic8_ru.jpg",
-      "taskHiddenArea": { "x": 0, "y": 0, "w": 470, "h": 330 },
+      "taskImage": "images/memory7.jpg",
+      "answerImage": "images/memory8.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 648, "h": 250 },
       "widgets": [
         { "id": "w1",  "type": "checkbox", "x": 120, "y": 200, "answer": "true" },
         { "id": "w2",  "type": "checkbox", "x": 120, "y": 320, "answer": "true" },
@@ -73,18 +73,37 @@
       "id": 5,
       "title": "Эскиз акулы",
       "memorizeTime": 60,
-      "taskImage": "images/logic9_ru.jpg",
-      "answerImage": "images/logic10_ru.jpg",
-      "taskHiddenArea": { "x": 0, "y": 0, "w": 470, "h": 328 },
+      "taskImage": "images/memory9.jpg",
+      "answerImage": "images/memory10.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 1280, "h": 228 },
       "widgets": [
         {
           "id": "w1",
           "type": "drawing",
-          "x": 0, "y": 200, "w": 700, "h": 600,
-          "referenceImage": "images/logic9_reference.png",
+          "x": 0, "y": 128, "w": 1280, "h": 589,
+          "referenceImage": "images/memory9_reference.jpg",
           "matchThreshold": 0.75,
           "answer": "drawn"
         }
+      ],
+      "checkButton": { "x": 200, "y": 640 }
+    },
+    {
+      "id": 6,
+      "title": "Дорогой дневник...",
+      "memorizeTime": 60,
+      "taskImage": "images/memory11.jpg",
+      "answerImage": "images/memory12.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 648, "h": 250 },
+      "widgets": [
+        { "id": "w1",  "type": "checkbox", "x": 120, "y": 200, "answer": "true" },
+        { "id": "w2",  "type": "checkbox", "x": 120, "y": 320, "answer": "true" },
+        { "id": "w3",  "type": "checkbox", "x": 120, "y": 440, "answer": "false" },
+        { "id": "w4",  "type": "checkbox", "x": 120, "y": 560, "answer": "true" },
+        { "id": "w5",  "type": "checkbox", "x": 120, "y": 680, "answer": "true" },
+        { "id": "w6",  "type": "checkbox", "x": 120, "y": 200, "answer": "false" },
+        { "id": "w7",  "type": "checkbox", "x": 120, "y": 320, "answer": "true" },
+        { "id": "w8",  "type": "checkbox", "x": 120, "y": 440, "answer": "true" }
       ],
       "checkButton": { "x": 200, "y": 640 }
     }

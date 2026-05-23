@@ -210,7 +210,22 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;
 .tb-btn.tcl{color:rgba(255,100,100,.65)}
 .tb-btn.tcl:hover{background:rgba(232,69,69,.12);color:#e84545;border-color:rgba(232,69,69,.3)}
 
-/* LOADING / ERROR */
+/* ELLIPSE overlay */
+#ellipse-svg{position:absolute;inset:0;width:100%;height:100%;
+  pointer-events:none;z-index:38;overflow:visible}
+
+/* Marker layer — sits above ellipse SVG, below wlayer */
+#marker-layer{position:absolute;inset:0;z-index:39;overflow:hidden;cursor:crosshair}
+
+/* Individual marker circle */
+.mkr{position:absolute;width:10px;height:10px;border-radius:50%;
+  background:#e84545;transform:translate(-50%,-50%);cursor:pointer;
+  box-shadow:0 0 0 2px rgba(255,255,255,.7);
+  transition:box-shadow .15s}
+.mkr.selected{background:#ff0;box-shadow:0 0 0 3px #fff, 0 0 8px 3px rgba(255,220,0,.8)}
+.mkr.ok {background:#3ecf8e;box-shadow:0 0 0 2px #fff;cursor:default}
+.mkr.bad{background:#e84545;box-shadow:0 0 0 2px #fff,0 0 6px 2px rgba(232,69,69,.6);cursor:default}
+
 #loading{position:fixed;inset:0;background:#0a0a0f;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:999}
 .spin{width:32px;height:32px;border:3px solid rgba(255,255,255,.07);
@@ -420,9 +435,13 @@ function loadCard(idx) {
 
   S.phase = 'idle'; S.cbState = {}; S.drawCtx = null;
 
-  // Clear widgets, draw canvas, toolbar, skip
+  // Clear widgets, draw canvas, toolbar, skip, ellipse overlays
   wlayer.innerHTML = '';
-  stage.querySelectorAll('#draw-canvas,#draw-toolbar,#skip-btn').forEach(e => e.remove());
+  stage.querySelectorAll(
+    '#draw-canvas,#draw-toolbar,#skip-btn,#ellipse-svg,#marker-layer,.mkr'
+  ).forEach(e => e.remove());
+  // Remove result labels appended to stage for ellipse type
+  stage.querySelectorAll('.ellipse-result-lbl').forEach(e => e.remove());
 
   // Reset progress bar (memorize)
   pfill.style.transition = 'none';
@@ -559,6 +578,10 @@ function checkAnswers() {
   if (card.widgets[0]?.type === 'drawing') {
     correct = evalDrawing(card.widgets[0]) ? 1 : 0;
     showDrawingResult(correct === 1);
+  } else if (card.widgets[0]?.type === 'ellipse') {
+    const markerOk = evalEllipseWidget(card);
+    correct = markerOk.filter(Boolean).length;
+    markEllipseWidgets(card, markerOk);
   } else {
     card.widgets.forEach(w => {
       const ok = evalWidget(w);
@@ -625,6 +648,7 @@ function buildWidgets(card) {
   wlayer.innerHTML = '';
 
   if (card.widgets[0]?.type === 'drawing') { buildDrawing(card); return; }
+  if (card.widgets[0]?.type === 'ellipse') { buildEllipse(card); return; }
 
   card.widgets.forEach(w => {
     const sp = i2s(w.x, w.y);   // top-left of widget in stage px
@@ -770,8 +794,212 @@ function markWidget(w, ok) {
 }
 
 // ═══════════════════════════════════════════════════
-//  DRAWING
+//  ELLIPSE TYPE
 // ═══════════════════════════════════════════════════
+
+// State for ellipse interaction
+const ES = {
+  markers: [],      // [{el, sx, sy}] — stage px positions of placed markers
+  selected: null,   // index of selected marker, or null
+  maxMarkers: 0,    // = number of ellipse widgets
+};
+
+function buildEllipse(card) {
+  wlayer.innerHTML = '';
+  ES.markers = [];
+  ES.selected = null;
+  ES.maxMarkers = card.widgets.length;
+
+  // ── SVG layer for ellipses ──
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.id = 'ellipse-svg';
+  svg.setAttribute('width',  '100%');
+  svg.setAttribute('height', '100%');
+
+  // card-level hidden flag (default false = ellipses visible)
+  const cardHidden = String(card.hidden).toLowerCase() === 'true';
+
+  card.widgets.forEach(w => {
+    // Per-widget hidden overrides card-level hidden; default = card-level
+    const wHidden = w.hidden !== undefined
+      ? String(w.hidden).toLowerCase() === 'true'
+      : cardHidden;
+
+    if (!wHidden) {
+      // Convert image-native coords → stage px for the ellipse center
+      const cp = i2s(w.x, w.y);
+      // Scale a and b from image pixels to stage pixels
+      const scX = S.imgW / S.natW, scY = S.imgH / S.natH;
+      const sa  = w.a * scX;
+      const sb  = w.b * scY;
+
+      const el = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+      el.setAttribute('cx',        cp.x);
+      el.setAttribute('cy',        cp.y);
+      el.setAttribute('rx',        sa);
+      el.setAttribute('ry',        sb);
+      el.setAttribute('transform', `rotate(${w.alpha || 0},${cp.x},${cp.y})`);
+      el.setAttribute('fill',      'none');
+      el.setAttribute('stroke',    'rgba(255,220,0,0.7)');
+      el.setAttribute('stroke-width', '1.5');
+      el.setAttribute('stroke-dasharray', '5,3');
+      el.dataset.wid = w.id;
+      svg.appendChild(el);
+    }
+  });
+
+  stage.appendChild(svg);
+
+  // ── Marker interaction layer ──
+  const ml = document.createElement('div');
+  ml.id = 'marker-layer';
+  stage.appendChild(ml);
+
+  ml.addEventListener('click', e => {
+    if (S.phase !== 'answer') return;
+    // Click on the layer background (not on a marker)
+    const stRect = stage.getBoundingClientRect();
+    const sx = e.clientX - stRect.left;
+    const sy = e.clientY - stRect.top;
+
+    if (ES.selected !== null) {
+      // Move selected marker to clicked position
+      const m = ES.markers[ES.selected];
+      m.sx = sx; m.sy = sy;
+      m.el.style.left = sx + 'px';
+      m.el.style.top  = sy + 'px';
+      m.el.classList.remove('selected');
+      ES.selected = null;
+    } else if (ES.markers.length < ES.maxMarkers) {
+      // Place new marker
+      addMarker(ml, sx, sy);
+    }
+  });
+
+  placeCheckBtn(card);
+}
+
+function addMarker(ml, sx, sy) {
+  const div = document.createElement('div');
+  div.className = 'mkr';
+  div.style.left = sx + 'px';
+  div.style.top  = sy + 'px';
+  const idx = ES.markers.length;
+  ES.markers.push({ el: div, sx, sy });
+
+  div.addEventListener('click', e => {
+    e.stopPropagation();  // don't trigger layer click
+    if (S.phase !== 'answer') return;
+
+    if (ES.selected === idx) {
+      // Deselect
+      div.classList.remove('selected');
+      ES.selected = null;
+    } else {
+      // Deselect previous
+      if (ES.selected !== null) {
+        ES.markers[ES.selected].el.classList.remove('selected');
+      }
+      div.classList.add('selected');
+      ES.selected = idx;
+    }
+  });
+
+  ml.appendChild(div);
+  return div;
+}
+
+// Check if stage point (sx,sy) is inside ellipse widget w
+function pointInEllipse(sx, sy, w) {
+  const cp  = i2s(w.x, w.y);
+  const scX = S.imgW / S.natW, scY = S.imgH / S.natH;
+  const sa  = w.a * scX, sb = w.b * scY;
+  const alpha = (w.alpha || 0) * Math.PI / 180;
+
+  // Rotate point into ellipse's local frame
+  const dx =  (sx - cp.x) * Math.cos(alpha) + (sy - cp.y) * Math.sin(alpha);
+  const dy = -(sx - cp.x) * Math.sin(alpha) + (sy - cp.y) * Math.cos(alpha);
+
+  return (dx * dx) / (sa * sa) + (dy * dy) / (sb * sb) <= 1;
+}
+
+function evalEllipseWidget(card) {
+  const ellipses = card.widgets;
+  const placed   = ES.markers;
+
+  // Each marker must hit at least one ellipse (greedy match, each ellipse once)
+  const usedEllipses = new Set();
+  const markerOk     = placed.map(m => {
+    for (let i = 0; i < ellipses.length; i++) {
+      if (!usedEllipses.has(i) && pointInEllipse(m.sx, m.sy, ellipses[i])) {
+        usedEllipses.add(i);
+        return true;
+      }
+    }
+    return false;
+  });
+  return markerOk;
+}
+
+function markEllipseWidgets(card, markerOk) {
+  // Disable further interaction
+  const ml = ge('marker-layer');
+  if (ml) ml.style.pointerEvents = 'none';
+  if (ES.selected !== null) {
+    ES.markers[ES.selected]?.el.classList.remove('selected');
+    ES.selected = null;
+  }
+
+  // Mark each placed marker
+  ES.markers.forEach((m, i) => {
+    m.el.classList.add(markerOk[i] ? 'ok' : 'bad');
+    // Show ✅/❌ label beside marker
+    const lbl = document.createElement('div');
+    lbl.style.cssText =
+      `position:absolute;left:${m.sx + 8}px;top:${m.sy - 10}px;` +
+      `font-size:14px;pointer-events:none;filter:drop-shadow(0 1px 3px rgba(0,0,0,.8))`;
+    lbl.className = 'ellipse-result-lbl';
+    lbl.textContent = markerOk[i] ? '✅' : '❌';
+    stage.appendChild(lbl);
+  });
+
+  // Draw correct ellipses in green if they were missed (visual feedback)
+  const svg = ge('ellipse-svg');
+  if (svg) {
+    const usedEllipses = new Set();
+    ES.markers.forEach((m, i) => {
+      if (markerOk[i]) {
+        for (let j = 0; j < card.widgets.length; j++) {
+          if (!usedEllipses.has(j) && pointInEllipse(m.sx, m.sy, card.widgets[j])) {
+            usedEllipses.add(j);
+            break;
+          }
+        }
+      }
+    });
+    // Show ALL ellipses after check (regardless of hidden flag) with color feedback
+    card.widgets.forEach((w, i) => {
+      const existing = svg.querySelector(`[data-wid="${w.id}"]`);
+      const cp = i2s(w.x, w.y);
+      const scX = S.imgW / S.natW, scY = S.imgH / S.natH;
+      const sa = w.a * scX, sb = w.b * scY;
+      const el = existing || document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+      el.setAttribute('cx',        cp.x);
+      el.setAttribute('cy',        cp.y);
+      el.setAttribute('rx',        sa);
+      el.setAttribute('ry',        sb);
+      el.setAttribute('transform', `rotate(${w.alpha || 0},${cp.x},${cp.y})`);
+      el.setAttribute('fill',      usedEllipses.has(i) ? 'rgba(62,207,142,0.15)' : 'rgba(232,69,69,0.15)');
+      el.setAttribute('stroke',    usedEllipses.has(i) ? '#3ecf8e' : '#e84545');
+      el.setAttribute('stroke-width', '2');
+      el.removeAttribute('stroke-dasharray');
+      el.dataset.wid = w.id;
+      if (!existing) svg.appendChild(el);
+    });
+  }
+}
+
+
 function buildDrawing(card) {
   const w  = card.widgets[0];
   const tl = i2s(w.x, w.y);

@@ -8,12 +8,12 @@
       "answerImage": "images/memory2.jpg",
       "taskHiddenArea": { "x": 0, "y": 0, "w": 691, "h": 340 },
       "widgets": [
-        { "id": "w1", "type": "number", "min": 1, "max": 31, "x": 74, "y": 526, "answer": "6" },
-        { "id": "w2", "type": "month",                       "x": 267, "y": 419, "answer": "июня" },
-        { "id": "w3", "type": "number", "min": 1, "max": 31, "x": 465, "y": 512, "answer": "30" },
-        { "id": "w4", "type": "number", "min": 1, "max": 31, "x": 73, "y": 889, "answer": "1" },
-        { "id": "w5", "type": "number", "min": 1, "max": 31, "x": 269, "y": 834, "answer": "19" },
-        { "id": "w6", "type": "month",                       "x": 468, "y": 841, "answer": "апрель" }
+        { "id": "w1", "type": "number", "values": [1,4,6,7], "x": 74, "y": 526, "answer": "6" },
+        { "id": "w2", "type": "month",  "values": [2,4,6,8], "x": 267, "y": 419, "answer": "июня" },
+        { "id": "w3", "type": "number", "values": [5,12,24,26,30], "x": 465, "y": 512, "answer": "30" },
+        { "id": "w4", "type": "number", "values": [1,5,11,12], "x": 73, "y": 889, "answer": "1" },
+        { "id": "w5", "type": "number", "values": [5,8,12,15,19,21], "x": 269, "y": 834, "answer": "19" },
+        { "id": "w6", "type": "month",  "values": [2,4,5,7], "x": 468, "y": 841, "answer": "апрель" }
       ],
       "checkButton": { "x": 245, "y": 951 }
     },
@@ -40,7 +40,7 @@
       "answerImage": "images/memory6.jpg",
       "taskHiddenArea": { "x": 0, "y": 0, "w": 634, "h": 320 },
       "widgets": [
-        { "id": "w1",  "type": "text", "x": 201, "y": 894, "answer": "Белье",          "placeholder": "предмет..." }
+        { "id": "w1",  "type": "text", "x": 201, "y": 894, "values": ["Белье", "Маска", "Аптечка", "Ремешок"], "answer": "Белье" }
       ],
       "checkButton": { "x": 223, "y": 949 }
     },
@@ -117,17 +117,36 @@
       "answerImage": "images/memory14.jpg",
       "taskHiddenArea": { "x": 0, "y": 0, "w": 691, "h": 340 },
       "widgets": [
-        { "id": "w1", "type": "text", "x": 74, "y": 526, "answer": "Нью-йорк" },
-        { "id": "w2", "type": "number", "min": 1, "max": 31, "x": 465, "y": 512, "answer": "30" },
-        { "id": "w3", "type": "text", "x": 267, "y": 419, "answer": "Париж" },
-        { "id": "w4", "type": "text", "x": 73, "y": 889, "answer": "Франция" },
-        { "id": "w5", "type": "number", "min": 1, "max": 31, "x": 269, "y": 834, "answer": "1" },
-        { "id": "w6", "type": "month", "x": 468, "y": 841, "answer": "Ноября" },
-        { "id": "w7", "type": "number", "min": 1, "max": 31, "x": 269, "y": 834, "answer": "3" },
-        { "id": "w8", "type": "text", "x": 73, "y": 889, "answer": "Австралия" }
+        { "id": "w1", "type": "text", "x": 361, "y": 482, "answer": "Нью-йорк" },
+        { "id": "w2", "type": "number", "min": 1, "max": 31, "x": 107, "y": 561, "answer": "30" },
+        { "id": "w3", "type": "text", "x": 344, "y": 709, "answer": "Париж" },
+        { "id": "w4", "type": "text", "x": 219, "y": 740, "answer": "Франция" },
+        { "id": "w5", "type": "number", "min": 1, "max": 31, "x": 104, "y": 792, "answer": "1" },
+        { "id": "w6", "type": "month", "x": 237, "y": 791, "answer": "Ноября" },
+        { "id": "w7", "type": "number", "min": 1, "max": 31, "x": 126, "y": 860, "answer": "3" },
+        { "id": "w8", "type": "text", "x": 220, "y": 886, "answer": "Австралия" }
       ],
-      "checkButton": { "x": 245, "y": 951 }
+      "checkButton": { "x": 241, "y": 954 }
+    },
+    {
+      "id": 8,
+      "title": "Кошки и котята",
+      "memorizeTime": 60,
+      "taskImage": "images/memory15.jpg",
+      "answerImage": "images/memory16.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 648, "h": 250 },
+      "hidden": "true",
+      "widgets": [
+        { "id": "w1",  "type": "ellipse", "x": 110, "y": 333, "a": 50, "b": 70, "alpha": 0 },
+        { "id": "w2",  "type": "ellipse", "x": 453, "y": 387, "a": 20, "b": 20, "alpha": 0 },
+        { "id": "w3",  "type": "ellipse", "x": 185, "y": 637, "a": 130, "b": 75, "alpha": -5 },
+        { "id": "w4",  "type": "ellipse", "x": 503, "y": 685, "a": 34, "b": 13, "alpha": 5 },
+        { "id": "w5",  "type": "ellipse", "x": 184, "y": 945, "a": 30, "b": 30, "alpha": 0 },
+	{ "id": "w6",  "type": "ellipse", "x": 584, "y": 865, "a": 28, "b": 140, "alpha": 15 }
+      ],
+      "checkButton": { "x": 205, "y": 972 }
     }
   ]
 }
+
 

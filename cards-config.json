@@ -6,7 +6,7 @@
       "memorizeTime": 60,
       "taskImage": "images/memory1.jpg",
       "answerImage": "images/memory2.jpg",
-      "taskHiddenArea": { "x": 0, "y": 0, "w": 691, "h": 340 },
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 691, "h": 320 },
       "widgets": [
         { "id": "w1", "type": "number", "values": [1,4,6,7], "x": 74, "y": 526, "answer": "6" },
         { "id": "w2", "type": "month",  "values": [2,4,6,8], "x": 267, "y": 419, "answer": "июня" },
@@ -75,7 +75,7 @@
       "memorizeTime": 60,
       "taskImage": "images/memory9.jpg",
       "answerImage": "images/memory10.jpg",
-      "taskHiddenArea": { "x": 0, "y": 0, "w": 1280, "h": 228 },
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 1280, "h": 185 },
       "widgets": [
         {
           "id": "w1",
@@ -115,16 +115,16 @@
       "memorizeTime": 60,
       "taskImage": "images/memory13.jpg",
       "answerImage": "images/memory14.jpg",
-      "taskHiddenArea": { "x": 0, "y": 0, "w": 691, "h": 340 },
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 691, "h": 290 },
       "widgets": [
-        { "id": "w1", "type": "text", "x": 361, "y": 482, "answer": "Нью-йорк" },
-        { "id": "w2", "type": "number", "min": 1, "max": 31, "x": 107, "y": 561, "answer": "30" },
-        { "id": "w3", "type": "text", "x": 344, "y": 709, "answer": "Париж" },
-        { "id": "w4", "type": "text", "x": 219, "y": 740, "answer": "Франция" },
-        { "id": "w5", "type": "number", "min": 1, "max": 31, "x": 104, "y": 792, "answer": "1" },
-        { "id": "w6", "type": "month", "x": 237, "y": 791, "answer": "Ноября" },
-        { "id": "w7", "type": "number", "min": 1, "max": 31, "x": 126, "y": 860, "answer": "3" },
-        { "id": "w8", "type": "text", "x": 220, "y": 886, "answer": "Австралия" }
+        { "id": "w1", "type": "select", "values":["Амстердам","Нью-йорк","Вашингтон","Милан","Прага"], "x": 361, "y": 482, "answer": "Нью-йорк" },
+        { "id": "w2", "type": "number", "values":[4,9,15,20,30,31], "x": 100, "y": 561, "answer": "30" },
+        { "id": "w3", "type": "select", "values":["Лиссабон","Берлин", "Париж", "Москва"], "x": 344, "y": 709, "answer": "Париж" },
+        { "id": "w4", "type": "select", "values":["Португалия", "Россия", "Германия", "Франция"], "x": 219, "y": 740, "answer": "Франция" },
+        { "id": "w5", "type": "number", "values":[1,4,8,11,25], "x": 104, "y": 792, "answer": "1" },
+        { "id": "w6", "type": "month", "values":[3,4,6,9,11], "x": 237, "y": 791, "answer": "Ноября" },
+        { "id": "w7", "type": "number", "values":[1,3,8,16,23], "x": 99, "y": 864, "answer": "3" },
+        { "id": "w8", "type": "select", "values":["Австралия","Австрия","Чехия","Египет"], "x": 218, "y": 895, "answer": "Австралия" }
       ],
       "checkButton": { "x": 241, "y": 954 }
     },
@@ -134,7 +134,7 @@
       "memorizeTime": 60,
       "taskImage": "images/memory15.jpg",
       "answerImage": "images/memory16.jpg",
-      "taskHiddenArea": { "x": 0, "y": 0, "w": 648, "h": 250 },
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 648, "h": 230 },
       "hidden": "true",
       "widgets": [
         { "id": "w1",  "type": "ellipse", "x": 110, "y": 333, "a": 50, "b": 70, "alpha": 0 },
@@ -145,8 +145,77 @@
 	{ "id": "w6",  "type": "ellipse", "x": 584, "y": 865, "a": 28, "b": 140, "alpha": 15 }
       ],
       "checkButton": { "x": 205, "y": 972 }
+    },
+    {
+      "id": 9,
+      "title": "В форме",
+      "memorizeTime": 60,
+      "taskImage": "images/memory17.jpg",
+      "answerImage": "images/memory18.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 648, "h": 258 },
+      "widgets": [
+        { "id": "w1",  "type": "checkbox", "x": 93, "y": 321, "answer": "true" },
+        { "id": "w2",  "type": "checkbox", "x": 217, "y": 317, "answer": "false" },
+        { "id": "w3",  "type": "checkbox", "x": 338, "y": 322, "answer": "false" },
+        { "id": "w4",  "type": "checkbox", "x": 462, "y": 320, "answer": "false" },
+        { "id": "w5",  "type": "checkbox", "x": 574, "y": 319, "answer": "false" },
+        { "id": "w6",  "type": "checkbox", "x": 120, "y": 591, "answer": "true" },
+        { "id": "w7",  "type": "checkbox", "x": 335, "y": 516, "answer": "false" },
+        { "id": "w8",  "type": "checkbox", "x": 575, "y": 633, "answer": "false" },
+	{ "id": "w9",  "type": "checkbox", "x": 127, "y": 745, "answer": "false" },
+        { "id": "w10",  "type": "checkbox", "x": 353, "y": 753, "answer": "true" },
+	{ "id": "w11",  "type": "checkbox", "x": 547, "y": 711, "answer": "false" },
+	{ "id": "w12",  "type": "checkbox", "x": 232, "y": 915, "answer": "false" },
+	{ "id": "w13",  "type": "checkbox", "x": 410, "y": 915, "answer": "false" },
+	{ "id": "w14",  "type": "checkbox", "x": 583, "y": 913, "answer": "true" }
+      ],
+      "checkButton": { "x": 264, "y": 974 }
+    },
+    {
+      "id": 10,
+      "title": "Балерины",
+      "memorizeTime": 60,
+      "taskImage": "images/memory19.jpg",
+      "answerImage": "images/memory20.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 648, "h": 274 },
+      "widgets": [
+        { "id": "w1",  "type": "checkbox", "x": 106, "y": 361, "answer": "false" },
+        { "id": "w2",  "type": "checkbox", "x": 257, "y": 361, "answer": "true" },
+        { "id": "w3",  "type": "checkbox", "x": 432, "y": 360, "answer": "false" },
+        { "id": "w4",  "type": "checkbox", "x": 571, "y": 362, "answer": "true" },
+        { "id": "w5",  "type": "checkbox", "x": 84, "y": 665, "answer": "true" },
+        { "id": "w6",  "type": "checkbox", "x": 256, "y": 663, "answer": "true" },
+        { "id": "w7",  "type": "checkbox", "x": 433, "y": 662, "answer": "false" },
+        { "id": "w8",  "type": "checkbox", "x": 583, "y": 661, "answer": "false" },
+	{ "id": "w9",  "type": "checkbox", "x": 93, "y": 953, "answer": "false" },
+        { "id": "w10",  "type": "checkbox", "x": 270, "y": 922, "answer": "true" },
+	{ "id": "w11",  "type": "checkbox", "x": 416, "y": 922, "answer": "false" },
+	{ "id": "w12",  "type": "checkbox", "x": 588, "y": 940, "answer": "true" }
+      ],
+      "checkButton": { "x": 280, "y": 974 }
+    },
+    {
+      "id": 11,
+      "title": "Начинка бутерброда",
+      "memorizeTime": 30,
+      "taskImage": "images/memory21.jpg",
+      "answerImage": "images/memory22.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 643, "h": 264 },
+      "widgets": [
+        { "id": "w1", "type": "digit", "x": 74, "y": 391, "answer": "" },
+        { "id": "w2", "type": "digit", "x": 275, "y": 392, "answer": "4" },
+        { "id": "w3", "type": "digit", "x": 454, "y": 393, "answer": "1" },
+        { "id": "w4", "type": "digit", "x": 83, "y": 668, "answer": "2" },
+	{ "id": "w5", "type": "digit", "x": 267, "y": 667, "answer": "" },
+        { "id": "w6", "type": "digit", "x": 450, "y": 670, "answer": "6" },
+	{ "id": "w7", "type": "digit", "x": 83, "y": 941, "answer": "5" },
+        { "id": "w8", "type": "digit", "x": 271, "y": 940, "answer": "3" },
+        { "id": "w9", "type": "digit", "x": 455, "y": 941, "answer": "" }
+      ],
+      "checkButton": { "x": 240, "y": 981 }
     }
   ]
 }
+
 
 

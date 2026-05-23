@@ -324,17 +324,28 @@ const btnOpen   = ge('btn-open');
 const btnAnswer = ge('btn-answer');
 
 // ═══════════════════════════════════════════════════
-//  BOOT
+//  BOOT — load config via fetch (needs HTTP server)
+//  OR via window.CARDS_CONFIG if pre-embedded
 // ═══════════════════════════════════════════════════
 async function boot() {
-  try {
-    const r = await fetch('cards-config.json');
-    if (!r.ok) throw 0;
-    CONFIG = await r.json();
-  } catch {
-    ge('loading').style.display = 'none';
-    ge('err').classList.add('show');
-    return;
+  // If config was pre-loaded via <script src="cards-config.js"> set window.CARDS_CONFIG
+  if (window.CARDS_CONFIG) {
+    CONFIG = window.CARDS_CONFIG;
+  } else {
+    try {
+      const r = await fetch('cards-config.json');
+      if (!r.ok) throw 0;
+      CONFIG = await r.json();
+    } catch {
+      ge('loading').style.display = 'none';
+      ge('err').innerHTML =
+        '<div style="font-size:48px">⚠️</div>' +
+        '<div class="err-msg">Не удалось загрузить <span class="err-f">cards-config.json</span>.<br>' +
+        'Откройте через локальный HTTP-сервер,<br>например: <span class="err-f">npx serve .</span><br>' +
+        'или <span class="err-f">python -m http.server 8080</span></div>';
+      ge('err').classList.add('show');
+      return;
+    }
   }
   cards = CONFIG.cards;
   ge('loading').style.display = 'none';
@@ -666,6 +677,7 @@ function buildWidgets(card) {
       case 'digit':    input = makeDigSel(w);  break;
       case 'text':     input = makeText(w);    break;
       case 'checkbox': input = makeCB(w);      break;
+      case 'select':   input = makeListSel(w); break;
     }
     if (input) anchor.appendChild(input);
 
@@ -724,6 +736,14 @@ function makeDigSel(w) {
   return s;
 }
 
+// Build select from arbitrary string list: "values": ["Белье", "Карандаш", "Обруч"]
+function makeListSel(w) {
+  const s = mkSel(w.id);
+  addOpt(s, '', '—');
+  (w.values || []).forEach(v => addOpt(s, v, v));
+  return s;
+}
+
 function makeText(w) {
   const inp = document.createElement('input');
   inp.type = 'text'; inp.className = 'w-inp';
@@ -770,14 +790,26 @@ function placeCheckBtn(card) {
 // ═══════════════════════════════════════════════════
 //  EVAL & MARK
 // ═══════════════════════════════════════════════════
+// Genitive→nominative map for Russian months (config may use either form)
+const MONTH_NORM = {
+  'января':'январь','февраля':'февраль','марта':'март','апреля':'апрель',
+  'мая':'май','июня':'июнь','июля':'июль','августа':'август',
+  'сентября':'сентябрь','октября':'октябрь','ноября':'ноябрь','декабря':'декабрь',
+};
+function normMonth(s) {
+  const l = s.trim().toLowerCase();
+  return MONTH_NORM[l] || l;
+}
+
 function evalWidget(w) {
   if (w.type === 'checkbox') {
     return String(!!S.cbState[w.id]) === w.answer.toLowerCase();
   }
-  // For select/input: find element by data-wid
   const el = wlayer.querySelector(`[data-wid="${w.id}"]`);
   if (!el) return false;
-  return el.value.trim().toLowerCase() === w.answer.toLowerCase();
+  const userVal = normMonth(el.value);
+  const expected = normMonth(w.answer);
+  return userVal === expected;
 }
 
 function markWidget(w, ok) {

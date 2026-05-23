@@ -40,7 +40,7 @@
       "answerImage": "images/memory6.jpg",
       "taskHiddenArea": { "x": 0, "y": 0, "w": 634, "h": 320 },
       "widgets": [
-        { "id": "w1",  "type": "text", "x": 201, "y": 894, "values": ["Белье", "Маска", "Аптечка", "Ремешок"], "answer": "Белье" }
+        { "id": "w1",  "type": "select", "x": 201, "y": 894, "values": ["Белье", "Маска", "Аптечка", "Ремешок"], "answer": "Белье" }
       ],
       "checkButton": { "x": 223, "y": 949 }
     },
@@ -65,7 +65,7 @@
         { "id": "w11",  "type": "checkbox", "x": 505, "y": 772, "answer": "false" },
         { "id": "w12",  "type": "checkbox", "x": 172, "y": 939, "answer": "false" },
         { "id": "w13",  "type": "checkbox", "x": 390, "y": 962, "answer": "true" },
-        { "id": "w14", "type": "checkbox", "x": 575, "y": 939, "answer": "flase" }
+        { "id": "w14", "type": "checkbox", "x": 575, "y": 939, "answer": "false" }
       ],
       "checkButton": { "x": 223, "y": 973 }
     },

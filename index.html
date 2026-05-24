@@ -350,7 +350,8 @@ async function boot() {
   cards = CONFIG.cards;
   ge('loading').style.display = 'none';
   updateScore();
-  loadCard(0);
+  const startIdx = Math.min(Math.max((CONFIG.startCard || 1) - 1, 0), cards.length - 1);
+  loadCard(startIdx);
 }
 
 // ═══════════════════════════════════════════════════

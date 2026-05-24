@@ -1,4 +1,5 @@
 {
+  "startCard": 14,
   "cards": [
     {
       "id": 1,
@@ -213,9 +214,69 @@
         { "id": "w9", "type": "digit", "x": 455, "y": 941, "answer": "" }
       ],
       "checkButton": { "x": 240, "y": 981 }
+    },
+    {
+      "id": 12,
+      "title": "Веселая рыбалка",
+      "memorizeTime": 60,
+      "taskImage": "images/memory23.jpg",
+      "answerImage": "images/memory24.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 1024, "h": 172 },
+      "widgets": [
+        { "id": "w1", "type": "digit", "min":1, "max":5, "x": 197, "y": 405, "answer": "2" },
+        { "id": "w2", "type": "digit", "min":1, "max":5, "x": 401, "y": 404, "answer": "4" },
+        { "id": "w3", "type": "digit", "min":1, "max":5, "x": 561, "y": 405, "answer": "1" },
+        { "id": "w4", "type": "digit", "min":1, "max":5, "x": 751, "y": 405, "answer": "3" },
+	{ "id": "w5", "type": "digit", "min":1, "max":5, "x": 916, "y": 405, "answer": "5" }
+      ],
+      "checkButton": { "x": 356, "y": 600 }
+    },
+    {
+      "id": 13,
+      "title": "Номера на футболках",
+      "memorizeTime": 60,
+      "taskImage": "images/memory25.jpg",
+      "answerImage": "images/memory26.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 650, "h": 230 },
+      "widgets": [
+        { "id": "w1", "type": "select", "values":["1", "2", "4", "8", "9", "15", "26", "32", "33", "35", "42", "53", "55", "58"], "x": 67, "y": 494, "answer": "35" },
+        { "id": "w2", "type": "select", "values":["1", "2", "4", "8", "9", "15", "26", "32", "33", "35", "42", "53", "55", "58"], "x": 287, "y": 469, "answer": "4" },
+        { "id": "w3", "type": "select", "values":["1", "2", "4", "8", "9", "15", "26", "32", "33", "35", "42", "53", "55", "58"], "x": 472, "y": 451, "answer": "" },
+        { "id": "w4", "type": "select", "values":["1", "2", "4", "8", "9", "15", "26", "32", "33", "35", "42", "53", "55", "58"], "x": 15, "y": 705, "answer": "" },
+	{ "id": "w5", "type": "select", "values":["1", "2", "4", "8", "9", "15", "26", "32", "33", "35", "42", "53", "55", "58"], "x": 253, "y": 697, "answer": "55" },
+	{ "id": "w6", "type": "select", "values":["1", "2", "4", "8", "9", "15", "26", "32", "33", "35", "42", "53", "55", "58"], "x": 460, "y": 690, "answer": "1" },
+        { "id": "w7", "type": "select", "values":["1", "2", "4", "8", "9", "15", "26", "32", "33", "35", "42", "53", "55", "58"], "x": 103, "y": 896, "answer": "33" },
+        { "id": "w8", "type": "select", "values":["1", "2", "4", "8", "9", "15", "26", "32", "33", "35", "42", "53", "55", "58"], "x": 316, "y": 942, "answer": "" },
+	{ "id": "w9", "type": "select", "values":["1", "2", "4", "8", "9", "15", "26", "32", "33", "35", "42", "53", "55", "58"], "x": 480, "y": 939, "answer": "9" }
+      ],
+      "checkButton": { "x": 288, "y": 967 }
+    },
+    {
+      "id": 14,
+      "title": "Слишком много игрушек",
+      "memorizeTime": 60,
+      "taskImage": "images/memory29.jpg",
+      "answerImage": "images/memory30.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 645, "h": 280 },
+      "widgets": [
+        { "id": "w1",  "type": "checkbox", "x": 250, "y": 336, "answer": "false" },
+        { "id": "w2",  "type": "checkbox", "x": 399, "y": 290, "answer": "false" },
+        { "id": "w3",  "type": "checkbox", "x": 573, "y": 495, "answer": "false" },
+        { "id": "w4",  "type": "checkbox", "x": 98, "y": 589, "answer": "true" },
+        { "id": "w5",  "type": "checkbox", "x": 336, "y": 695, "answer": "false" },
+        { "id": "w6",  "type": "checkbox", "x": 580, "y": 660, "answer": "false" },
+        { "id": "w7",  "type": "checkbox", "x": 177, "y": 918, "answer": "false" },
+        { "id": "w8",  "type": "checkbox", "x": 337, "y": 938, "answer": "false" },
+	{ "id": "w9",  "type": "checkbox", "x": 565, "y": 953, "answer": "false" },
+        { "id": "w10",  "type": "checkbox", "x": 595, "y": 831, "answer": "true" }
+      ],
+      "checkButton": { "x": 229, "y": 971 }
     }
   ]
 }
+
+
+
 
 
 

@@ -677,7 +677,7 @@ function buildWidgets(card) {
       case 'month':    input = makeMonSel(w);  break;
       case 'digit':    input = makeDigSel(w);  break;
       case 'text':     input = makeText(w);    break;
-      case 'checkbox': input = makeCB(w);      break;
+      case 'checkbox': input = makeCB(w, card.checkboxLimit ?? null); break;
       case 'select':   input = makeListSel(w); break;
     }
     if (input) anchor.appendChild(input);
@@ -753,16 +753,29 @@ function makeText(w) {
   return inp;
 }
 
-function makeCB(w) {
+function makeCB(w, limit) {
   S.cbState[w.id] = false;
   const d = document.createElement('div');
   d.className = 'w-cb';
   d.dataset.wid = w.id;
   d.addEventListener('click', () => {
     if (S.phase !== 'answer') return;
-    S.cbState[w.id] = !S.cbState[w.id];
-    d.classList.toggle('chk', S.cbState[w.id]);
-    d.textContent = S.cbState[w.id] ? '✓' : '';
+    const willCheck = !S.cbState[w.id];
+    // Enforce limit: count currently checked boxes
+    if (willCheck && limit != null) {
+      const checkedCount = Object.values(S.cbState).filter(Boolean).length;
+      if (checkedCount >= limit) {
+        // Flash the checkbox red briefly to signal limit reached
+        d.style.borderColor = '#e84545';
+        setTimeout(() => { d.style.borderColor = ''; }, 400);
+        updateCBCounter(limit);
+        return;
+      }
+    }
+    S.cbState[w.id] = willCheck;
+    d.classList.toggle('chk', willCheck);
+    d.textContent = willCheck ? '✓' : '';
+    updateCBCounter(limit);
   });
   return d;
 }
@@ -786,6 +799,35 @@ function placeCheckBtn(card) {
   btn.textContent = '✓ Проверить';
   btn.addEventListener('click', checkAnswers);
   wlayer.appendChild(btn);
+
+  // If card has checkboxLimit, show a counter badge above the check button
+  if (card.checkboxLimit != null) {
+    const badge = document.createElement('div');
+    badge.id = 'cb-counter';
+    badge.style.cssText =
+      `position:absolute;left:${sp.x}px;top:${sp.y - 28}px;` +
+      `transform:translateX(-0%);` +
+      `font-size:12px;font-weight:700;letter-spacing:.5px;` +
+      `color:rgba(255,255,255,.6);pointer-events:none;white-space:nowrap;` +
+      `background:rgba(8,8,18,.75);padding:3px 9px;border-radius:6px;` +
+      `border:1px solid rgba(255,255,255,.1);`;
+    badge.textContent = `Отмечено: 0 / ${card.checkboxLimit}`;
+    wlayer.appendChild(badge);
+  }
+}
+
+// Update the counter badge text; called on every checkbox click
+function updateCBCounter(limit) {
+  if (limit == null) return;
+  const badge = ge('cb-counter');
+  if (!badge) return;
+  const checked = Object.values(S.cbState).filter(Boolean).length;
+  badge.textContent = `Отмечено: ${checked} / ${limit}`;
+  badge.style.color = checked === limit
+    ? '#3ecf8e'
+    : checked > limit
+      ? '#e84545'
+      : 'rgba(255,255,255,.6)';
 }
 
 // ═══════════════════════════════════════════════════

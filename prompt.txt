@@ -76,3 +76,12 @@ prompt update 5 (done)
     
 prompt update 6 (done)
 добавь тип ответов где можно задавать текстовые списки "values": ["Белье", "Карандаш", "Обруч"], "answer": "Карандаш"
+
+prompt update 7 (done)
+сделай для удобства отладке в конфиге и программе параметр, который означает с какой карточки начинается игра
+For the convenience of debugging, make a parameter in the config and program that means which card the game starts with.
+
+prompt update 8
+сделай возможность указывать ограничение на количество выбранных чек-боксов на странице с вопросами где есть чек-боксы, это количество является количеством правильных ответов для чек-боксов на этой странице
+make it possible to specify a limit on the number of selected checkboxes on the question page where there are checkboxes, this number is the number of correct answers for the checkboxes on this page.
+

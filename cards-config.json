@@ -1,5 +1,5 @@
 {
-  "startCard": 14,
+  "startCard": 6,
   "cards": [
     {
       "id": 1,
@@ -96,6 +96,7 @@
       "taskImage": "images/memory11.jpg",
       "answerImage": "images/memory12.jpg",
       "taskHiddenArea": { "x": 0, "y": 0, "w": 648, "h": 250 },
+      "checkboxLimit": 5,
       "widgets": [
         { "id": "w1",  "type": "checkbox", "x": 183, "y": 371, "answer": "true" },
         { "id": "w2",  "type": "checkbox", "x": 271, "y": 193, "answer": "false" },

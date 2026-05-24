@@ -1,5 +1,5 @@
 {
-  "startCard": 6,
+  "startCard": 1,
   "cards": [
     {
       "id": 1,
@@ -253,7 +253,7 @@
       "checkButton": { "x": 288, "y": 967 }
     },
     {
-      "id": 14,
+      "id": 15,
       "title": "Слишком много игрушек",
       "memorizeTime": 60,
       "taskImage": "images/memory29.jpg",
@@ -272,9 +272,115 @@
         { "id": "w10",  "type": "checkbox", "x": 595, "y": 831, "answer": "true" }
       ],
       "checkButton": { "x": 229, "y": 971 }
+    },
+    {
+      "id": 16,
+      "title": "Чей обед?",
+      "memorizeTime": 60,
+      "taskImage": "images/memory31.jpg",
+      "answerImage": "images/memory32.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 635, "h": 231 },
+      "widgets": [
+        { "id": "w1", "type": "select", "values":["Андрей","Игорь","Мария","Алексей","Марина","Евгений","Карина", "Данил", "Алла", "Никита", "Денис"], "x": 102, "y": 339, "answer": "Алексей" },
+	{ "id": "w2", "type": "select", "values":["Андрей","Игорь","Мария","Алексей","Марина","Евгений","Карина", "Данил", "Алла", "Никита", "Денис"], "x": 417, "y": 339, "answer": "Карина" },
+	{ "id": "w3", "type": "select", "values":["Андрей","Игорь","Мария","Алексей","Марина","Евгений","Карина", "Данил", "Алла", "Никита", "Денис"], "x": 118, "y": 602, "answer": "Алла" },
+	{ "id": "w4", "type": "select", "values":["Андрей","Игорь","Мария","Алексей","Марина","Евгений","Карина", "Данил", "Алла", "Никита", "Денис"], "x": 423, "y": 627, "answer": "Денис" },
+	{ "id": "w5", "type": "select", "values":["Андрей","Игорь","Мария","Алексей","Марина","Евгений","Карина", "Данил", "Алла", "Никита", "Денис"], "x": 121, "y": 845, "answer": "Евгений" },
+	{ "id": "w6", "type": "select", "values":["Андрей","Игорь","Мария","Алексей","Марина","Евгений","Карина", "Данил", "Алла", "Никита", "Денис"], "x": 431, "y": 869, "answer": "Мария" }
+      ],
+      "checkButton": { "x": 249, "y": 958 }
+    },
+    {
+      "id": 17,
+      "title": "Перестановка слоников",
+      "memorizeTime": 60,
+      "taskImage": "images/memory33.jpg",
+      "answerImage": "images/memory34.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 644, "h": 271 },
+      "checkboxLimit": 4,
+      "widgets": [
+        { "id": "w1",  "type": "checkbox", "x": 108, "y": 230, "answer": "false" },
+        { "id": "w2",  "type": "checkbox", "x": 297, "y": 235, "answer": "true" },
+        { "id": "w3",  "type": "checkbox", "x": 499, "y": 237, "answer": "false" },
+        { "id": "w4",  "type": "checkbox", "x": 89, "y": 402, "answer": "false" },
+        { "id": "w5",  "type": "checkbox", "x": 297, "y": 403, "answer": "true" },
+        { "id": "w6",  "type": "checkbox", "x": 495, "y": 403, "answer": "false" },
+        { "id": "w7",  "type": "checkbox", "x": 90, "y": 573, "answer": "false" },
+        { "id": "w8",  "type": "checkbox", "x": 297, "y": 575, "answer": "false" },
+	{ "id": "w9",  "type": "checkbox", "x": 493, "y": 579, "answer": "false" },
+        { "id": "w10",  "type": "checkbox", "x": 86, "y": 746, "answer": "true" },
+	{ "id": "w11",  "type": "checkbox", "x": 291, "y": 748, "answer": "true" },
+        { "id": "w12",  "type": "checkbox", "x": 480, "y": 750, "answer": "false" }
+      ],
+      "checkButton": { "x": 258, "y": 957 }
+    },
+    {
+      "id": 18,
+      "title": "Соцопрос",
+      "memorizeTime": 60,
+      "taskImage": "images/memory35.jpg",
+      "answerImage": "images/memory36.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 635, "h": 260 },
+      "widgets": [
+        { "id": "w1",  "type": "select", "x": 282, "y": 446, "values": ["А)", "Б)", "В)"], "answer": "Б)" }
+      ],
+      "checkButton": { "x": 223, "y": 949 }
+    },
+    {
+      "id": 19,
+      "title": "Поход по магазинам",
+      "memorizeTime": 60,
+      "taskImage": "images/memory37.jpg",
+      "answerImage": "images/memory38.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 1023, "h": 175 },
+      "widgets": [
+        { "id": "w1",  "type": "select", "x": 241, "y": 246, 
+		"values": ["\"Город игрушек\"", "\"Ботинки и сандалии\"", "\"Сладкая булочная\"","Салон красоты \"Колокольчик\"","\"Популярные книги\"","\"Цветы от Флоры\""], "answer": "\"Город игрушек\"" },
+	{ "id": "w2",  "type": "select", "x": 742, "y": 245, 
+		"values": ["\"Город игрушек\"", "\"Ботинки и сандалии\"", "\"Сладкая булочная\"","Салон красоты \"Колокольчик\"","\"Популярные книги\"","\"Цветы от Флоры\""], "answer": "\"Сладкая булочная\"" },
+	{ "id": "w3",  "type": "select", "x": 238, "y": 489, 
+		"values": ["\"Город игрушек\"", "\"Ботинки и сандалии\"", "\"Сладкая булочная\"","Салон красоты \"Колокольчик\"","\"Популярные книги\"","\"Цветы от Флоры\""], "answer": "Салон красоты \"Колокольчик\"" },
+	{ "id": "w4",  "type": "select", "x": 741, "y": 491, 
+		"values": ["\"Город игрушек\"", "\"Ботинки и сандалии\"", "\"Сладкая булочная\"","Салон красоты \"Колокольчик\"","\"Популярные книги\"","\"Цветы от Флоры\""], "answer": "\"Популярные книги\"" }
+      ],
+      "checkButton": { "x": 417, "y": 598 }
+    },
+    {
+      "id": 21,
+      "title": "Схема музея",
+      "memorizeTime": 60,
+      "taskImage": "images/memory41.jpg",
+      "answerImage": "images/memory42.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 653, "h": 225 },
+      "widgets": [
+        { "id": "w1", "type": "number", "min":1, "max":8, "x": 46, "y": 335, "answer": "4" },
+        { "id": "w2", "type": "number", "min":1, "max":8, "x": 213, "y": 326, "answer": "2" },
+        { "id": "w3", "type": "number", "min":1, "max":8, "x": 373, "y": 304, "answer": "6" },
+        { "id": "w4", "type": "number", "min":1, "max":8, "x": 522, "y": 374, "answer": "7" },
+	{ "id": "w5", "type": "number", "min":1, "max":8, "x": 44, "y": 683, "answer": "5" },
+	{ "id": "w6", "type": "number", "min":1, "max":8, "x": 198, "y": 740, "answer": "1" },
+        { "id": "w7", "type": "number", "min":1, "max":8, "x": 376, "y": 671, "answer": "3" },
+        { "id": "w8", "type": "number", "min":1, "max":8, "x": 511, "y": 640, "answer": "8" }
+      ],
+      "checkButton": { "x": 177, "y": 957 }
+    },
+    {
+      "id": 22,
+      "title": "По пути...",
+      "memorizeTime": 60,
+      "taskImage": "images/memory43.jpg",
+      "answerImage": "images/memory44.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 633, "h": 235 },
+      "widgets": [
+        { "id": "w1",  "type": "select", "x": 144, "y": 953, "values": ["А)", "Б)", "В)", "Г)"], "answer": "В)" }
+      ],
+      "checkButton": { "x": 300, "y": 922 }
     }
   ]
 }
+
+
+
 
 
 

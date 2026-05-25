@@ -1,5 +1,5 @@
 {
-  "startCard": 24,
+  "startCard": 1,
   "cards": [
     {
       "id": 1,
@@ -412,6 +412,87 @@
 	{ "id": "w4",  "type": "select", "x": 221, "y": 747, "values": ["Якорь", "Водоросль", "Краб", "Угорь"], "answer": "Краб" }
       ],
       "checkButton": { "x": 160, "y": 919 }
+    },
+    {
+      "id": 25,
+      "title": "Список подарков",
+      "memorizeTime": 60,
+      "taskImage": "images/memory49.jpg",
+      "answerImage": "images/memory50.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 654, "h": 221 },
+      "widgets": [
+        { "id": "w1", "type": "select", "values":["духи","носки","шарф","печенье","ваза","часы","робот", "плюшевый мишка"], "x": 169, "y": 226, "answer": "плюшевый мишка" },
+	{ "id": "w2", "type": "select", "values":["духи","носки","шарф","печенье","ваза","часы","робот", "плюшевый мишка"], "x": 447, "y": 240, "answer": "ваза" },
+	{ "id": "w3", "type": "select", "values":["духи","носки","шарф","печенье","ваза","часы","робот", "плюшевый мишка"], "x": 178, "y": 356, "answer": "шарф" },
+	{ "id": "w4", "type": "select", "values":["духи","носки","шарф","печенье","ваза","часы","робот", "плюшевый мишка"], "x": 471, "y": 344, "answer": "часы" },
+	{ "id": "w5", "type": "select", "values":["духи","носки","шарф","печенье","ваза","часы","робот", "плюшевый мишка"], "x": 170, "y": 762, "answer": "носки" },
+	{ "id": "w6", "type": "select", "values":["духи","носки","шарф","печенье","ваза","часы","робот", "плюшевый мишка"], "x": 445, "y": 759, "answer": "печенье" },
+	{ "id": "w7", "type": "select", "values":["духи","носки","шарф","печенье","ваза","часы","робот", "плюшевый мишка"], "x": 196, "y": 881, "answer": "духи" },
+	{ "id": "w8", "type": "select", "values":["духи","носки","шарф","печенье","ваза","часы","робот", "плюшевый мишка"], "x": 474, "y": 882, "answer": "робот" }
+      ],
+      "checkButton": { "x": 279, "y": 974 }
+    },
+    {
+      "id": 26,
+      "title": "Номера на гоночных машинах",
+      "memorizeTime": 60,
+      "taskImage": "images/memory51.jpg",
+      "answerImage": "images/memory52.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 635, "h": 240 },
+      "widgets": [
+        { "id": "w1", "type": "number", "min":2, "max":18, "x": 187, "y": 328, "answer": "6" },
+        { "id": "w2", "type": "number", "min":2, "max":18, "x": 381, "y": 326, "answer": "5" },
+        { "id": "w3", "type": "number", "min":2, "max":18, "x": 90, "y": 583, "answer": "9" },
+        { "id": "w4", "type": "number", "min":2, "max":18, "x": 277, "y": 586, "answer": "10" },
+	{ "id": "w5", "type": "number", "min":2, "max":18, "x": 469, "y": 586, "answer": "12" },
+	{ "id": "w6", "type": "number", "min":2, "max":18, "x": 79, "y": 855, "answer": "4" },
+        { "id": "w7", "type": "number", "min":2, "max":18, "x": 277, "y": 859, "answer": "2" },
+        { "id": "w8", "type": "number", "min":2, "max":18, "x": 472, "y": 861, "answer": "18" }
+      ],
+      "checkButton": { "x": 245, "y": 963 }
+    },
+    {
+      "id": 27,
+      "title": "Небесный пейзаж",
+      "memorizeTime": 60,
+      "taskImage": "images/memory53.jpg",
+      "answerImage": "images/memory54.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 648, "h": 220 },
+      "hidden": "true",
+      "widgets": [
+        { "id": "w1",  "type": "ellipse", "x": 97, "y": 260, "a": 30, "b": 35, "alpha": 10 },
+        { "id": "w2",  "type": "ellipse", "x": 483, "y": 261, "a": 35, "b": 35, "alpha": 0 },
+        { "id": "w3",  "type": "ellipse", "x": 80, "y": 552, "a": 25, "b": 25, "alpha": 0 },
+        { "id": "w4",  "type": "ellipse", "x": 302, "y": 592, "a": 46, "b": 21, "alpha": 10 },
+	{ "id": "w5",  "type": "ellipse", "x": 271, "y": 860, "a": 42, "b": 25, "alpha": 0 }
+      ],
+      "checkButton": { "x": 289, "y": 946 }
+    },
+    {
+      "id": 28,
+      "title": "Узор из лепестков",
+      "memorizeTime": 60,
+      "taskImage": "images/memory55.jpg",
+      "answerImage": "images/memory56.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 647, "h": 220 },
+      "hidden": "true",
+      "widgets": [
+        { "id": "w1",  "type": "ellipse", "x": 350, "y": 363, "a": 45, "b": 25, "alpha": 70 },
+        { "id": "w2",  "type": "ellipse", "x": 485, "y": 278, "a": 45, "b": 25, "alpha": 50 },
+        { "id": "w3",  "type": "ellipse", "x": 533, "y": 259, "a": 45, "b": 25, "alpha": -75 },
+        { "id": "w4",  "type": "ellipse", "x": 107, "y": 556, "a": 45, "b": 25, "alpha": -55 },
+	{ "id": "w5",  "type": "ellipse", "x": 280, "y": 515, "a": 45, "b": 25, "alpha": -10 },
+	{ "id": "w6",  "type": "ellipse", "x": 295, "y": 468, "a": 45, "b": 25, "alpha": 50 },
+	{ "id": "w7",  "type": "ellipse", "x": 80, "y": 710, "a": 45, "b": 25, "alpha": -5 },
+        { "id": "w8",  "type": "ellipse", "x": 189, "y": 675, "a": 45, "b": 25, "alpha": -20 },
+        { "id": "w9",  "type": "ellipse", "x": 483, "y": 664, "a": 45, "b": 25, "alpha": 50 },
+        { "id": "w10",  "type": "ellipse", "x": 576, "y": 728, "a": 45, "b": 25, "alpha": 25 },
+	{ "id": "w11",  "type": "ellipse", "x": 102, "y": 854, "a": 45, "b": 25, "alpha": 50 },
+	{ "id": "w12",  "type": "ellipse", "x": 152, "y": 840, "a": 45, "b": 25, "alpha": -75 },
+	{ "id": "w13",  "type": "ellipse", "x": 486, "y": 948, "a": 45, "b": 25, "alpha": -55 },
+	{ "id": "w14",  "type": "ellipse", "x": 573, "y": 870, "a": 45, "b": 25, "alpha": -20 }
+      ],
+      "checkButton": { "x": 273, "y": 960 }
     }
   ]
 }

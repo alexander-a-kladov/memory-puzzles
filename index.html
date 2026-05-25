@@ -117,9 +117,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;
 .wa-icon.show{display:block;animation:pop .2s cubic-bezier(.34,1.56,.64,1)}
 @keyframes pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
 
+/* Widget font-size CSS variable — overridden per-card via JS */
+#wlayer { --wfs: clamp(18px, 3.6vw, 21px); }
+
 /* SELECT */
 .w-sel{appearance:none;-webkit-appearance:none;
-  font-family:inherit;font-size:clamp(12px,2.4vw,14px);font-weight:600;
+  font-family:inherit;font-size:var(--wfs);font-weight:600;
   background:rgba(8,8,18,.88);color:#fff;
   border:1.5px solid rgba(255,255,255,.18);border-radius:7px;
   padding:5px 22px 5px 8px;min-width:clamp(52px,10vw,100px);
@@ -135,7 +138,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;
 .w-sel:disabled{opacity:.7;cursor:default}
 
 /* TEXT INPUT */
-.w-inp{font-family:inherit;font-size:clamp(12px,2.4vw,14px);font-weight:600;
+.w-inp{font-family:inherit;font-size:var(--wfs);font-weight:600;
   background:rgba(8,8,18,.88);color:#fff;
   border:1.5px solid rgba(255,255,255,.18);border-radius:7px;
   padding:5px 8px;min-width:clamp(80px,15vw,150px);outline:none;
@@ -148,11 +151,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;
 .w-inp:disabled{opacity:.7;cursor:default}
 
 /* CHECKBOX */
-.w-cb{width:clamp(26px,5.5vw,38px);height:clamp(26px,5.5vw,38px);
+.w-cb{width:clamp(28px,6vw,42px);height:clamp(28px,6vw,42px);
   background:rgba(8,8,18,.88);border:2px solid rgba(255,255,255,.2);
   border-radius:7px;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
-  font-size:clamp(13px,3vw,20px);
+  font-size:var(--wfs);
   backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
   transition:border-color .15s,background .15s;
   user-select:none;-webkit-user-select:none}
@@ -658,6 +661,13 @@ function checkAnswers() {
 // ═══════════════════════════════════════════════════
 function buildWidgets(card) {
   wlayer.innerHTML = '';
+
+  // Apply per-card widget font size (px value), or fall back to CSS default
+  if (card.widgetFontSize) {
+    wlayer.style.setProperty('--wfs', card.widgetFontSize + 'px');
+  } else {
+    wlayer.style.removeProperty('--wfs');
+  }
 
   if (card.widgets[0]?.type === 'drawing') { buildDrawing(card); return; }
   if (card.widgets[0]?.type === 'ellipse') { buildEllipse(card); return; }

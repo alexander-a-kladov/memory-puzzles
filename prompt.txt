@@ -85,3 +85,6 @@ prompt update 8
 сделай возможность указывать ограничение на количество выбранных чек-боксов на странице с вопросами где есть чек-боксы, это количество является количеством правильных ответов для чек-боксов на этой странице
 make it possible to specify a limit on the number of selected checkboxes on the question page where there are checkboxes, this number is the number of correct answers for the checkboxes on this page.
 
+prompt update 9
+Сделай возможность задавать размер шрифта для всех виджетов с ответами на карточке, сделай шрифты больше в 1.5 раза в виджетах с ответами. Поменяй название игры на "Тренируй память" в заголовке страницы html.
+Make it possible to set the font size for all widgets with answers on the card, make fonts 1.5 times larger in widgets with answers. Change the name of the game to "Тренируй память" in the html-page header.

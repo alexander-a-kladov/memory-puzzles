@@ -493,9 +493,30 @@
 	{ "id": "w14",  "type": "ellipse", "x": 573, "y": 870, "a": 45, "b": 25, "alpha": -20 }
       ],
       "checkButton": { "x": 273, "y": 960 }
+    },
+    {
+      "id": 29,
+      "title": "Карточная викторина",
+      "memorizeTime": 60,
+      "taskImage": "images/memory57.jpg",
+      "answerImage": "images/memory58.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 639, "h": 232 },
+      "widgets": [
+        { "id": "w1",  "type": "checkbox", "x": 200, "y": 330, "answer": "true" },
+        { "id": "w2",  "type": "checkbox", "x": 365, "y": 332, "answer": "false" },
+        { "id": "w3",  "type": "checkbox", "x": 530, "y": 329, "answer": "false" },
+        { "id": "w4",  "type": "checkbox", "x": 199, "y": 581, "answer": "false" },
+        { "id": "w5",  "type": "checkbox", "x": 367, "y": 583, "answer": "false" },
+        { "id": "w6",  "type": "checkbox", "x": 530, "y": 583, "answer": "true" },
+        { "id": "w7",  "type": "checkbox", "x": 198, "y": 836, "answer": "false" },
+        { "id": "w8",  "type": "checkbox", "x": 367, "y": 834, "answer": "true" },
+	{ "id": "w9",  "type": "checkbox", "x": 531, "y": 834, "answer": "false" }
+      ],
+      "checkButton": { "x": 247, "y": 974 }
     }
   ]
 }
+
 
 
 

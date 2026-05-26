@@ -513,9 +513,132 @@
 	{ "id": "w9",  "type": "checkbox", "x": 531, "y": 834, "answer": "false" }
       ],
       "checkButton": { "x": 247, "y": 974 }
+    },
+    {
+      "id": 31,
+      "title": "Открытка",
+      "memorizeTime": 60,
+      "taskImage": "images/memory61.jpg",
+      "answerImage": "images/memory62.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 1024, "h": 150 },
+      "hidden": "true",
+      "widgets": [
+        { "id": "w1",  "type": "ellipse", "x": 260, "y": 339, "a": 20, "b": 20, "alpha": 0 },
+        { "id": "w2",  "type": "ellipse", "x": 529, "y": 378, "a": 20, "b": 20, "alpha": 0 },
+        { "id": "w3",  "type": "ellipse", "x": 749, "y": 315, "a": 28, "b": 32, "alpha": 0 },
+        { "id": "w4",  "type": "ellipse", "x": 251, "y": 515, "a": 35, "b": 55, "alpha": 0 },
+	{ "id": "w5",  "type": "ellipse", "x": 518, "y": 528, "a": 40, "b": 30, "alpha": 0 }
+      ],
+      "checkButton": { "x": 664, "y": 601 }
+    },
+    {
+      "id": 32,
+      "title": "Загадка про морских свинок",
+      "memorizeTime": 30,
+      "taskImage": "images/memory63.jpg",
+      "answerImage": "images/memory64.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 644, "h": 218 },
+      "widgets": [
+        { "id": "w1",  "type": "select", "x": 125, "y": 946, "values": ["Шоколадка", "Стиляга", "Кусака", "Заплатка", "Пищалка"], "answer": "Стиляга" }
+      ],
+      "checkButton": { "x": 334, "y": 945 }
+    },
+    {
+      "id": 33,
+      "title": "От тебя до меня",
+      "memorizeTime": 60,
+      "taskImage": "images/memory65.jpg",
+      "answerImage": "images/memory66.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 628, "h": 277 },
+      "widgets": [
+        { "id": "w1",  "type": "select", "x": 234, "y": 875, "values": ["А)", "Б)", "В)"], "answer": "Б)" }
+      ],
+      "checkButton": { "x": 203, "y": 965 }
+    },
+    {
+      "id": 34,
+      "title": "Пропавшее пирожное",
+      "memorizeTime": 60,
+      "taskImage": "images/memory67.jpg",
+      "answerImage": "images/memory68.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 653, "h": 262 },
+      "widgets": [
+        { "id": "w1",  "type": "checkbox", "x": 135, "y": 870, "answer": "true" },
+        { "id": "w2",  "type": "checkbox", "x": 286, "y": 874, "answer": "false" },
+        { "id": "w3",  "type": "checkbox", "x": 433, "y": 877, "answer": "true" },
+        { "id": "w4",  "type": "checkbox", "x": 582, "y": 877, "answer": "false" }
+      ],
+      "checkButton": { "x": 259, "y": 963 }
+    },
+    {
+      "id": 35,
+      "title": "Под зонтом",
+      "memorizeTime": 60,
+      "taskImage": "images/memory69.jpg",
+      "answerImage": "images/memory70.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 647, "h": 240 },
+      "widgets": [
+        { "id": "w1",  "type": "select", "x": 162, "y": 940, "values": ["Юля", "Тимур", "Инна", "Данил", "Василиса", "Диана"], "answer": "Василиса" }
+      ],
+      "checkButton": { "x": 338, "y": 939 }
+    },
+    {
+      "id": 36,
+      "title": "Упаковка подарков",
+      "memorizeTime": 60,
+      "taskImage": "images/memory71.jpg",
+      "answerImage": "images/memory72.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 631, "h": 225 },
+      "widgets": [
+        { "id": "w1", "type": "number", "min":1, "max":6, "x": 31, "y": 757, "answer": "2" },
+        { "id": "w2", "type": "number", "min":1, "max":6, "x": 235, "y": 819, "answer": "3" },
+        { "id": "w3", "type": "number", "min":1, "max":6, "x": 465, "y": 800, "answer": "5" },
+        { "id": "w4", "type": "number", "min":1, "max":6, "x": 408, "y": 603, "answer": "1" },
+	{ "id": "w5", "type": "number", "min":1, "max":6, "x": 492, "y": 462, "answer": "6" },
+	{ "id": "w6", "type": "number", "min":1, "max":6, "x": 480, "y": 246, "answer": "4" }
+      ],
+      "checkButton": { "x": 237, "y": 952 }
+    },
+    {
+      "id": 37,
+      "title": "Зашифрованное послание",
+      "memorizeTime": 60,
+      "taskImage": "images/memory73.jpg",
+      "answerImage": "images/memory74.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 649, "h": 308 },
+      "widgets": [
+        { "id": "w1",  "type": "select", "x": 71, "y": 483, "values": ["Л", "Т", "О", "Е", "С", "Ы", "З", "Н", "А", "Ь", "Р"], "answer": "О" },
+	{ "id": "w2",  "type": "select", "x": 131, "y": 485, "values": ["Л", "Т", "О", "Е", "С", "Ы", "З", "Н", "А", "Ь", "Р"], "answer": "Т" },
+	{ "id": "w3",  "type": "select", "x": 183, "y": 489, "values": ["Л", "Т", "О", "Е", "С", "Ы", "З", "Н", "А", "Ь", "Р"], "answer": "Е" },
+	{ "id": "w4",  "type": "select", "x": 229, "y": 500, "values": ["Л", "Т", "О", "Е", "С", "Ы", "З", "Н", "А", "Ь", "Р"], "answer": "Л" },
+	{ "id": "w5",  "type": "select", "x": 274, "y": 506, "values": ["Л", "Т", "О", "Е", "С", "Ы", "З", "Н", "А", "Ь", "Р"], "answer": "Ь" },
+	{ "id": "w6",  "type": "select", "x": 74, "y": 592, "values": ["Л", "Т", "О", "Е", "С", "Ы", "З", "Н", "А", "Ь", "Р"], "answer": "С" },
+	{ "id": "w7",  "type": "select", "x": 124, "y": 590, "values": ["Л", "Т", "О", "Е", "С", "Ы", "З", "Н", "А", "Ь", "Р"], "answer": "Е" },
+	{ "id": "w8",  "type": "select", "x": 174, "y": 592, "values": ["Л", "Т", "О", "Е", "С", "Ы", "З", "Н", "А", "Ь", "Р"], "answer": "Н" },
+	{ "id": "w9",  "type": "select", "x": 224, "y": 596, "values": ["Л", "Т", "О", "Е", "С", "Ы", "З", "Н", "А", "Ь", "Р"], "answer": "Ь" },
+	{ "id": "w10",  "type": "select", "x": 271, "y": 597, "values": ["Л", "Т", "О", "Е", "С", "Ы", "З", "Н", "А", "Ь", "Р"], "answer": "О" },
+	{ "id": "w11",  "type": "select", "x": 326, "y": 596, "values": ["Л", "Т", "О", "Е", "С", "Ы", "З", "Н", "А", "Ь", "Р"], "answer": "Р" },
+	{ "id": "w12",  "type": "select", "x": 69, "y": 689, "values": ["Л", "Т", "О", "Е", "С", "Ы", "З", "Н", "А", "Ь", "Р"], "answer": "Р" },
+	{ "id": "w13",  "type": "select", "x": 116, "y": 694, "values": ["Л", "Т", "О", "Е", "С", "Ы", "З", "Н", "А", "Ь", "Р"], "answer": "Е" },
+	{ "id": "w14",  "type": "select", "x": 168, "y": 695, "values": ["Л", "Т", "О", "Е", "С", "Ы", "З", "Н", "А", "Ь", "Р"], "answer": "Н" },
+	{ "id": "w15",  "type": "select", "x": 219, "y": 697, "values": ["Л", "Т", "О", "Е", "С", "Ы", "З", "Н", "А", "Ь", "Р"], "answer": "Т" },
+	{ "id": "w16",  "type": "select", "x": 270, "y": 696, "values": ["Л", "Т", "О", "Е", "С", "Ы", "З", "Н", "А", "Ь", "Р"], "answer": "А" },
+	{ "id": "w17",  "type": "select", "x": 315, "y": 699, "values": ["Л", "Т", "О", "Е", "С", "Ы", "З", "Н", "А", "Ь", "Р"], "answer": "Л" },
+	{ "id": "w18",  "type": "select", "x": 56, "y": 803, "values": ["Л", "Т", "О", "Е", "С", "Ы", "З", "Н", "А", "Ь", "Р"], "answer": "С" },
+	{ "id": "w19",  "type": "select", "x": 112, "y": 802, "values": ["Л", "Т", "О", "Е", "С", "Ы", "З", "Н", "А", "Ь", "Р"], "answer": "Ы" },
+	{ "id": "w20",  "type": "select", "x": 165, "y": 807, "values": ["Л", "Т", "О", "Е", "С", "Ы", "З", "Н", "А", "Ь", "Р"], "answer": "З" },
+	{ "id": "w21",  "type": "select", "x": 209, "y": 807, "values": ["Л", "Т", "О", "Е", "С", "Ы", "З", "Н", "А", "Ь", "Р"], "answer": "Р" },
+	{ "id": "w22",  "type": "select", "x": 265, "y": 807, "values": ["Л", "Т", "О", "Е", "С", "Ы", "З", "Н", "А", "Ь", "Р"], "answer": "А" },
+	{ "id": "w23",  "type": "select", "x": 312, "y": 807, "values": ["Л", "Т", "О", "Е", "С", "Ы", "З", "Н", "А", "Ь", "Р"], "answer": "Н" },
+	{ "id": "w24",  "type": "select", "x": 357, "y": 811, "values": ["Л", "Т", "О", "Е", "С", "Ы", "З", "Н", "А", "Ь", "Р"], "answer": "Ь" }
+      ],
+      "checkButton": { "x": 249, "y": 934 }
     }
   ]
 }
+
+
+
 
 
 

@@ -597,6 +597,23 @@ function checkAnswers() {
     const markerOk = evalEllipseWidget(card);
     correct = markerOk.filter(Boolean).length;
     markEllipseWidgets(card, markerOk);
+  } else if (card.answersList) {
+    // List-mode: each widget is correct if its value is in answersList (case-insensitive)
+    // Duplicates allowed — each list entry can only be matched once
+    const list = card.answersList.map(s => s.trim().toLowerCase());
+    const used = new Set();
+    card.widgets.forEach(w => {
+      const el  = wlayer.querySelector(`[data-wid="${w.id}"]`);
+      const val = (el?.value || '').trim().toLowerCase();
+      let ok = false;
+      if (val !== '') {
+        // Find an unused matching entry in the list
+        const idx = list.findIndex((s, i) => !used.has(i) && s === val);
+        if (idx !== -1) { used.add(idx); ok = true; }
+      }
+      if (ok) correct++;
+      markWidget(w, ok);
+    });
   } else {
     card.widgets.forEach(w => {
       const ok = evalWidget(w);

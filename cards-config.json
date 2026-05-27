@@ -224,11 +224,11 @@
       "answerImage": "images/memory24.jpg",
       "taskHiddenArea": { "x": 0, "y": 0, "w": 1024, "h": 172 },
       "widgets": [
-        { "id": "w1", "type": "digit", "min":1, "max":5, "x": 197, "y": 405, "answer": "2" },
-        { "id": "w2", "type": "digit", "min":1, "max":5, "x": 401, "y": 404, "answer": "4" },
-        { "id": "w3", "type": "digit", "min":1, "max":5, "x": 561, "y": 405, "answer": "1" },
-        { "id": "w4", "type": "digit", "min":1, "max":5, "x": 751, "y": 405, "answer": "3" },
-	{ "id": "w5", "type": "digit", "min":1, "max":5, "x": 916, "y": 405, "answer": "5" }
+        { "id": "w1", "type": "number", "min":1, "max":5, "x": 197, "y": 405, "answer": "2" },
+        { "id": "w2", "type": "number", "min":1, "max":5, "x": 401, "y": 404, "answer": "4" },
+        { "id": "w3", "type": "number", "min":1, "max":5, "x": 561, "y": 405, "answer": "1" },
+        { "id": "w4", "type": "number", "min":1, "max":5, "x": 751, "y": 405, "answer": "3" },
+	{ "id": "w5", "type": "number", "min":1, "max":5, "x": 916, "y": 405, "answer": "5" }
       ],
       "checkButton": { "x": 356, "y": 600 }
     },
@@ -664,13 +664,13 @@
         { "id": "w1", "type": "number", "min":1, "max":2, "x": 58, "y": 183, "answer": "2" },
         { "id": "w2", "type": "number", "min":1, "max":2, "x": 186, "y": 325, "answer": "1" },
         { "id": "w3", "type": "number", "min":1, "max":2, "x": 72, "y": 470, "answer": "2" },
-        { "id": "w4", "type": "number", "min":1, "max":2, "x": 254, "y": 480, "answer": "1" },
+        { "id": "w4", "type": "number", "min":1, "max":2, "x": 254, "y": 480, "answer": "2" },
 	{ "id": "w5", "type": "number", "min":1, "max":2, "x": 372, "y": 452, "answer": "2" },
 	{ "id": "w6", "type": "number", "min":1, "max":2, "x": 441, "y": 553, "answer": "1" },
 	{ "id": "w7", "type": "number", "min":1, "max":2, "x": 493, "y": 700, "answer": "1" },
         { "id": "w8", "type": "number", "min":1, "max":2, "x": 142, "y": 769, "answer": "1" },
 	{ "id": "w9", "type": "number", "min":1, "max":2, "x": 538, "y": 831, "answer": "2" },
-	{ "id": "w10", "type": "number", "min":1, "max":2, "x": 486, "y": 937, "answer": "2" }
+	{ "id": "w10", "type": "number", "min":1, "max":2, "x": 486, "y": 937, "answer": "1" }
       ],
       "checkButton": { "x": 231, "y": 960 }
     },

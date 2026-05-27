@@ -1,5 +1,5 @@
 {
-  "startCard": 14,
+  "startCard": 1,
   "cards": [
     {
       "id": 1,
@@ -371,6 +371,27 @@
 		"values": ["\"Город игрушек\"", "\"Ботинки и сандалии\"", "\"Сладкая булочная\"","Салон красоты \"Колокольчик\"","\"Популярные книги\"","\"Цветы от Флоры\""], "answer": "\"Популярные книги\"" }
       ],
       "checkButton": { "x": 417, "y": 598 }
+    },
+    {
+      "id": 20,
+      "title": "Треугольники",
+      "memorizeTime": 60,
+      "taskImage": "images/memory39.jpg",
+      "answerImage": "images/memory40.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 639, "h": 255 },
+      "picsList": ["pics/uptriangle20.jpg", "pics/downtriangle20.jpg"],
+      "hidden": "false",
+      "widgets": [
+        { "id": "w1",  "type": "circle", "x": 315, "y": 368, "r": 30, "answer": "1" },
+	{ "id": "w2",  "type": "circle", "x": 244, "y": 472, "r": 30, "answer": "1" },
+	{ "id": "w3",  "type": "circle", "x": 388, "y": 473, "r": 30, "answer": "1" },
+	{ "id": "w4",  "type": "circle", "x": 317, "y": 570, "r": 30, "answer": "1" },
+	{ "id": "w5",  "type": "circle", "x": 244, "y": 674, "r": 30, "answer": "1" },
+	{ "id": "w6",  "type": "circle", "x": 385, "y": 673, "r": 30, "answer": "1" },
+	{ "id": "w7",  "type": "circle", "x": 106, "y": 749, "r": 30, "answer": "2" },
+	{ "id": "w8",  "type": "circle", "x": 531, "y": 749, "r": 30, "answer": "2" }
+      ],
+      "checkButton": { "x": 259, "y": 927 }
     },
     {
       "id": 21,
@@ -791,6 +812,68 @@
 	{ "id": "w9",  "type": "number", "x": 466, "y": 854, "max":3, "answer": "1" }
       ],
       "checkButton": { "x": 266, "y": 961 }
+    },
+    {
+      "id": 45,
+      "title": "Клеточки и символы",
+      "memorizeTime": 60,
+      "taskImage": "images/memory89.jpg",
+      "answerImage": "images/memory90.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 643, "h": 315 },
+      "picsList": ["pics/sausage45.jpg", "pics/heart45.jpg", "pics/leaf45.jpg", "pics/triangle45.jpg", "pics/boom45.jpg", "pics/flower45.jpg"],
+      "hidden": "false",
+      "widgets": [
+        { "id": "w1",  "type": "circle", "x": 75, "y": 358, "r": 30, "answer": "1" },
+	{ "id": "w2",  "type": "circle", "x": 155, "y": 358, "r": 30, "answer": "2" },
+	{ "id": "w3",  "type": "circle", "x": 237, "y": 359, "r": 30, "answer": "3" },
+	{ "id": "w4",  "type": "circle", "x": 404, "y": 362, "r": 30, "answer": "4" },
+	{ "id": "w5",  "type": "circle", "x": 486, "y": 361, "r": 30, "answer": "2" },
+	{ "id": "w6",  "type": "circle", "x": 568, "y": 360, "r": 30, "answer": "5" },
+	{ "id": "w7",  "type": "circle", "x": 76, "y": 441, "r": 30, "answer": "6" },
+	{ "id": "w8",  "type": "circle", "x": 155, "y": 441, "r": 30, "answer": "1" },
+	{ "id": "w9",  "type": "circle", "x": 237, "y": 441, "r": 30, "answer": "2" },
+	{ "id": "w10",  "type": "circle", "x": 325, "y": 441, "r": 30, "answer": "6" },
+	{ "id": "w11",  "type": "circle", "x": 404, "y": 441, "r": 30, "answer": "5" },
+	{ "id": "w12",  "type": "circle", "x": 486, "y": 441, "r": 30, "answer": "1" },
+	{ "id": "w13",  "type": "circle", "x": 568, "y": 441, "r": 30, "answer": "3" },
+	{ "id": "w14",  "type": "circle", "x": 72, "y": 521, "r": 30, "answer": "4" },
+	{ "id": "w15",  "type": "circle", "x": 155, "y": 521, "r": 30, "answer": "3" },
+	{ "id": "w16",  "type": "circle", "x": 237, "y": 521, "r": 30, "answer": "2" },
+	{ "id": "w17",  "type": "circle", "x": 325, "y": 521, "r": 30, "answer": "5" },
+	{ "id": "w18",  "type": "circle", "x": 404, "y": 521, "r": 30, "answer": "6" },
+	{ "id": "w20",  "type": "circle", "x": 568, "y": 521, "r": 30, "answer": "1" },
+	{ "id": "w21",  "type": "circle", "x": 74, "y": 607, "r": 30, "answer": "2" },
+	{ "id": "w22",  "type": "circle", "x": 155, "y": 607, "r": 30, "answer": "4" },
+	{ "id": "w23",  "type": "circle", "x": 237, "y": 607, "r": 30, "answer": "3" },
+	{ "id": "w24",  "type": "circle", "x": 325, "y": 607, "r": 30, "answer": "1" },
+	{ "id": "w26",  "type": "circle", "x": 486, "y": 607, "r": 30, "answer": "1" },
+	{ "id": "w27",  "type": "circle", "x": 568, "y": 607, "r": 30, "answer": "6" },	
+	{ "id": "w28",  "type": "circle", "x": 71, "y": 688, "r": 30, "answer": "4" },
+	{ "id": "w29",  "type": "circle", "x": 155, "y": 688, "r": 30, "answer": "3" },
+	{ "id": "w31",  "type": "circle", "x": 325, "y": 688, "r": 30, "answer": "6" },
+	{ "id": "w32",  "type": "circle", "x": 404, "y": 688, "r": 30, "answer": "2" },
+	{ "id": "w33",  "type": "circle", "x": 486, "y": 688, "r": 30, "answer": "5" },
+	{ "id": "w34",  "type": "circle", "x": 568, "y": 688, "r": 30, "answer": "3" },
+	{ "id": "w35",  "type": "circle", "x": 75, "y": 770, "r": 30, "answer": "6" },
+	{ "id": "w36",  "type": "circle", "x": 155, "y": 770, "r": 30, "answer": "2" },
+	{ "id": "w37",  "type": "circle", "x": 237, "y": 770, "r": 30, "answer": "6" },
+	{ "id": "w38",  "type": "circle", "x": 325, "y": 770, "r": 30, "answer": "1" },
+	{ "id": "w39",  "type": "circle", "x": 404, "y": 770, "r": 30, "answer": "4" },
+	{ "id": "w40",  "type": "circle", "x": 486, "y": 770, "r": 30, "answer": "6" },
+	{ "id": "w41",  "type": "circle", "x": 568, "y": 770, "r": 30, "answer": "2" },
+	{ "id": "w42",  "type": "circle", "x": 73, "y": 851, "r": 30, "answer": "5" },
+	{ "id": "w43",  "type": "circle", "x": 155, "y": 851, "r": 30, "answer": "1" },
+	{ "id": "w44",  "type": "circle", "x": 237, "y": 851, "r": 30, "answer": "2" },
+	{ "id": "w46",  "type": "circle", "x": 404, "y": 851, "r": 30, "answer": "3" },
+	{ "id": "w48",  "type": "circle", "x": 568, "y": 851, "r": 30, "answer": "4" },
+	{ "id": "w49",  "type": "circle", "x": 70, "y": 933, "r": 30, "answer": "1" },
+	{ "id": "w50",  "type": "circle", "x": 155, "y": 933, "r": 30, "answer": "6" },
+	{ "id": "w51",  "type": "circle", "x": 237, "y": 933, "r": 30, "answer": "4" },
+	{ "id": "w52",  "type": "circle", "x": 325, "y": 933, "r": 30, "answer": "5" },
+	{ "id": "w53",  "type": "circle", "x": 404, "y": 933, "r": 30, "answer": "2" },
+	{ "id": "w54",  "type": "circle", "x": 486, "y": 933, "r": 30, "answer": "6" }
+      ],
+      "checkButton": { "x": 207, "y": 259 }
     },
     {
       "id": 46,

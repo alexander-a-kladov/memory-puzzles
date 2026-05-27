@@ -236,31 +236,48 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;
 #pic-toolbar{position:absolute;bottom:60px;left:50%;transform:translateX(-50%);
   display:flex;align-items:center;gap:8px;z-index:47;pointer-events:all;
   background:rgba(8,8,16,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px 14px;white-space:nowrap}
-#pic-toolbar label{font-size:12px;color:rgba(255,255,255,.5);letter-spacing:.5px}
-#pic-sel{appearance:none;-webkit-appearance:none;
-  font-family:inherit;font-size:clamp(12px,2.2vw,14px);font-weight:600;
-  background:rgba(8,8,18,.88);color:#fff;
-  border:1.5px solid rgba(255,255,255,.25);border-radius:7px;
-  padding:5px 28px 5px 8px;cursor:pointer;outline:none;min-width:clamp(80px,15vw,180px);
-  backdrop-filter:blur(8px);
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(255,255,255,0.35)'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 7px center}
-#pic-sel option{background:#111}
+  border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px 14px}
+#pic-toolbar label{font-size:12px;color:rgba(255,255,255,.5);letter-spacing:.5px;flex-shrink:0}
+
+/* Custom image picker — scrollable horizontal strip */
+#pic-picker{display:flex;align-items:center;gap:6px;overflow-x:auto;
+  max-width:min(80vw,600px);padding:2px 0;scrollbar-width:thin;
+  scrollbar-color:rgba(255,255,255,.2) transparent}
+#pic-picker::-webkit-scrollbar{height:4px}
+#pic-picker::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:2px}
+
+.pic-opt{flex-shrink:0;cursor:pointer;border-radius:5px;overflow:hidden;
+  border:2.5px solid rgba(255,255,255,.15);
+  transition:border-color .15s,box-shadow .15s;
+  height:48px;display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.4)}
+.pic-opt img{height:44px;width:auto;display:block;pointer-events:none}
+.pic-opt.none-opt{padding:0 10px;font-size:12px;color:rgba(255,255,255,.5);
+  width:auto;height:48px;white-space:nowrap}
+.pic-opt:hover{border-color:rgba(255,255,255,.5)}
+.pic-opt.active{border-color:#ffe600;box-shadow:0 0 0 2px #ffe600}
+
+/* Placed picture — natural size, max 80px, preserves aspect ratio */
 .pic-item{position:absolute;transform:translate(-50%,-50%);
-  width:40px;height:40px;overflow:hidden;
+  max-width:80px;max-height:80px;width:auto;height:auto;
   border:2.5px solid rgba(255,255,255,.6);
   box-shadow:0 2px 8px rgba(0,0,0,.6);cursor:pointer;
-  transition:box-shadow .15s,border-color .15s;pointer-events:all}
-.pic-item img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+  transition:box-shadow .15s,border-color .15s;pointer-events:all;
+  overflow:hidden;display:inline-flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.2)}
+.pic-item img{max-width:76px;max-height:76px;width:auto;height:auto;
+  display:block;pointer-events:none}
 .pic-item.selected{border-color:#ffe600;
   box-shadow:0 0 0 3px #ffe600,0 0 10px 3px rgba(255,230,0,.6)}
 .pic-item.ok {border-color:#3ecf8e;box-shadow:0 0 0 3px #3ecf8e;cursor:default;pointer-events:none}
 .pic-item.bad{border-color:#e84545;box-shadow:0 0 0 3px #e84545;cursor:default;pointer-events:none}
+
+/* Ghost — same natural-ratio sizing */
 .pic-ghost{position:absolute;transform:translate(-50%,-50%);
-  width:40px;height:40px;overflow:hidden;
-  border:2.5px dashed #3ecf8e;opacity:.75;pointer-events:none}
-.pic-ghost img{width:100%;height:100%;object-fit:cover;display:block}
+  max-width:80px;max-height:80px;width:auto;height:auto;
+  overflow:hidden;border:2.5px dashed #3ecf8e;opacity:.75;pointer-events:none;
+  display:inline-flex;align-items:center;justify-content:center}
+.pic-ghost img{max-width:76px;max-height:76px;width:auto;height:auto;display:block}
 
 #loading{position:fixed;inset:0;background:#0a0a0f;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:999}
@@ -1182,26 +1199,51 @@ function buildCircle(card) {
   });
   stage.appendChild(svg);
 
-  // ── Picture toolbar ──
+  // ── Picture toolbar — custom image strip picker ──
   const tb = document.createElement('div');
   tb.id = 'pic-toolbar';
   const lbl = document.createElement('label');
-  lbl.textContent = 'Картинка:';
-  const sel = document.createElement('select');
-  sel.id = 'pic-sel';
-  // "—" = no picture selected (delete mode)
-  const optNone = document.createElement('option');
-  optNone.value = '0'; optNone.textContent = '— (удалить)';
-  sel.appendChild(optNone);
-  CS.pics.forEach((p, i) => {
-    const o = document.createElement('option');
-    o.value = String(i + 1);
-    o.textContent = `${i + 1}. ${p.src.split('/').pop().replace(/\.[^.]+$/, '')}`;
-    sel.appendChild(o);
-  });
+  lbl.textContent = 'Выбери:';
   tb.appendChild(lbl);
-  tb.appendChild(sel);
+
+  const picker = document.createElement('div');
+  picker.id = 'pic-picker';
+
+  // "—" delete option
+  const noneOpt = document.createElement('div');
+  noneOpt.className = 'pic-opt none-opt active';   // active = selected by default
+  noneOpt.dataset.picIdx = '0';
+  noneOpt.textContent = '✕ удалить';
+  picker.appendChild(noneOpt);
+
+  CS.pics.forEach((p, i) => {
+    const opt = document.createElement('div');
+    opt.className = 'pic-opt';
+    opt.dataset.picIdx = String(i + 1);
+    const img = document.createElement('img');
+    img.src = p.src;
+    opt.appendChild(img);
+    picker.appendChild(opt);
+  });
+
+  tb.appendChild(picker);
   stage.appendChild(tb);
+
+  // Track selected pic index (0 = delete mode)
+  let activePicIdx = 0;
+
+  function selectPicOpt(idx) {
+    activePicIdx = idx;
+    picker.querySelectorAll('.pic-opt').forEach(o => {
+      o.classList.toggle('active', parseInt(o.dataset.picIdx, 10) === idx);
+    });
+  }
+
+  picker.addEventListener('click', e => {
+    const opt = e.target.closest('.pic-opt');
+    if (!opt) return;
+    selectPicOpt(parseInt(opt.dataset.picIdx, 10));
+  });
 
   // ── Click layer ──
   const pl = document.createElement('div');
@@ -1213,7 +1255,6 @@ function buildCircle(card) {
     const stRect = stage.getBoundingClientRect();
     const sx = e.clientX - stRect.left;
     const sy = e.clientY - stRect.top;
-    const picIdx = parseInt(sel.value, 10);   // 0 = delete mode, 1+ = picture
 
     if (CS.selected !== null) {
       // Move selected picture to new position
@@ -1223,11 +1264,11 @@ function buildCircle(card) {
       p.el.style.top  = sy + 'px';
       p.el.classList.remove('selected');
       CS.selected = null;
-    } else if (picIdx === 0) {
+    } else if (activePicIdx === 0) {
       // Delete mode: nothing to delete at background click
     } else {
-      // Place new picture (no limit — user manages)
-      placePic(pl, picIdx, sx, sy);
+      // Place new picture
+      placePic(pl, activePicIdx, sx, sy);
     }
   });
 
@@ -1249,14 +1290,15 @@ function placePic(pl, picIdx, sx, sy) {
   div.addEventListener('click', e => {
     e.stopPropagation();
     if (S.phase !== 'answer') return;
-    const selPicIdx = parseInt(ge('pic-sel').value, 10);
+    // Read current active pic index from the picker
+    const activeOpt = document.querySelector('#pic-picker .pic-opt.active');
+    const selPicIdx = activeOpt ? parseInt(activeOpt.dataset.picIdx, 10) : 0;
 
     if (selPicIdx === 0) {
       // Delete mode — remove this picture
       if (CS.selected === idx) CS.selected = null;
       CS.placed.splice(idx, 1);
       div.remove();
-      // Re-index click handlers of remaining pics (rebuild simpler: just mark removed)
       div._removed = true;
       return;
     }

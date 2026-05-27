@@ -133,6 +133,13 @@ deletes them, when you click on the "Check" button, the location of the image ce
       "checkButton": { "x": 245, "y": 951 }
 }
 
-prompt update 12
+prompt update 12 (done)
 the pics must shown rectangular as they are not as circles, circles are using only for placing pictures and for checking of correct answers
-	
+
+prompt update 13 (done)
+в рамках этого типа ответа в выпадающем списке с картинками должны отображать картинки и выбираться (не названия файлов), отображающиеся картинки на экране должны отображаться без обрезания под квадрат, а в своих прямоугольных размерах (масштабирование должно быть сохранено)
+as part of this type of answers, pictures should be displayed and selected in the drop-down list with pictures (not file names), the images displayed on the screen should be displayed without cropping to a square, but in their rectangular dimensions (scaling should be preserved)
+
+prompt update 14
+ограничь количество добавляемых на карточку картинок, количеством мест для их размещения, независимо от типа добавляемой картинки. Добавь в конфиг возможность указывать координаты верхнего левого угла виджета в котором выбираются картинки.
+limit the number of pictures added to the card by the number of places, regardless of the type of picture being added. Add to the config the parameter to specify the coordinates of the upper-left corner of the widget in which the pictures are selected.

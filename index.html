@@ -229,6 +229,39 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;
 .mkr.ok {background:#3ecf8e;box-shadow:0 0 0 2px #fff;cursor:default}
 .mkr.bad{background:#e84545;box-shadow:0 0 0 2px #fff,0 0 6px 2px rgba(232,69,69,.6);cursor:default}
 
+/* CIRCLE type */
+#circle-svg{position:absolute;inset:0;width:100%;height:100%;
+  pointer-events:none;z-index:38;overflow:visible}
+#pic-layer{position:absolute;inset:0;z-index:39;cursor:crosshair}
+#pic-toolbar{position:absolute;bottom:60px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:8px;z-index:47;pointer-events:all;
+  background:rgba(8,8,16,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px 14px;white-space:nowrap}
+#pic-toolbar label{font-size:12px;color:rgba(255,255,255,.5);letter-spacing:.5px}
+#pic-sel{appearance:none;-webkit-appearance:none;
+  font-family:inherit;font-size:clamp(12px,2.2vw,14px);font-weight:600;
+  background:rgba(8,8,18,.88);color:#fff;
+  border:1.5px solid rgba(255,255,255,.25);border-radius:7px;
+  padding:5px 28px 5px 8px;cursor:pointer;outline:none;min-width:clamp(80px,15vw,180px);
+  backdrop-filter:blur(8px);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(255,255,255,0.35)'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 7px center}
+#pic-sel option{background:#111}
+.pic-item{position:absolute;transform:translate(-50%,-50%);
+  width:40px;height:40px;overflow:hidden;
+  border:2.5px solid rgba(255,255,255,.6);
+  box-shadow:0 2px 8px rgba(0,0,0,.6);cursor:pointer;
+  transition:box-shadow .15s,border-color .15s;pointer-events:all}
+.pic-item img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.pic-item.selected{border-color:#ffe600;
+  box-shadow:0 0 0 3px #ffe600,0 0 10px 3px rgba(255,230,0,.6)}
+.pic-item.ok {border-color:#3ecf8e;box-shadow:0 0 0 3px #3ecf8e;cursor:default;pointer-events:none}
+.pic-item.bad{border-color:#e84545;box-shadow:0 0 0 3px #e84545;cursor:default;pointer-events:none}
+.pic-ghost{position:absolute;transform:translate(-50%,-50%);
+  width:40px;height:40px;overflow:hidden;
+  border:2.5px dashed #3ecf8e;opacity:.75;pointer-events:none}
+.pic-ghost img{width:100%;height:100%;object-fit:cover;display:block}
+
 #loading{position:fixed;inset:0;background:#0a0a0f;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:999}
 .spin{width:32px;height:32px;border:3px solid rgba(255,255,255,.07);
@@ -453,10 +486,10 @@ function loadCard(idx) {
   // Clear widgets, draw canvas, toolbar, skip, ellipse overlays
   wlayer.innerHTML = '';
   stage.querySelectorAll(
-    '#draw-canvas,#draw-toolbar,#skip-btn,#ellipse-svg,#marker-layer,.mkr'
+    '#draw-canvas,#draw-toolbar,#skip-btn,#ellipse-svg,#marker-layer,.mkr,' +
+    '#circle-svg,#pic-layer,#pic-toolbar,.pic-ghost,.circle-result-lbl'
   ).forEach(e => e.remove());
-  // Remove result labels appended to stage for ellipse type
-  stage.querySelectorAll('.ellipse-result-lbl').forEach(e => e.remove());
+  stage.querySelectorAll('.ellipse-result-lbl,.circle-result-lbl').forEach(e => e.remove());
 
   // Reset progress bar (memorize)
   pfill.style.transition = 'none';
@@ -597,6 +630,8 @@ function checkAnswers() {
     const markerOk = evalEllipseWidget(card);
     correct = markerOk.filter(Boolean).length;
     markEllipseWidgets(card, markerOk);
+  } else if (card.widgets[0]?.type === 'circle') {
+    correct = evalCircleWidget(card);
   } else if (card.answersList) {
     // List-mode: each widget is correct if its value is in answersList (case-insensitive)
     // Duplicates allowed — each list entry can only be matched once
@@ -688,6 +723,7 @@ function buildWidgets(card) {
 
   if (card.widgets[0]?.type === 'drawing') { buildDrawing(card); return; }
   if (card.widgets[0]?.type === 'ellipse') { buildEllipse(card); return; }
+  if (card.widgets[0]?.type === 'circle')  { buildCircle(card);  return; }
 
   card.widgets.forEach(w => {
     const sp = i2s(w.x, w.y);   // top-left of widget in stage px
@@ -1102,6 +1138,241 @@ function markEllipseWidgets(card, markerOk) {
 }
 
 
+// ═══════════════════════════════════════════════════
+//  CIRCLE TYPE — place pictures inside circles
+// ═══════════════════════════════════════════════════
+const CS = {
+  pics: [],           // [{src, label}] from card.picsList (index+1 = answer number)
+  placed: [],         // [{picIdx (1-based), sx, sy, el}]
+  selected: null,     // index into placed[], or null
+};
+
+function buildCircle(card) {
+  wlayer.innerHTML = '';
+  CS.pics     = (card.picsList || []).map((src, i) => ({ src, label: String(i + 1) }));
+  CS.placed   = [];
+  CS.selected = null;
+
+  const cardHidden = String(card.hidden).toLowerCase() === 'true';
+
+  // ── SVG for circles ──
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.id = 'circle-svg';
+  svg.setAttribute('width', '100%');
+  svg.setAttribute('height', '100%');
+
+  card.widgets.forEach(w => {
+    const wHidden = w.hidden !== undefined
+      ? String(w.hidden).toLowerCase() === 'true'
+      : cardHidden;
+    if (!wHidden) {
+      const cp = i2s(w.x, w.y);
+      const r  = w.r * (S.imgW / S.natW);   // scale radius
+      const c  = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      c.setAttribute('cx', cp.x);
+      c.setAttribute('cy', cp.y);
+      c.setAttribute('r',  r);
+      c.setAttribute('fill',   'rgba(255,220,0,0.08)');
+      c.setAttribute('stroke', 'rgba(255,220,0,0.6)');
+      c.setAttribute('stroke-width', '1.5');
+      c.setAttribute('stroke-dasharray', '5,3');
+      c.dataset.wid = w.id;
+      svg.appendChild(c);
+    }
+  });
+  stage.appendChild(svg);
+
+  // ── Picture toolbar ──
+  const tb = document.createElement('div');
+  tb.id = 'pic-toolbar';
+  const lbl = document.createElement('label');
+  lbl.textContent = 'Картинка:';
+  const sel = document.createElement('select');
+  sel.id = 'pic-sel';
+  // "—" = no picture selected (delete mode)
+  const optNone = document.createElement('option');
+  optNone.value = '0'; optNone.textContent = '— (удалить)';
+  sel.appendChild(optNone);
+  CS.pics.forEach((p, i) => {
+    const o = document.createElement('option');
+    o.value = String(i + 1);
+    o.textContent = `${i + 1}. ${p.src.split('/').pop().replace(/\.[^.]+$/, '')}`;
+    sel.appendChild(o);
+  });
+  tb.appendChild(lbl);
+  tb.appendChild(sel);
+  stage.appendChild(tb);
+
+  // ── Click layer ──
+  const pl = document.createElement('div');
+  pl.id = 'pic-layer';
+  stage.appendChild(pl);
+
+  pl.addEventListener('click', e => {
+    if (S.phase !== 'answer') return;
+    const stRect = stage.getBoundingClientRect();
+    const sx = e.clientX - stRect.left;
+    const sy = e.clientY - stRect.top;
+    const picIdx = parseInt(sel.value, 10);   // 0 = delete mode, 1+ = picture
+
+    if (CS.selected !== null) {
+      // Move selected picture to new position
+      const p = CS.placed[CS.selected];
+      p.sx = sx; p.sy = sy;
+      p.el.style.left = sx + 'px';
+      p.el.style.top  = sy + 'px';
+      p.el.classList.remove('selected');
+      CS.selected = null;
+    } else if (picIdx === 0) {
+      // Delete mode: nothing to delete at background click
+    } else {
+      // Place new picture (no limit — user manages)
+      placePic(pl, picIdx, sx, sy);
+    }
+  });
+
+  placeCheckBtn(card);
+}
+
+function placePic(pl, picIdx, sx, sy) {
+  const src = CS.pics[picIdx - 1]?.src || '';
+  const div = document.createElement('div');
+  div.className = 'pic-item';
+  div.style.left = sx + 'px';
+  div.style.top  = sy + 'px';
+  const img = document.createElement('img');
+  img.src = src;
+  div.appendChild(img);
+  const idx = CS.placed.length;
+  CS.placed.push({ picIdx, sx, sy, el: div });
+
+  div.addEventListener('click', e => {
+    e.stopPropagation();
+    if (S.phase !== 'answer') return;
+    const selPicIdx = parseInt(ge('pic-sel').value, 10);
+
+    if (selPicIdx === 0) {
+      // Delete mode — remove this picture
+      if (CS.selected === idx) CS.selected = null;
+      CS.placed.splice(idx, 1);
+      div.remove();
+      // Re-index click handlers of remaining pics (rebuild simpler: just mark removed)
+      div._removed = true;
+      return;
+    }
+
+    if (CS.selected === idx) {
+      // Deselect
+      div.classList.remove('selected');
+      CS.selected = null;
+    } else {
+      // Select this picture for moving
+      if (CS.selected !== null && CS.placed[CS.selected]) {
+        CS.placed[CS.selected].el.classList.remove('selected');
+      }
+      div.classList.add('selected');
+      CS.selected = idx;
+    }
+  });
+
+  pl.appendChild(div);
+}
+
+function evalCircleWidget(card) {
+  // Disable interaction
+  const pl = ge('pic-layer');
+  if (pl) pl.style.pointerEvents = 'none';
+  const tb = ge('pic-toolbar');
+  if (tb) tb.style.opacity = '0.4';
+
+  // Deselect
+  if (CS.selected !== null && CS.placed[CS.selected]) {
+    CS.placed[CS.selected].el.classList.remove('selected');
+    CS.selected = null;
+  }
+
+  const scX = S.imgW / S.natW, scY = S.imgH / S.natH;
+  let correct = 0;
+
+  // For each circle widget, check if a placed picture with the right picIdx
+  // has its center inside the circle
+  const usedPics = new Set();
+
+  card.widgets.forEach((w, wi) => {
+    const cp      = i2s(w.x, w.y);
+    const r       = w.r * scX;
+    const reqIdx  = parseInt(w.answer, 10);   // 1-based picture number
+
+    // Find best matching placed picture: correct picIdx AND inside circle, not yet used
+    let matchI = -1;
+    for (let i = 0; i < CS.placed.length; i++) {
+      const p = CS.placed[i];
+      if (p._removed || usedPics.has(i)) continue;
+      if (p.picIdx !== reqIdx) continue;
+      const dx = p.sx - cp.x, dy = p.sy - cp.y;
+      if (dx * dx + dy * dy <= r * r) { matchI = i; break; }
+    }
+
+    if (matchI !== -1) {
+      usedPics.add(matchI);
+      CS.placed[matchI].el.classList.add('ok');
+      correct++;
+    } else {
+      // Show correct placement as a ghost
+      const ghost = document.createElement('div');
+      ghost.className = 'pic-ghost';
+      ghost.style.left = cp.x + 'px';
+      ghost.style.top  = cp.y + 'px';
+      const src = CS.pics[reqIdx - 1]?.src || '';
+      const gi  = document.createElement('img'); gi.src = src;
+      ghost.appendChild(gi);
+      stage.appendChild(ghost);
+    }
+  });
+
+  // Mark all unmatched placed pics as bad
+  CS.placed.forEach((p, i) => {
+    if (p._removed) return;
+    if (!usedPics.has(i)) p.el.classList.add('bad');
+  });
+
+  // Show all circles after check with colour feedback
+  const svg = ge('circle-svg');
+  if (svg) {
+    const matchedCircles = new Set();
+    usedPics.forEach(pi => {
+      const p = CS.placed[pi];
+      card.widgets.forEach((w, wi) => {
+        const cp = i2s(w.x, w.y), r = w.r * scX;
+        const dx = p.sx - cp.x, dy = p.sy - cp.y;
+        if (dx*dx + dy*dy <= r*r && parseInt(w.answer,10) === p.picIdx)
+          matchedCircles.add(wi);
+      });
+    });
+
+    card.widgets.forEach((w, wi) => {
+      let c = svg.querySelector(`[data-wid="${w.id}"]`);
+      const cp = i2s(w.x, w.y), r = w.r * scX;
+      if (!c) {
+        c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+        svg.appendChild(c);
+      }
+      const hit = matchedCircles.has(wi);
+      c.setAttribute('cx', cp.x); c.setAttribute('cy', cp.y); c.setAttribute('r', r);
+      c.setAttribute('fill',   hit ? 'rgba(62,207,142,0.15)' : 'rgba(232,69,69,0.15)');
+      c.setAttribute('stroke', hit ? '#3ecf8e' : '#e84545');
+      c.setAttribute('stroke-width', '2');
+      c.removeAttribute('stroke-dasharray');
+      c.dataset.wid = w.id;
+    });
+  }
+
+  return correct;
+}
+
+// ═══════════════════════════════════════════════════
+//  DRAWING
+// ═══════════════════════════════════════════════════
 function buildDrawing(card) {
   const w  = card.widgets[0];
   const tl = i2s(w.x, w.y);

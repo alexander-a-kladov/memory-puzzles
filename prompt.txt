@@ -85,6 +85,54 @@ prompt update 8
 сделай возможность указывать ограничение на количество выбранных чек-боксов на странице с вопросами где есть чек-боксы, это количество является количеством правильных ответов для чек-боксов на этой странице
 make it possible to specify a limit on the number of selected checkboxes on the question page where there are checkboxes, this number is the number of correct answers for the checkboxes on this page.
 
-prompt update 9
+prompt update 9 (done)
 Сделай возможность задавать размер шрифта для всех виджетов с ответами на карточке, сделай шрифты больше в 1.5 раза в виджетах с ответами. Поменяй название игры на "Тренируй память" в заголовке страницы html.
 Make it possible to set the font size for all widgets with answers on the card, make fonts 1.5 times larger in widgets with answers. Change the name of the game to "Тренируй память" in the html-page header.
+
+prompt update 10 (done)
+сделай вариант задания где все текстовые ответы проверяются вместе, а не отдельно, они должны составить список, каждый ответ отмечается правильным если он есть в списке, и неправильным если нет.
+при этом поле "answer" каждого отдельного ответа не используется
+make a variant of the task where all the text answers are checked together, rather than separately, they should make a list, each answer is marked correct if it is on the list, and incorrect if not.
+In this case, the "answer" field of each individual answer is not used.
+{
+      "id": 42,
+      "title": "Бюро находок",
+      "memorizeTime": 60,
+      "taskImage": "images/memory83.jpg",
+      "answerImage": "images/memory84.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 638, "h": 245 },
+      "answersList": ["зонтик", "скакалка", "красная сумка", "ключи", "наручные часы", "ракетка", "зеленая шляпа", "книга", "плюшевый мишка", "очки"],
+      "widgets": [
+        { "id": "w1",  "type": "select", "x": 61, "y": 237, "values": ["тарелка", "зонтик", "скакалка", "красная сумка", "зеленая сумка", "ключи", "бусы", "наручные часы", "желтая шляпа", "ракетка", "зеленая шляпа", "книга", "кукла", "плюшевый мишка", "очки"], "answer": "" },
+	{ "id": "w2",  "type": "select", "x": 265, "y": 190, "values": ["тарелка", "зонтик", "скакалка", "красная сумка", "зеленая сумка", "ключи", "бусы", "наручные часы", "желтая шляпа", "ракетка", "зеленая шляпа", "книга", "кукла", "плюшевый мишка", "очки"], "answer": "" } }
+      ],
+      "checkButton": { "x": 245, "y": 951 }
+}
+
+prompt update 11 (done)
+Сделай тип задания в котором надо размещать маленькие картинки в скрытых (открытых для отладки) окружностях, заданных центром и радиусом, картинки задаются списком для всей карточки, их выбор производится
+из выпадающего списка, они размещаются на экране по нажатию, повторное нажатие выбирает картинку и позволяет ее переместить, если выбрано отсутствие картинки ("-"), то нажатия на уже добавленные картинки
+удаляет их, при нажатии на кнопку "Проверить" проверяется расположение центров картинок внутри заданных окружностей и соответствии номера картинки по порядку в списке, номеру заданному в окружности, картинки добавляются и отображаются центром в точке нажатия, после проверки отображаются признаки правильно и неправильно добавленных картинок и для неправильных картинок отображение правильного их размещения.
+Make a type of task in which user needs to place small pictures in hidden (open for debugging) circles defined by the center and radius, the pictures are set as a list for the entire card, they are selected
+from the drop-down list, they are placed on the screen when clicked, clicking again selects the picture and allows you to move it. If no picture is selected ("-"), then clicking on already added pictures
+deletes them, when you click on the "Check" button, the location of the image centers inside the specified circles is checked and the image number corresponds in order in the list to the number set in the circle. The images are added and displayed centered at the point of pressing, after checking, signs of correctly and incorrectly added images are displayed and for incorrect images their correct placement is displayed.
+{
+      "id": 45,
+      "title": "Клеточки и символы",
+      "memorizeTime": 60,
+      "taskImage": "images/memory89.jpg",
+      "answerImage": "images/memory90.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 638, "h": 245 },
+      "picsList": ["pics/spiral.jpg", "pics/heart.jpg", "pics/leaf.jpg", "pics/triangle.jpg", "pics/boom.jpg", "pics/flower.jpg"],
+      "hidden": "true",
+      "widgets": [
+        { "id": "w1",  "type": "circle", "x": 61, "y": 237, "r": 20, "answer": "1" },
+	{ "id": "w2",  "type": "circle", "x": 265, "y": 190, "r": 20, "answer": "2" },
+	{ "id": "w3",  "type": "circle", "x": 300, "y": 290, "r": 15, "answer": "3" }
+      ],
+      "checkButton": { "x": 245, "y": 951 }
+}
+
+prompt update 12
+the pics must shown rectangular as they are not as circles, circles are using only for placing pictures and for checking of correct answers
+	

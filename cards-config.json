@@ -1,5 +1,5 @@
 {
-  "startCard": 1,
+  "startCard": 14,
   "cards": [
     {
       "id": 1,
@@ -251,6 +251,33 @@
 	{ "id": "w9", "type": "select", "values":["1", "2", "4", "8", "9", "15", "26", "32", "33", "35", "42", "53", "55", "58"], "x": 480, "y": 939, "answer": "9" }
       ],
       "checkButton": { "x": 288, "y": 967 }
+    },
+    {
+      "id": 14,
+      "title": "Украшение торта",
+      "memorizeTime": 60,
+      "taskImage": "images/memory27.jpg",
+      "answerImage": "images/memory28.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 641, "h": 215 },
+      "picsList": ["pics/flower14.jpg", "pics/diamond14.jpg"],
+      "hidden": "false",
+      "widgets": [
+        { "id": "w1",  "type": "circle", "x": 277, "y": 293, "r": 30, "answer": "1" },
+	{ "id": "w2",  "type": "circle", "x": 368, "y": 292, "r": 30, "answer": "1" },
+	{ "id": "w3",  "type": "circle", "x": 233, "y": 415, "r": 30, "answer": "2" },
+	{ "id": "w4",  "type": "circle", "x": 317, "y": 425, "r": 30, "answer": "2" },
+	{ "id": "w5",  "type": "circle", "x": 400, "y": 417, "r": 30, "answer": "2" },
+	{ "id": "w6",  "type": "circle", "x": 191, "y": 560, "r": 30, "answer": "2" },
+	{ "id": "w7",  "type": "circle", "x": 273, "y": 580, "r": 30, "answer": "1" },
+	{ "id": "w8",  "type": "circle", "x": 360, "y": 582, "r": 30, "answer": "1" },
+	{ "id": "w9",  "type": "circle", "x": 442, "y": 566, "r": 30, "answer": "2" },
+	{ "id": "w10",  "type": "circle", "x": 151, "y": 731, "r": 30, "answer": "2" },
+	{ "id": "w11",  "type": "circle", "x": 223, "y": 759, "r": 30, "answer": "1" },
+	{ "id": "w12",  "type": "circle", "x": 315, "y": 774, "r": 30, "answer": "2" },
+	{ "id": "w13",  "type": "circle", "x": 417, "y": 763, "r": 30, "answer": "1" },
+	{ "id": "w14",  "type": "circle", "x": 498, "y": 731, "r": 30, "answer": "2" }
+      ],
+      "checkButton": { "x": 245, "y": 951 }
     },
     {
       "id": 15,

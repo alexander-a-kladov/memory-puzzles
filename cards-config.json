@@ -1,5 +1,5 @@
 {
-  "startCard": 44,
+  "startCard": 49,
   "cards": [
     {
       "id": 1,
@@ -764,6 +764,54 @@
 	{ "id": "w9",  "type": "number", "x": 466, "y": 854, "max":3, "answer": "1" }
       ],
       "checkButton": { "x": 266, "y": 961 }
+    },
+    {
+      "id": 46,
+      "title": "Роботы",
+      "memorizeTime": 60,
+      "taskImage": "images/memory91.jpg",
+      "answerImage": "images/memory92.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 630, "h": 282 },
+      "widgets": [
+        { "id": "w1",  "type": "select", "x": 227, "y": 276, "values": ["правда", "ложь"], "answer": "правда" },
+	{ "id": "w2",  "type": "select", "x": 347, "y": 407, "values": ["правда", "ложь"], "answer": "ложь" },
+	{ "id": "w3",  "type": "select", "x": 345, "y": 508, "values": ["правда", "ложь"], "answer": "правда" },
+	{ "id": "w4",  "type": "select", "x": 335, "y": 640, "values": ["правда", "ложь"], "answer": "правда" },
+	{ "id": "w5",  "type": "select", "x": 343, "y": 744, "values": ["правда", "ложь"], "answer": "правда" },
+	{ "id": "w6",  "type": "select", "x": 222, "y": 880, "values": ["правда", "ложь"], "answer": "правда" }
+      ],
+      "checkButton": { "x": 208, "y": 961 }
+    },
+    {
+      "id": 47,
+      "title": "Чужая звездная система",
+      "memorizeTime": 60,
+      "taskImage": "images/memory93.jpg",
+      "answerImage": "images/memory94.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 653, "h": 260 },
+      "widgets": [
+        { "id": "w1",  "type": "number", "x": 91, "y": 308, "max":6, "answer": "1" },
+	{ "id": "w2",  "type": "number", "x": 420, "y": 313, "max":6, "answer": "3" },
+	{ "id": "w3",  "type": "number", "x": 117, "y": 583, "max":6, "answer": "4" },
+	{ "id": "w4",  "type": "number", "x": 413, "y": 588, "max":6, "answer": "5" },
+	{ "id": "w5",  "type": "number", "x": 102, "y": 900, "max":6, "answer": "6" },
+	{ "id": "w6",  "type": "number", "x": 420, "y": 900, "max":6, "answer": "2" }
+      ],
+      "checkButton": { "x": 247, "y": 968 }
+    },
+    {
+      "id": 49,
+      "title": "Опознайте птицу",
+      "memorizeTime": 60,
+      "taskImage": "images/memory97.jpg",
+      "answerImage": "images/memory98.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 650, "h": 222 },
+      "widgets": [
+        { "id": "w1",  "type": "select", "x": 53, "y": 271, "values": ["Зяблик", "Коноплянка", "Вьюрок"], "answer": "Вьюрок" },
+	{ "id": "w2",  "type": "select", "x": 389, "y": 512, "values": ["Зяблик", "Коноплянка", "Вьюрок"], "answer": "Зяблик" },
+	{ "id": "w3",  "type": "select", "x": 130, "y": 759, "values": ["Зяблик", "Коноплянка", "Вьюрок"], "answer": "Коноплянка" }
+      ],
+      "checkButton": { "x": 262, "y": 952 }
     }
   ]
 }

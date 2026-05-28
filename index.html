@@ -117,20 +117,23 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;
 .wa-icon.show{display:block;animation:pop .2s cubic-bezier(.34,1.56,.64,1)}
 @keyframes pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
 
-/* Widget font-size CSS variable — overridden per-card via JS */
-#wlayer { --wfs: clamp(18px, 3.6vw, 21px); }
+/* Widget font-size CSS variable — set by JS based on actual rendered image size */
+/* Default fallback only, overridden in buildWidgets() */
+#wlayer { --wfs: 14px; }
+
+/* Checkbox size also driven by --wfs */
 
 /* SELECT */
 .w-sel{appearance:none;-webkit-appearance:none;
   font-family:inherit;font-size:var(--wfs);font-weight:600;
   background:rgba(8,8,18,.88);color:#fff;
   border:1.5px solid rgba(255,255,255,.18);border-radius:7px;
-  padding:5px 22px 5px 8px;min-width:clamp(52px,10vw,100px);
+  padding:.28em 1.6em .28em .5em;min-width:3.5em;
   cursor:pointer;outline:none;
   backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
   transition:border-color .18s;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(255,255,255,0.35)'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 7px center}
+  background-repeat:no-repeat;background-position:right .45em center}
 .w-sel option{background:#111}
 .w-sel:focus{border-color:#f0a500}
 .w-sel.ok {border-color:#3ecf8e!important;background-color:rgba(62,207,142,.2)!important}
@@ -141,7 +144,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;
 .w-inp{font-family:inherit;font-size:var(--wfs);font-weight:600;
   background:rgba(8,8,18,.88);color:#fff;
   border:1.5px solid rgba(255,255,255,.18);border-radius:7px;
-  padding:5px 8px;min-width:clamp(80px,15vw,150px);outline:none;
+  padding:.28em .5em;min-width:5em;outline:none;
   backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
   transition:border-color .18s}
 .w-inp::placeholder{color:rgba(255,255,255,.22)}
@@ -150,8 +153,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;
 .w-inp.bad{border-color:#e84545!important;background:rgba(232,69,69,.2)!important}
 .w-inp:disabled{opacity:.7;cursor:default}
 
-/* CHECKBOX */
-.w-cb{width:clamp(28px,6vw,42px);height:clamp(28px,6vw,42px);
+/* CHECKBOX — size tracks --wfs via em */
+.w-cb{width:2em;height:2em;
   background:rgba(8,8,18,.88);border:2px solid rgba(255,255,255,.2);
   border-radius:7px;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
@@ -733,7 +736,9 @@ function buildWidgets(card) {
 
   // Apply per-card widget font size (px value), or fall back to CSS default
   if (card.widgetFontSize) {
-    wlayer.style.setProperty('--wfs', card.widgetFontSize + 'px');
+    const isNarrow = window.innerWidth < 480;
+    const fs = isNarrow ? Math.round(card.widgetFontSize / 1.5) : card.widgetFontSize;
+    wlayer.style.setProperty('--wfs', fs + 'px');
   } else {
     wlayer.style.removeProperty('--wfs');
   }

@@ -140,6 +140,10 @@ prompt update 13 (done)
 в рамках этого типа ответа в выпадающем списке с картинками должны отображать картинки и выбираться (не названия файлов), отображающиеся картинки на экране должны отображаться без обрезания под квадрат, а в своих прямоугольных размерах (масштабирование должно быть сохранено)
 as part of this type of answers, pictures should be displayed and selected in the drop-down list with pictures (not file names), the images displayed on the screen should be displayed without cropping to a square, but in their rectangular dimensions (scaling should be preserved)
 
-prompt update 14
+prompt update 14 (done)
 ограничь количество добавляемых на карточку картинок, количеством мест для их размещения, независимо от типа добавляемой картинки. Добавь в конфиг возможность указывать координаты верхнего левого угла виджета в котором выбираются картинки.
 limit the number of pictures added to the card by the number of places, regardless of the type of picture being added. Add to the config the parameter to specify the coordinates of the upper-left corner of the widget in which the pictures are selected.
+
+prompt update 15
+не отображай у добавляемых на экран картинок (в ответах circle) рамку, отображай рамку только при выделении картинки. Прозрачность альфа-канала у таких картинок при отображении должна быть 100%.
+do not display a frame for pictures added to the screen (in the "circle" answers), display the frame only when the pictures are selected. Transparency of the alpha channel of such pictures should be 100% when displayed.

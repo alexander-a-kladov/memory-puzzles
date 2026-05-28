@@ -1,5 +1,5 @@
 {
-  "startCard": 1,
+  "startCard": 19,
   "cards": [
     {
       "id": 1,
@@ -380,7 +380,7 @@
       "answerImage": "images/memory40.jpg",
       "taskHiddenArea": { "x": 0, "y": 0, "w": 639, "h": 255 },
       "picsList": ["pics/uptriangle20.jpg", "pics/downtriangle20.jpg"],
-      "hidden": "false",
+      "hidden": "true",
       "widgets": [
         { "id": "w1",  "type": "circle", "x": 315, "y": 368, "r": 30, "answer": "1" },
 	{ "id": "w2",  "type": "circle", "x": 244, "y": 472, "r": 30, "answer": "1" },
@@ -821,7 +821,7 @@
       "answerImage": "images/memory90.jpg",
       "taskHiddenArea": { "x": 0, "y": 0, "w": 643, "h": 315 },
       "picsList": ["pics/sausage45.jpg", "pics/heart45.jpg", "pics/leaf45.jpg", "pics/triangle45.jpg", "pics/boom45.jpg", "pics/flower45.jpg"],
-      "hidden": "false",
+      "hidden": "true",
       "widgets": [
         { "id": "w1",  "type": "circle", "x": 75, "y": 358, "r": 30, "answer": "1" },
 	{ "id": "w2",  "type": "circle", "x": 155, "y": 358, "r": 30, "answer": "2" },
@@ -908,6 +908,38 @@
 	{ "id": "w6",  "type": "number", "x": 420, "y": 900, "max":6, "answer": "2" }
       ],
       "checkButton": { "x": 247, "y": 968 }
+    },
+    {
+      "id": 48,
+      "title": "Квадратный человечек",
+      "memorizeTime": 60,
+      "taskImage": "images/memory95.jpg",
+      "answerImage": "images/memory96.jpg",
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 638, "h": 282 },
+      "picsList": ["pics/square48.jpg"],
+      "hidden": "true",
+      "widgets": [
+        { "id": "w1",  "type": "circle", "x": 308, "y": 249, "r": 30, "answer": "1" },
+	{ "id": "w2",  "type": "circle", "x": 245, "y": 375, "r": 30, "answer": "1" },
+	{ "id": "w3",  "type": "circle", "x": 306, "y": 372, "r": 30, "answer": "1" },
+	{ "id": "w4",  "type": "circle", "x": 371, "y": 372, "r": 30, "answer": "1" },
+	{ "id": "w5",  "type": "circle", "x": 306, "y": 438, "r": 30, "answer": "1" },
+	{ "id": "w6",  "type": "circle", "x": 179, "y": 499, "r": 30, "answer": "1" },
+	{ "id": "w7",  "type": "circle", "x": 115, "y": 564, "r": 30, "answer": "1" },
+	{ "id": "w8",  "type": "circle", "x": 246, "y": 563, "r": 30, "answer": "1" },
+	{ "id": "w9",  "type": "circle", "x": 306, "y": 563, "r": 30, "answer": "1" },
+	{ "id": "w10",  "type": "circle", "x": 372, "y": 562, "r": 30, "answer": "1" },
+	{ "id": "w11",  "type": "circle", "x": 114, "y": 626, "r": 30, "answer": "1" },
+	{ "id": "w12",  "type": "circle", "x": 243, "y": 689, "r": 30, "answer": "1" },
+	{ "id": "w13",  "type": "circle", "x": 370, "y": 689, "r": 30, "answer": "1" },
+	{ "id": "w14",  "type": "circle", "x": 242, "y": 752, "r": 30, "answer": "1" },
+	{ "id": "w15",  "type": "circle", "x": 369, "y": 753, "r": 30, "answer": "1" },
+	{ "id": "w16",  "type": "circle", "x": 243, "y": 821, "r": 30, "answer": "1" },
+	{ "id": "w17",  "type": "circle", "x": 370, "y": 817, "r": 30, "answer": "1" },
+	{ "id": "w18",  "type": "circle", "x": 369, "y": 879, "r": 30, "answer": "1" },
+	{ "id": "w19",  "type": "circle", "x": 433, "y": 878, "r": 30, "answer": "1" }
+      ],
+      "checkButton": { "x": 247, "y": 953 }
     },
     {
       "id": 49,

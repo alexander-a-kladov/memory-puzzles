@@ -1,5 +1,5 @@
 {
-  "startCard": 19,
+  "startCard": 45,
   "cards": [
     {
       "id": 1,
@@ -380,6 +380,7 @@
       "answerImage": "images/memory40.jpg",
       "taskHiddenArea": { "x": 0, "y": 0, "w": 639, "h": 255 },
       "picsList": ["pics/uptriangle20.jpg", "pics/downtriangle20.jpg"],
+      "pickerPos": { "x": 150, "y": 153 },
       "hidden": "true",
       "widgets": [
         { "id": "w1",  "type": "circle", "x": 315, "y": 368, "r": 30, "answer": "1" },
@@ -821,6 +822,7 @@
       "answerImage": "images/memory90.jpg",
       "taskHiddenArea": { "x": 0, "y": 0, "w": 643, "h": 315 },
       "picsList": ["pics/sausage45.jpg", "pics/heart45.jpg", "pics/leaf45.jpg", "pics/triangle45.jpg", "pics/boom45.jpg", "pics/flower45.jpg"],
+      "pickerPos": { "x": 30, "y": 220 },
       "hidden": "true",
       "widgets": [
         { "id": "w1",  "type": "circle", "x": 75, "y": 358, "r": 30, "answer": "1" },
@@ -873,7 +875,7 @@
 	{ "id": "w53",  "type": "circle", "x": 404, "y": 933, "r": 30, "answer": "2" },
 	{ "id": "w54",  "type": "circle", "x": 486, "y": 933, "r": 30, "answer": "6" }
       ],
-      "checkButton": { "x": 207, "y": 259 }
+      "checkButton": { "x": 241, "y": 962 }
     },
     {
       "id": 46,

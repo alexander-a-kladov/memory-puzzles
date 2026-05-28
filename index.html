@@ -1202,18 +1202,44 @@ function buildCircle(card) {
   // ── Picture toolbar — custom image strip picker ──
   const tb = document.createElement('div');
   tb.id = 'pic-toolbar';
+
+  // Position: from config pickerPos (image-native px → stage px), or bottom-center default
+  if (card.pickerPos) {
+    const pp = i2s(card.pickerPos.x, card.pickerPos.y);
+    tb.style.cssText =
+      `position:absolute;left:${pp.x}px;top:${pp.y}px;` +
+      `transform:none;bottom:auto;` +
+      `display:flex;align-items:center;gap:8px;z-index:47;pointer-events:all;` +
+      `background:rgba(8,8,16,.92);backdrop-filter:blur(10px);` +
+      `-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.1);` +
+      `border-radius:10px;padding:8px 14px;flex-wrap:wrap;` +
+      `max-width:min(90vw, ${stage.offsetWidth - pp.x - 10}px)`;
+  }
+
+  const maxPics = card.widgets.length;   // limit = number of circle targets
+
   const lbl = document.createElement('label');
   lbl.textContent = 'Выбери:';
   tb.appendChild(lbl);
+
+  // Counter badge: "размещено N / M"
+  const counter = document.createElement('span');
+  counter.id = 'pic-counter';
+  counter.style.cssText =
+    'font-size:11px;color:rgba(255,255,255,.45);white-space:nowrap;' +
+    'background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);' +
+    'border-radius:10px;padding:2px 8px;margin-left:2px';
+  counter.textContent = `0 / ${maxPics}`;
+  tb.appendChild(counter);
 
   const picker = document.createElement('div');
   picker.id = 'pic-picker';
 
   // "—" delete option
   const noneOpt = document.createElement('div');
-  noneOpt.className = 'pic-opt none-opt active';   // active = selected by default
+  noneOpt.className = 'pic-opt none-opt active';
   noneOpt.dataset.picIdx = '0';
-  noneOpt.textContent = '✕ удалить';
+  noneOpt.textContent = '✕';
   picker.appendChild(noneOpt);
 
   CS.pics.forEach((p, i) => {
@@ -1237,6 +1263,14 @@ function buildCircle(card) {
     picker.querySelectorAll('.pic-opt').forEach(o => {
       o.classList.toggle('active', parseInt(o.dataset.picIdx, 10) === idx);
     });
+  }
+
+  function updatePicCounter() {
+    const cnt = CS.placed.filter(p => !p._removed).length;
+    counter.textContent = `${cnt} / ${maxPics}`;
+    counter.style.color = cnt >= maxPics
+      ? '#3ecf8e'
+      : 'rgba(255,255,255,.45)';
   }
 
   picker.addEventListener('click', e => {
@@ -1267,15 +1301,22 @@ function buildCircle(card) {
     } else if (activePicIdx === 0) {
       // Delete mode: nothing to delete at background click
     } else {
-      // Place new picture
-      placePic(pl, activePicIdx, sx, sy);
+      // Enforce limit
+      const placed = CS.placed.filter(p => !p._removed).length;
+      if (placed >= maxPics) {
+        // Flash counter red to signal limit
+        counter.style.color = '#e84545';
+        setTimeout(() => updatePicCounter(), 600);
+        return;
+      }
+      placePic(pl, activePicIdx, sx, sy, updatePicCounter);
     }
   });
 
   placeCheckBtn(card);
 }
 
-function placePic(pl, picIdx, sx, sy) {
+function placePic(pl, picIdx, sx, sy, onUpdate) {
   const src = CS.pics[picIdx - 1]?.src || '';
   const div = document.createElement('div');
   div.className = 'pic-item';
@@ -1286,6 +1327,7 @@ function placePic(pl, picIdx, sx, sy) {
   div.appendChild(img);
   const idx = CS.placed.length;
   CS.placed.push({ picIdx, sx, sy, el: div });
+  if (onUpdate) onUpdate();
 
   div.addEventListener('click', e => {
     e.stopPropagation();
@@ -1300,6 +1342,7 @@ function placePic(pl, picIdx, sx, sy) {
       CS.placed.splice(idx, 1);
       div.remove();
       div._removed = true;
+      if (onUpdate) onUpdate();
       return;
     }
 

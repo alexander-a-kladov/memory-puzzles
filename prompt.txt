@@ -144,6 +144,25 @@ prompt update 14 (done)
 ограничь количество добавляемых на карточку картинок, количеством мест для их размещения, независимо от типа добавляемой картинки. Добавь в конфиг возможность указывать координаты верхнего левого угла виджета в котором выбираются картинки.
 limit the number of pictures added to the card by the number of places, regardless of the type of picture being added. Add to the config the parameter to specify the coordinates of the upper-left corner of the widget in which the pictures are selected.
 
-prompt update 15
+prompt update 15 (done)
 не отображай у добавляемых на экран картинок (в ответах circle) рамку, отображай рамку только при выделении картинки. Прозрачность альфа-канала у таких картинок при отображении должна быть 100%.
 do not display a frame for pictures added to the screen (in the "circle" answers), display the frame only when the pictures are selected. Transparency of the alpha channel of such pictures should be 100% when displayed.
+
+prompt update 16
+на экранах смартфонов с небольшим разрешением поля ввода ответов отображаются слишком большими, поправь это, чтобы они были в 1,5 раза меньше на экранах с небольшим разрешением.
+On low-resolution smartphone screens, the answer input fields appear too large, correct this so that they are 1.5 times smaller on low-resolution screens.
+
+prompt update 17
+Не понятно в чем дело с размерами на Redmi 2A+ виджеты выглядят большими, на Redmi 10C немного маленькими, особенно картинки в circle ответах, масштабируй картинки в circle ответах также как масштабируется картинка, чтобы было соотвествии и придумай что-нибудь с размерами виджетов на Redmi 2A+
+It's not clear what's the matter with the size of widgets on the Redmi 2A+, the widgets look big, on the Redmi 10C they look a little small, especially the pictures in the "circle" answers, scale the pictures in the circle answers as well as how the card image is scaled to match and come up with something with the size of the widgets on the Redmi 2A+
+
+prompt update 18 (done)
+Убери переключение между карточка по стрелочкам (оно в левом верхнем углу сейчас), добавь в начале игры меню выбора "Все карточки", "10 Случайных карточек", в конце игры добавь поздравление в зависимости от количества правильных ответов (градации поздравления) и кнопку "Поделиться" результатом.
+Remove the switch between cards by arrow keys (it's in the upper-left corner now), add the "Все карточки" and "10 случайных карточек" selection menu at the beginning of the game, add congratulations at the end of the game depending on the number of correct answers (gradation of congratulations) and the "Поделиться" button.
+
+prompt update 19 (done)
+При выборе "10 случайных карточек" в игре должно быть 10 случайных карточек
+When selecting "10 random cards", there should be 10 random cards in the game.
+
+prompt update 20
+Добавь в текст поделиться ссылку на адрес страницы игры.

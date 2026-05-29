@@ -17,16 +17,56 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;
   display:flex;align-items:center;justify-content:space-between;
   padding:0 12px;z-index:200;gap:8px}
 #hdr-l{display:flex;align-items:center;gap:7px;min-width:0;flex:1;overflow:hidden}
-.nav-arr{width:30px;height:30px;border:1px solid rgba(255,255,255,.14);
-  background:rgba(255,255,255,.05);color:rgba(255,255,255,.65);
-  border-radius:6px;font-size:12px;cursor:pointer;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  transition:background .15s,color .15s}
-.nav-arr:hover{background:rgba(255,255,255,.11);color:#fff}
-.nav-arr:disabled{opacity:.22;pointer-events:none}
 #card-title{font-size:clamp(10px,2vw,13px);color:rgba(255,255,255,.75);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
 #card-ctr{font-size:10px;color:rgba(255,255,255,.28);flex-shrink:0}
+
+/* ── MENU SCREEN ── */
+#menu-screen{position:fixed;inset:0;background:#0a0a0f;z-index:500;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;
+  padding:24px}
+#menu-screen.hidden{display:none}
+.menu-logo{font-size:clamp(28px,7vw,44px);font-weight:900;color:#e84545;
+  letter-spacing:2px;text-align:center;text-transform:uppercase}
+.menu-sub{font-size:clamp(12px,2.5vw,15px);color:rgba(255,255,255,.35);
+  letter-spacing:3px;text-transform:uppercase;text-align:center}
+.menu-btns{display:flex;flex-direction:column;gap:12px;width:100%;max-width:320px;margin-top:8px}
+.menu-btn{padding:clamp(13px,3vw,17px) 24px;border:none;border-radius:11px;
+  font-family:inherit;font-size:clamp(14px,3vw,17px);font-weight:700;
+  letter-spacing:1px;cursor:pointer;transition:transform .12s,box-shadow .12s;
+  text-align:center}
+.menu-btn:active{transform:scale(.97)}
+.menu-btn-all{background:#e84545;color:#fff;box-shadow:0 5px 24px rgba(232,69,69,.4)}
+.menu-btn-all:hover{box-shadow:0 7px 28px rgba(232,69,69,.55)}
+.menu-btn-10{background:rgba(62,207,142,.15);color:#3ecf8e;
+  border:1.5px solid rgba(62,207,142,.45)}
+.menu-btn-10:hover{background:rgba(62,207,142,.25)}
+.menu-cards-count{font-size:11px;color:rgba(255,255,255,.25);text-align:center}
+
+/* ── FINAL SCREEN ── */
+#final-screen{position:fixed;inset:0;background:rgba(5,5,12,.96);z-index:500;
+  display:none;flex-direction:column;align-items:center;justify-content:center;
+  gap:14px;padding:24px;animation:fadeIn .4s ease}
+#final-screen.show{display:flex}
+.final-emoji{font-size:clamp(52px,14vw,80px);line-height:1}
+.final-title{font-size:clamp(18px,4.5vw,26px);font-weight:800;color:#fff;
+  text-align:center;letter-spacing:.5px}
+.final-msg{font-size:clamp(13px,2.8vw,16px);color:rgba(255,255,255,.65);
+  text-align:center;max-width:340px;line-height:1.6}
+.final-stats{display:flex;gap:24px;margin:4px 0;flex-wrap:wrap;justify-content:center}
+.final-stat{text-align:center}
+.final-stat-val{font-size:clamp(26px,6vw,38px);font-weight:800;color:#f0a500;display:block}
+.final-stat-lbl{font-size:10px;color:rgba(255,255,255,.3);text-transform:uppercase;
+  letter-spacing:.5px}
+.final-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+.final-btn{padding:11px 22px;border:none;border-radius:9px;font-family:inherit;
+  font-size:clamp(12px,2.5vw,14px);font-weight:700;letter-spacing:1px;
+  text-transform:uppercase;cursor:pointer;transition:transform .12s}
+.final-btn:active{transform:scale(.96)}
+.final-btn-share{background:#3ecf8e;color:#050c08}
+.final-btn-share:hover{background:#35bc80}
+.final-btn-again{background:#e84545;color:#fff}
+.final-btn-again:hover{background:#d03a3a}
 
 #hdr-r{display:flex;align-items:center;gap:6px;flex-shrink:0}
 #tdot{width:7px;height:7px;border-radius:50%;background:#333;flex-shrink:0;transition:background .3s}
@@ -262,14 +302,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;
 
 /* Placed picture — natural size, max 80px, preserves aspect ratio */
 .pic-item{position:absolute;transform:translate(-50%,-50%);
-  max-width:80px;max-height:80px;width:auto;height:auto;
+  max-width:var(--pic-sz,80px);max-height:var(--pic-sz,80px);width:auto;height:auto;
   border:2.5px solid transparent;
   box-shadow:none;cursor:pointer;
   transition:box-shadow .15s,border-color .15s;pointer-events:all;
   overflow:hidden;display:inline-flex;align-items:center;justify-content:center;
   background:transparent}
-.pic-item img{max-width:76px;max-height:76px;width:auto;height:auto;
-  display:block;pointer-events:none}
+.pic-item img{max-width:calc(var(--pic-sz,80px) - 4px);max-height:calc(var(--pic-sz,80px) - 4px);
+  width:auto;height:auto;display:block;pointer-events:none}
 .pic-item.selected{border-color:#ffe600;
   box-shadow:0 0 0 3px #ffe600,0 0 10px 3px rgba(255,230,0,.6)}
 .pic-item.ok {border-color:#3ecf8e;box-shadow:0 0 0 3px #3ecf8e;cursor:default;pointer-events:none}
@@ -277,10 +317,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;
 
 /* Ghost — same natural-ratio sizing */
 .pic-ghost{position:absolute;transform:translate(-50%,-50%);
-  max-width:80px;max-height:80px;width:auto;height:auto;
+  max-width:var(--pic-sz,80px);max-height:var(--pic-sz,80px);width:auto;height:auto;
   overflow:hidden;border:2.5px dashed #3ecf8e;opacity:.75;pointer-events:none;
   display:inline-flex;align-items:center;justify-content:center;background:transparent}
-.pic-ghost img{max-width:76px;max-height:76px;width:auto;height:auto;display:block}
+.pic-ghost img{max-width:calc(var(--pic-sz,80px) - 4px);max-height:calc(var(--pic-sz,80px) - 4px);
+  width:auto;height:auto;display:block}
 
 #loading{position:fixed;inset:0;background:#0a0a0f;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:999}
@@ -304,10 +345,44 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;
   Файл <span class="err-f">cards-config.json</span> должен быть рядом с HTML.</div>
 </div>
 
+<!-- MENU SCREEN -->
+<div id="menu-screen" class="hidden">
+  <div class="menu-logo">🧠 Тренируй<br>память</div>
+  <div class="menu-sub">Выбери режим игры</div>
+  <div class="menu-btns">
+    <button class="menu-btn menu-btn-all" id="menu-all">▶ Все карточки</button>
+    <button class="menu-btn menu-btn-10"  id="menu-10">🎲 10 случайных карточек</button>
+  </div>
+  <div class="menu-cards-count" id="menu-count"></div>
+</div>
+
+<!-- FINAL SCREEN -->
+<div id="final-screen">
+  <div class="final-emoji" id="final-emoji">🏆</div>
+  <div class="final-title" id="final-title">Все задания выполнены!</div>
+  <div class="final-msg"   id="final-msg"></div>
+  <div class="final-stats">
+    <div class="final-stat">
+      <span class="final-stat-val" id="final-ok">0</span>
+      <div class="final-stat-lbl">правильно</div>
+    </div>
+    <div class="final-stat">
+      <span class="final-stat-val" id="final-tot">0</span>
+      <div class="final-stat-lbl">вопросов</div>
+    </div>
+    <div class="final-stat">
+      <span class="final-stat-val" id="final-time">0с</span>
+      <div class="final-stat-lbl">время</div>
+    </div>
+  </div>
+  <div class="final-btns">
+    <button class="final-btn final-btn-share" id="final-share">📤 Поделиться</button>
+    <button class="final-btn final-btn-again" id="final-again">🔄 Ещё раз</button>
+  </div>
+</div>
+
 <div id="hdr">
   <div id="hdr-l">
-    <button class="nav-arr" id="btn-prev">◀</button>
-    <button class="nav-arr" id="btn-next">▶</button>
     <span id="card-title"></span>
     <span id="card-ctr"></span>
   </div>
@@ -384,7 +459,6 @@ const btnAnswer = ge('btn-answer');
 //  OR via window.CARDS_CONFIG if pre-embedded
 // ═══════════════════════════════════════════════════
 async function boot() {
-  // If config was pre-loaded via <script src="cards-config.js"> set window.CARDS_CONFIG
   if (window.CARDS_CONFIG) {
     CONFIG = window.CARDS_CONFIG;
   } else {
@@ -403,11 +477,34 @@ async function boot() {
       return;
     }
   }
-  cards = CONFIG.cards;
   ge('loading').style.display = 'none';
+  showMenu();
+}
+
+function showMenu() {
+  const all = CONFIG.cards;
+  ge('menu-count').textContent = `Всего карточек: ${all.length}`;
+  // Hide/disable "10 random" if fewer than 10 cards
+  const btn10 = ge('menu-10');
+  btn10.disabled = all.length < 10;
+  btn10.style.opacity = all.length < 10 ? '0.35' : '1';
+  ge('menu-screen').classList.remove('hidden');
+  ge('hdr').style.display = 'none';
+}
+
+function startGame(selectedCards, startIdx = null) {
+  ge('menu-screen').classList.add('hidden');
+  ge('final-screen').classList.remove('show');
+  ge('hdr').style.display = '';
+  cards = selectedCards;
+  S.totOk = 0; S.totAns = 0; S.ansSec = 0;
+  clearInterval(S.ansTm); S.ansTm = null;
   updateScore();
-  const startIdx = Math.min(Math.max((CONFIG.startCard || 1) - 1, 0), cards.length - 1);
-  loadCard(startIdx);
+  // Use explicit startIdx if provided, otherwise apply CONFIG.startCard
+  const idx = startIdx !== null
+    ? startIdx
+    : Math.min(Math.max((CONFIG.startCard || 1) - 1, 0), cards.length - 1);
+  loadCard(idx);
 }
 
 // ═══════════════════════════════════════════════════
@@ -498,8 +595,6 @@ function loadCard(idx) {
 
   ge('card-title').textContent = card.title;
   ge('card-ctr').textContent   = `${ci + 1}/${cards.length}`;
-  ge('btn-prev').disabled = ci === 0;
-  ge('btn-next').disabled = ci === cards.length - 1;
 
   S.phase = 'idle'; S.cbState = {}; S.drawCtx = null;
 
@@ -734,18 +829,18 @@ function checkAnswers() {
 function buildWidgets(card) {
   wlayer.innerHTML = '';
 
-  // Apply per-card widget font size (px value), or fall back to CSS default
-  if (card.widgetFontSize) {
-    const isNarrow = window.innerWidth < 480;
-    const fs = isNarrow ? Math.round(card.widgetFontSize / 1.5) : card.widgetFontSize;
-    wlayer.style.setProperty('--wfs', fs + 'px');
-  } else {
-    wlayer.style.removeProperty('--wfs');
-  }
-
   if (card.widgets[0]?.type === 'drawing') { buildDrawing(card); return; }
   if (card.widgets[0]?.type === 'ellipse') { buildEllipse(card); return; }
   if (card.widgets[0]?.type === 'circle')  { buildCircle(card);  return; }
+
+  // Font size scales with the rendered image.
+  // baseFontPx = desired font size in image-native pixels (config override or 18).
+  // We multiply by the image→stage scale factor so widgets stay proportional
+  // to the card image on ANY screen/resolution.
+  const baseFontPx = card.widgetFontSize || 18;
+  const imgScale   = S.natW > 1 ? S.imgW / S.natW : 1;
+  const fsPx       = Math.min(28, Math.max(9, Math.round(baseFontPx * imgScale)));
+  wlayer.style.setProperty('--wfs', fsPx + 'px');
 
   card.widgets.forEach(w => {
     const sp = i2s(w.x, w.y);   // top-left of widget in stage px
@@ -1175,6 +1270,14 @@ function buildCircle(card) {
   CS.placed   = [];
   CS.selected = null;
 
+  // Pic size scales with the rendered image — basePicPx in image-native pixels.
+  // Default 80px in image coords; clamp result to 32–120px on screen.
+  const basePicPx = card.picSizePx || 80;
+  const imgScale  = S.natW > 1 ? S.imgW / S.natW : 1;
+  const picSz     = Math.min(120, Math.max(32, Math.round(basePicPx * imgScale)));
+  // Set on wlayer so pic-item and pic-ghost inherit --pic-sz
+  wlayer.style.setProperty('--pic-sz', picSz + 'px');
+
   const cardHidden = String(card.hidden).toLowerCase() === 'true';
 
   // ── SVG for circles ──
@@ -1558,22 +1661,39 @@ function showDrawingResult(ok) {
 //  FINAL SCREEN
 // ═══════════════════════════════════════════════════
 function showFinal() {
-  const el = document.createElement('div');
-  el.style.cssText = 'position:absolute;left:50%;top:50%;'+
-    'transform:translate(-50%,-50%);background:rgba(8,8,18,.96);'+
-    'border:1px solid rgba(255,255,255,.12);border-radius:16px;'+
-    'padding:28px 36px;text-align:center;z-index:55;pointer-events:all;'+
-    'animation:fadeIn .3s ease;color:#fff;font-size:clamp(14px,3vw,18px);line-height:2;';
-  el.innerHTML =
-    `<div style="font-size:clamp(30px,7vw,46px);margin-bottom:8px">🏆</div>`+
-    `<div style="font-weight:700;letter-spacing:1px;margin-bottom:6px">Все задания выполнены!</div>`+
-    `<div>Правильных: <b style="color:#3ecf8e">${S.totOk}</b> из <b>${S.totAns}</b></div>`+
-    `<div>Время ответов: <b style="color:#f0a500">${fmt(S.ansSec)}</b></div>`+
-    `<button onclick="this.parentElement.remove()" style="margin-top:18px;padding:10px 24px;`+
-    `background:#e84545;color:#fff;border:none;border-radius:8px;`+
-    `font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;`+
-    `letter-spacing:1px;text-transform:uppercase">Закрыть</button>`;
-  stage.appendChild(el);
+  const pct = S.totAns > 0 ? S.totOk / S.totAns : 0;
+
+  // Graded congratulations
+  let emoji, title, msg;
+  if (pct >= 1) {
+    emoji = '🏆'; title = 'Идеальный результат!';
+    msg   = 'Блестяще! Все ответы правильные. Твоя память работает безупречно!';
+  } else if (pct >= 0.85) {
+    emoji = '🥇'; title = 'Отличный результат!';
+    msg   = 'Почти безупречно! Совсем чуть-чуть не хватило до идеала.';
+  } else if (pct >= 0.7) {
+    emoji = '🥈'; title = 'Хороший результат!';
+    msg   = 'Молодец! Память работает хорошо, но есть куда стремиться.';
+  } else if (pct >= 0.5) {
+    emoji = '🥉'; title = 'Неплохо!';
+    msg   = 'Половину заданий выполнено верно. Ещё немного тренировки — и станет лучше!';
+  } else if (pct >= 0.25) {
+    emoji = '🌱'; title = 'Есть над чем работать';
+    msg   = 'Память тренируется с каждым разом. Попробуй ещё — результат улучшится!';
+  } else {
+    emoji = '💪'; title = 'Не сдавайся!';
+    msg   = 'Всё только начинается. Регулярные тренировки обязательно дадут результат!';
+  }
+
+  ge('final-emoji').textContent  = emoji;
+  ge('final-title').textContent  = title;
+  ge('final-msg').textContent    = msg;
+  ge('final-ok').textContent     = `${S.totOk}/${S.totAns}`;
+  ge('final-tot').textContent    = S.totAns;
+  ge('final-time').textContent   = fmt(S.ansSec);
+
+  ge('final-screen').classList.add('show');
+  ge('hdr').style.display = 'none';
 }
 
 // ═══════════════════════════════════════════════════
@@ -1603,8 +1723,45 @@ function stopAll() {
 // ═══════════════════════════════════════════════════
 btnOpen.addEventListener('click', () => { if (S.phase==='idle') startMemorize(); });
 btnAnswer.addEventListener('click', () => startAnswer());
-ge('btn-prev').addEventListener('click', () => { if (ci>0) loadCard(ci-1); });
-ge('btn-next').addEventListener('click', () => { if (ci<cards.length-1) loadCard(ci+1); });
+
+// Menu buttons
+ge('menu-all').addEventListener('click', () => startGame(CONFIG.cards.slice()));
+
+ge('menu-10').addEventListener('click', () => {
+  const all = CONFIG.cards.slice();
+  // Fisher-Yates shuffle
+  for (let i = all.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [all[i], all[j]] = [all[j], all[i]];
+  }
+  // Always take exactly 10 (or all if fewer), always start at index 0
+  startGame(all.slice(0, Math.min(10, all.length)), 0);
+});
+
+// Final screen buttons
+ge('final-again').addEventListener('click', () => {
+  ge('final-screen').classList.remove('show');
+  showMenu();
+});
+
+ge('final-share').addEventListener('click', () => {
+  const pct = S.totAns > 0 ? Math.round(S.totOk / S.totAns * 100) : 0;
+  const text =
+    `🧠 Тренируй память\n` +
+    `Правильных ответов: ${S.totOk} из ${S.totAns} (${pct}%)\n` +
+    `Время: ${fmt(S.ansSec)}\n` +
+    `Попробуй сам!`;
+  if (navigator.share) {
+    navigator.share({ title: 'Тренируй память', text }).catch(() => {});
+  } else {
+    navigator.clipboard?.writeText(text).then(() => {
+      const btn = ge('final-share');
+      const orig = btn.textContent;
+      btn.textContent = '✓ Скопировано!';
+      setTimeout(() => btn.textContent = orig, 2000);
+    });
+  }
+});
 
 let rszTm;
 window.addEventListener('resize', () => {

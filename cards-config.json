@@ -1,4 +1,12 @@
 {
+"title": "Тренируй память",
+  "info": [
+    "images/info1.jpg",
+    "images/info2.jpg",
+    "images/info3.jpg",
+    "images/info4.jpg",
+    "images/info5.jpg"
+  ],
   "startCard": 1,
   "cards": [
     {
@@ -65,7 +73,7 @@
         { "id": "w10", "type": "checkbox", "x": 368, "y": 811, "answer": "false" },
         { "id": "w11",  "type": "checkbox", "x": 505, "y": 772, "answer": "false" },
         { "id": "w12",  "type": "checkbox", "x": 172, "y": 939, "answer": "false" },
-        { "id": "w13",  "type": "checkbox", "x": 390, "y": 962, "answer": "true" },
+        { "id": "w13",  "type": "checkbox", "x": 409, "y": 871, "answer": "true" },
         { "id": "w14", "type": "checkbox", "x": 575, "y": 939, "answer": "false" }
       ],
       "checkButton": { "x": 223, "y": 973 }
@@ -123,7 +131,7 @@
         { "id": "w2", "type": "number", "values":[4,9,15,20,25,30], "x": 100, "y": 561, "answer": "25" },
         { "id": "w3", "type": "select", "values":["Лиссабон","Берлин", "Париж", "Москва"], "x": 344, "y": 695, "answer": "Париж" },
         { "id": "w4", "type": "select", "values":["Португалия", "Россия", "Германия", "Франция"], "x": 219, "y": 740, "answer": "Франция" },
-        { "id": "w5", "type": "number", "values":[1,4,8,11,25], "x": 72, "y": 785, "answer": "1" },
+        { "id": "w5", "type": "number", "values":[1,4,8,11,25], "x": 99, "y": 785, "answer": "1" },
         { "id": "w6", "type": "month", "values":[3,4,6,9,11], "x": 200, "y": 785, "answer": "Ноября" },
         { "id": "w7", "type": "number", "values":[1,3,8,16,23], "x": 99, "y": 864, "answer": "3" },
         { "id": "w8", "type": "select", "values":["Австралия","Австрия","Чехия","Египет"], "x": 218, "y": 895, "answer": "Австралия" }
@@ -456,7 +464,7 @@
       "taskHiddenArea": { "x": 0, "y": 0, "w": 653, "h": 276 },
       "widgets": [
         { "id": "w1",  "type": "select", "x": 391, "y": 304, "values": ["Скумбрией", "Акулой", "Креветкой", "Черепахой"], "answer": "Акулой" },
-	{ "id": "w2",  "type": "select", "x": 37, "y": 415, "values": ["Каракатиц", "Черепах", "Морских коньков", "Осьминогов"], "answer": "Морских коньков" },
+	{ "id": "w2",  "type": "select", "x": 37, "y": 412, "values": ["Каракатиц", "Черепах", "Морских коньков", "Осьминогов"], "answer": "Морских коньков" },
 	{ "id": "w3",  "type": "select", "x": 303, "y": 462, "values": ["5", "8", "10", "7"], "answer": "8" },
 	{ "id": "w4",  "type": "select", "x": 221, "y": 747, "values": ["Якорь", "Водоросль", "Краб", "Угорь"], "answer": "Краб" }
       ],
@@ -853,7 +861,7 @@
       "taskImage": "images/memory89.jpg",
       "answerImage": "images/memory90.jpg",
       "taskHiddenArea": { "x": 0, "y": 0, "w": 643, "h": 315 },
-      "pickerPos": { "x": 30, "y": 220 },
+      "pickerPos": { "x": 29, "y": 154 },
       "hidden": "true",
       "picsList":["pics/triangle45.png","pics/heart45.png","pics/leaf45.png","pics/boom45.png","pics/sausage45.png","pics/flower45.png"],
 	"widgets":[

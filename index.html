@@ -21,6 +21,31 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
 #card-ctr{font-size:10px;color:rgba(255,255,255,.28);flex-shrink:0}
 
+/* ── INFO SLIDESHOW ── */
+#info-screen{position:fixed;inset:0;background:#0a0a0f;z-index:600;
+  display:none;flex-direction:column;overflow:hidden}
+#info-screen.show{display:flex}
+#info-img-wrap{flex:1;min-height:0;display:flex;align-items:center;
+  justify-content:center;overflow:hidden;padding:8px}
+#info-img{max-width:100%;max-height:100%;width:auto;height:auto;
+  object-fit:contain;display:block;user-select:none;-webkit-user-drag:none}
+#info-bar{flex-shrink:0;height:60px;background:rgba(8,8,16,.98);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px;border-top:1px solid rgba(255,255,255,.1);gap:12px;
+  z-index:1;position:relative}
+#info-dots{display:flex;gap:6px;align-items:center}
+.info-dot{width:8px;height:8px;border-radius:50%;
+  background:rgba(255,255,255,.2);transition:background .2s}
+.info-dot.active{background:#e84545}
+#info-next{padding:10px 24px;background:#e84545;color:#fff;border:none;
+  border-radius:8px;font-family:inherit;font-size:clamp(13px,3vw,15px);
+  font-weight:700;letter-spacing:1px;cursor:pointer;white-space:nowrap;
+  transition:background .15s}
+#info-next:hover{background:#d03a3a}
+#info-skip{font-size:12px;color:rgba(255,255,255,.3);background:none;
+  border:none;cursor:pointer;padding:6px;font-family:inherit;letter-spacing:.5px}
+#info-skip:hover{color:rgba(255,255,255,.6)}
+
 /* ── MENU SCREEN ── */
 #menu-screen{position:fixed;inset:0;background:#0a0a0f;z-index:500;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;
@@ -345,9 +370,21 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;
   Файл <span class="err-f">cards-config.json</span> должен быть рядом с HTML.</div>
 </div>
 
+<!-- INFO SLIDESHOW -->
+<div id="info-screen">
+  <div id="info-img-wrap">
+    <img id="info-img" src="" alt="Информация">
+  </div>
+  <div id="info-bar">
+    <button id="info-skip">Пропустить</button>
+    <div id="info-dots"></div>
+    <button id="info-next">Далее ▶</button>
+  </div>
+</div>
+
 <!-- MENU SCREEN -->
 <div id="menu-screen" class="hidden">
-  <div class="menu-logo">🧠 Тренируй<br>память</div>
+  <div class="menu-logo" id="menu-logo">🧠 Тренируй<br>память</div>
   <div class="menu-sub">Выбери режим игры</div>
   <div class="menu-btns">
     <button class="menu-btn menu-btn-all" id="menu-all">▶ Все карточки</button>
@@ -478,13 +515,78 @@ async function boot() {
     }
   }
   ge('loading').style.display = 'none';
-  showMenu();
+  // Show info slideshow if defined, otherwise go straight to menu
+  if (CONFIG.info && CONFIG.info.length > 0) {
+    showInfo(CONFIG.info);
+  } else {
+    showMenu();
+  }
+}
+
+function showInfo(images) {
+  let idx = 0;
+  const screen = ge('info-screen');
+  const img    = ge('info-img');
+  const dots   = ge('info-dots');
+  const btnNext = ge('info-next');
+  const btnSkip = ge('info-skip');
+
+  // Build dots
+  dots.innerHTML = '';
+  images.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'info-dot' + (i === 0 ? ' active' : '');
+    dots.appendChild(d);
+  });
+
+  function goTo(i) {
+    idx = i;
+    img.src = images[idx];
+    dots.querySelectorAll('.info-dot').forEach((d, j) =>
+      d.classList.toggle('active', j === idx));
+    const isLast = idx >= images.length - 1;
+    btnNext.textContent = isLast ? '▶ К игре' : 'Далее ▶';
+  }
+
+  function advance() {
+    if (idx < images.length - 1) {
+      goTo(idx + 1);
+    } else {
+      screen.classList.remove('show');
+      showMenu();
+    }
+  }
+
+  btnNext.onclick = advance;
+  btnSkip.onclick = () => { screen.classList.remove('show'); showMenu(); };
+
+  // Swipe left → next, swipe right → prev; click image to advance
+  const wrap = ge('info-img-wrap');
+  let tx = 0;
+  wrap.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+  wrap.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 40) {
+      if (dx < 0 && idx < images.length - 1) goTo(idx + 1);
+      else if (dx > 0 && idx > 0) goTo(idx - 1);
+    }
+  }, {passive:true});
+  wrap.addEventListener('click', advance);
+
+  goTo(0);
+  screen.classList.add('show');
 }
 
 function showMenu() {
-  const all = CONFIG.cards;
+  const all   = CONFIG.cards;
+  const title = CONFIG.title || 'Тренируй память';
+
+  // Update page title and menu logo from config
+  document.title = title;
+  const logo = ge('menu-logo');
+  if (logo) logo.innerHTML = '🧠 ' + title.replace(' ', '<br>');
+
   ge('menu-count').textContent = `Всего карточек: ${all.length}`;
-  // Hide/disable "10 random" if fewer than 10 cards
   const btn10 = ge('menu-10');
   btn10.disabled = all.length < 10;
   btn10.style.opacity = all.length < 10 ? '0.35' : '1';
@@ -1745,14 +1847,16 @@ ge('final-again').addEventListener('click', () => {
 });
 
 ge('final-share').addEventListener('click', () => {
-  const pct = S.totAns > 0 ? Math.round(S.totOk / S.totAns * 100) : 0;
-  const text =
-    `🧠 Тренируй память\n` +
+  const pct   = S.totAns > 0 ? Math.round(S.totOk / S.totAns * 100) : 0;
+  const title = CONFIG.title || 'Тренируй память';
+  const url   = window.location.href;
+  const text  =
+    `🧠 ${title}\n` +
     `Правильных ответов: ${S.totOk} из ${S.totAns} (${pct}%)\n` +
     `Время: ${fmt(S.ansSec)}\n` +
-    `Попробуй сам!`;
+    `Попробуй сам: ${url}`;
   if (navigator.share) {
-    navigator.share({ title: 'Тренируй память', text }).catch(() => {});
+    navigator.share({ title, text, url }).catch(() => {});
   } else {
     navigator.clipboard?.writeText(text).then(() => {
       const btn = ge('final-share');

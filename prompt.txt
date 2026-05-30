@@ -194,6 +194,10 @@ prompt update 25 (done)
 Make a selection of pictures in questions type "circle" by clicking on the 50% rectangle inside the picture so that when you click on the edge of the picture, it does not get selected. And figure out their size, they have become too big again at low resolutions, and small at high resolutions, link their size to the size of the question cards (taking into account scaling)
 
 prompt update 26
+все еще на смартфоне со средним разрешением картинки слишком большие, а на смартфоне с высоким разрешением они слишком маленькие.
+still, on a medium-resolution smartphone, the pictures are too big, and on a high-resolution smartphone, they are too small.
+
+prompt update 27
 При повторных случайных играх выбирать только из несыгранных ранее карточек, когда останется количество карточек меньшее 10, начать случайный отбор из полного набора карточек.
 
 

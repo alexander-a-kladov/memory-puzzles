@@ -327,26 +327,20 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;
 
 /* Placed picture — natural size, max 80px, preserves aspect ratio */
 .pic-item{position:absolute;transform:translate(-50%,-50%);
-  max-width:var(--pic-sz,80px);max-height:var(--pic-sz,80px);width:auto;height:auto;
   border:2.5px solid transparent;
   box-shadow:none;cursor:pointer;
   transition:box-shadow .15s,border-color .15s;pointer-events:all;
-  overflow:hidden;display:inline-flex;align-items:center;justify-content:center;
-  background:transparent}
-.pic-item img{max-width:calc(var(--pic-sz,80px) - 4px);max-height:calc(var(--pic-sz,80px) - 4px);
-  width:auto;height:auto;display:block;pointer-events:none}
+  line-height:0}
+.pic-item img{width:var(--pic-sz,80px);height:auto;
+  display:block;pointer-events:none}
 .pic-item.selected{border-color:#ffe600;
   box-shadow:0 0 0 3px #ffe600,0 0 10px 3px rgba(255,230,0,.6)}
 .pic-item.ok {border-color:#3ecf8e;box-shadow:0 0 0 3px #3ecf8e;cursor:default;pointer-events:none}
 .pic-item.bad{border-color:#e84545;box-shadow:0 0 0 3px #e84545;cursor:default;pointer-events:none}
 
-/* Ghost — same natural-ratio sizing */
 .pic-ghost{position:absolute;transform:translate(-50%,-50%);
-  max-width:var(--pic-sz,80px);max-height:var(--pic-sz,80px);width:auto;height:auto;
-  overflow:hidden;border:2.5px dashed #3ecf8e;opacity:.75;pointer-events:none;
-  display:inline-flex;align-items:center;justify-content:center;background:transparent}
-.pic-ghost img{max-width:calc(var(--pic-sz,80px) - 4px);max-height:calc(var(--pic-sz,80px) - 4px);
-  width:auto;height:auto;display:block}
+  border:2.5px dashed #3ecf8e;opacity:.75;pointer-events:none;line-height:0}
+.pic-ghost img{width:var(--pic-sz,80px);height:auto;display:block}
 
 #loading{position:fixed;inset:0;background:#0a0a0f;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:999}
@@ -700,7 +694,9 @@ function loadCard(idx) {
 
   S.phase = 'idle'; S.cbState = {}; S.drawCtx = null;
 
-  // Clear widgets, draw canvas, toolbar, skip, ellipse overlays
+  // Clear widget/pic size variables
+  wlayer.style.removeProperty('--wfs');
+  stage.style.removeProperty('--pic-sz');
   wlayer.innerHTML = '';
   stage.querySelectorAll(
     '#draw-canvas,#draw-toolbar,#skip-btn,#ellipse-svg,#marker-layer,.mkr,' +
@@ -1376,7 +1372,8 @@ function buildCircle(card) {
   const stageMin = Math.min(stage.offsetWidth, stage.offsetHeight);
   const pct      = card.picSizePercent || 9;
   const picSz    = Math.round(stageMin * pct / 100);
-  wlayer.style.setProperty('--pic-sz', picSz + 'px');
+  // Must be on `stage` (parent of both #wlayer and #pic-layer), not on wlayer alone
+  stage.style.setProperty('--pic-sz', picSz + 'px');
 
   const cardHidden = String(card.hidden).toLowerCase() === 'true';
 

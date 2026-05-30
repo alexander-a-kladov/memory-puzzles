@@ -1370,24 +1370,13 @@ function buildCircle(card) {
   CS.placed   = [];
   CS.selected = null;
 
-  // Pic size = 2 × average circle radius scaled to stage pixels.
-  // Falls back to picSizePx config, then to 2× first widget radius.
-  // Clamped to 5–15% of the shorter stage dimension for consistency across screens.
-  const scX = S.imgW / S.natW;
+  // Pic size = percentage of the shorter stage dimension.
+  // Config: "picSizePercent": 9  (default 9 = 9% of min(stageW, stageH))
+  // This gives consistent visual size on any screen regardless of image resolution.
   const stageMin = Math.min(stage.offsetWidth, stage.offsetHeight);
-
-  let baseSz;
-  if (card.picSizePx) {
-    baseSz = Math.round(card.picSizePx * scX);
-  } else {
-    // Derive from circle radii: average radius × 2 (diameter), scaled
-    const radii = card.widgets.map(w => w.r || 20);
-    const avgR  = radii.reduce((s, r) => s + r, 0) / radii.length;
-    baseSz = Math.round(avgR * 2 * scX);
-  }
-  // Clamp: 5% to 15% of shorter screen dimension
-  const picSz = Math.min(stageMin * 0.15, Math.max(stageMin * 0.05, baseSz));
-  wlayer.style.setProperty('--pic-sz', Math.round(picSz) + 'px');
+  const pct      = card.picSizePercent || 9;
+  const picSz    = Math.round(stageMin * pct / 100);
+  wlayer.style.setProperty('--pic-sz', picSz + 'px');
 
   const cardHidden = String(card.hidden).toLowerCase() === 'true';
 

@@ -827,12 +827,9 @@ function startAnswer() {
 // ═══════════════════════════════════════════════════
 //  PHASE 3 — CHECK
 // ═══════════════════════════════════════════════════
-function checkAnswers() {
+async function checkAnswers() {
   if (S.phase !== 'answer') return;
 
-  // Stop answer timer while checking (it will resume if user goes to next card)
-  // Actually keep it running — it's cumulative and we don't stop between cards.
-  // We DO stop it here because phase changes to 'done'.
   clearInterval(S.ansTm); S.ansTm = null;
   S.phase = 'done';
 
@@ -841,8 +838,9 @@ function checkAnswers() {
   const total = card.widgets.length;
 
   if (card.widgets[0]?.type === 'drawing') {
-    correct = evalDrawing(card.widgets[0]) ? 1 : 0;
-    showDrawingResult(correct === 1);
+    const result = await evalDrawing(card.widgets[0]);
+    correct = result.pass ? 1 : 0;
+    showDrawingResult(result.pass, result.coverage, result.accuracy);
   } else if (card.widgets[0]?.type === 'ellipse') {
     const markerOk = evalEllipseWidget(card);
     correct = markerOk.filter(Boolean).length;
@@ -1729,33 +1727,140 @@ function buildDrawing(card) {
   placeCheckBtn(card);
 }
 
-function evalDrawing(w) {
-  if (!S.drawCtx || !w.referenceImage) return false;
-  const dc  = S.drawCtx.canvas;
-  const ref = new Image(); ref.src = w.referenceImage;
-  const oc  = document.createElement('canvas');
-  oc.width  = dc.width; oc.height = dc.height;
-  const ox  = oc.getContext('2d');
-  ox.fillStyle = 'white'; ox.fillRect(0,0,oc.width,oc.height);
-  ox.drawImage(ref, 0,0, oc.width, oc.height);
-  const rd = ox.getImageData(0,0,oc.width,oc.height).data;
-  const ud = S.drawCtx.getImageData(0,0,dc.width,dc.height).data;
-  let rp=0, mp=0;
-  for (let i=0; i<rd.length; i+=4) {
-    if (0.299*rd[i]+0.587*rd[i+1]+0.114*rd[i+2] < 128) {
-      rp++; if (ud[i+3]>50) mp++;
+// ─────────────────────────────────────────────────────
+//  Fast separable dilation (max-filter) using prefix sums
+//  Returns a Uint8Array where 1 = within `radius` pixels of a set pixel in `mask`
+// ─────────────────────────────────────────────────────
+function dilateMask(mask, W, H, radius) {
+  const tmp = new Uint8Array(W * H);
+  const out = new Uint8Array(W * H);
+
+  // Horizontal pass — prefix sums per row
+  for (let y = 0; y < H; y++) {
+    const row = y * W;
+    // Build prefix sum for this row
+    let sum = 0;
+    const psum = new Int32Array(W + 1);
+    for (let x = 0; x < W; x++) { sum += mask[row + x]; psum[x + 1] = sum; }
+    for (let x = 0; x < W; x++) {
+      const lo = Math.max(0, x - radius);
+      const hi = Math.min(W, x + radius + 1);
+      tmp[row + x] = (psum[hi] - psum[lo]) > 0 ? 1 : 0;
     }
   }
-  return rp===0 ? true : mp/rp >= (w.matchThreshold||0.75);
+
+  // Vertical pass — prefix sums per column
+  for (let x = 0; x < W; x++) {
+    let sum = 0;
+    const psum = new Int32Array(H + 1);
+    for (let y = 0; y < H; y++) { sum += tmp[y * W + x]; psum[y + 1] = sum; }
+    for (let y = 0; y < H; y++) {
+      const lo = Math.max(0, y - radius);
+      const hi = Math.min(H, y + radius + 1);
+      out[y * W + x] = (psum[hi] - psum[lo]) > 0 ? 1 : 0;
+    }
+  }
+
+  return out;
 }
 
-function showDrawingResult(ok) {
+// ─────────────────────────────────────────────────────
+//  Bidirectional drawing check (async — waits for ref image to actually load)
+//
+//  TWO metrics, both must pass:
+//  1. COVERAGE  — what % of reference lines did the user draw near?
+//                 (catches blank/incomplete drawings)
+//  2. ACCURACY  — what % of the user's strokes are near reference lines?
+//                 (catches "fill everything" or random scribbles)
+//
+//  Tolerance radius scales with canvas size (~2% of width).
+// ─────────────────────────────────────────────────────
+function evalDrawing(w) {
+  if (!S.drawCtx || !w.referenceImage) return Promise.resolve(false);
+  const dc = S.drawCtx.canvas;
+  const W = dc.width, H = dc.height;
+
+  // Tolerance in canvas pixels: 2% of width, minimum 8px
+  const TOLERANCE = Math.max(8, Math.round(W * 0.02));
+  const threshold = w.matchThreshold || 0.75;
+
+  return new Promise(resolve => {
+    const ref = new Image();
+    ref.crossOrigin = 'anonymous';
+
+    ref.onerror = () => resolve({pass:false, coverage:0, accuracy:0});
+
+    ref.onload = () => {
+      try {
+        // ── Render reference to offscreen canvas ──
+        const oc = document.createElement('canvas');
+        oc.width = W; oc.height = H;
+        const octx = oc.getContext('2d');
+        octx.fillStyle = 'white';
+        octx.fillRect(0, 0, W, H);
+        octx.drawImage(ref, 0, 0, W, H);
+
+        const refData  = octx.getImageData(0, 0, W, H).data;
+        const userDraw = S.drawCtx.getImageData(0, 0, W, H).data;
+
+        // ── Binarize both images ──
+        const refMask  = new Uint8Array(W * H);
+        const userMask = new Uint8Array(W * H);
+        let refCount = 0, userCount = 0;
+
+        for (let i = 0; i < W * H; i++) {
+          const ri = i * 4;
+          const gray = 0.299*refData[ri] + 0.587*refData[ri+1] + 0.114*refData[ri+2];
+          if (gray < 128)              { refMask[i]  = 1; refCount++;  }
+          if (userDraw[ri + 3] > 50)   { userMask[i] = 1; userCount++; }
+        }
+
+        // No reference lines found (e.g. all white) → treat as pass
+        if (refCount === 0) { resolve({pass:true, coverage:1, accuracy:1}); return; }
+
+        // User drew nothing → always fail
+        if (userCount === 0) { resolve({pass:false, coverage:0, accuracy:0}); return; }
+
+        // ── Dilate both masks by tolerance radius ──
+        const refDilated  = dilateMask(refMask,  W, H, TOLERANCE);
+        const userDilated = dilateMask(userMask, W, H, TOLERANCE);
+
+        // ── Coverage: % of ref line pixels covered by (dilated) user strokes ──
+        let covered = 0;
+        for (let i = 0; i < W * H; i++) {
+          if (refMask[i] && userDilated[i]) covered++;
+        }
+        const coverage = covered / refCount;
+
+        // ── Accuracy: % of user pixels that fall inside (dilated) reference ──
+        let onRef = 0;
+        for (let i = 0; i < W * H; i++) {
+          if (userMask[i] && refDilated[i]) onRef++;
+        }
+        const accuracy = onRef / userCount;
+
+        const pass = coverage >= threshold && accuracy >= threshold * 0.6;
+
+        resolve({pass, coverage, accuracy});
+      } catch(e) {
+        resolve({pass:false, coverage:0, accuracy:0});
+      }
+    };
+
+    ref.src = w.referenceImage;
+  });
+}
+
+function showDrawingResult(ok, coverage, accuracy) {
   const ic = document.createElement('div');
   ic.style.cssText = 'position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);'+
-    'z-index:55;pointer-events:none;font-size:clamp(20px,5vw,32px);'+
-    'background:rgba(8,8,18,.9);padding:12px 24px;border-radius:12px;'+
-    'animation:fadeIn .3s ease;text-align:center;color:#fff;';
-  ic.textContent = ok ? '✅ Зачтено!' : '❌ Мало совпадений';
+    'z-index:55;pointer-events:none;font-size:clamp(16px,4vw,26px);'+
+    'background:rgba(8,8,18,.92);padding:14px 26px;border-radius:12px;'+
+    'animation:fadeIn .3s ease;text-align:center;color:#fff;line-height:1.6;';
+  const pct = (v => `${Math.round(v * 100)}%`);
+  ic.innerHTML = ok
+    ? `✅ Зачтено!<br><span style="font-size:.6em;color:rgba(255,255,255,.5)">покрытие ${pct(coverage)} · точность ${pct(accuracy)}</span>`
+    : `❌ Мало совпадений<br><span style="font-size:.6em;color:rgba(255,255,255,.5)">покрытие ${pct(coverage)} · точность ${pct(accuracy)}</span>`;
   wlayer.appendChild(ic);
 }
 

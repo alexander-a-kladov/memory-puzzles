@@ -89,7 +89,7 @@
         {
           "id": "w1",
           "type": "drawing",
-          "x": 0, "y": 128, "w": 1280, "h": 589,
+          "x": 0, "y": 183, "w": 1024, "h": 471,
           "referenceImage": "images/memory9_reference.jpg",
           "matchThreshold": 0.75,
           "answer": "drawn"
@@ -729,12 +729,12 @@
       "memorizeTime": 60,
       "taskImage": "images/memory75.jpg",
       "answerImage": "images/memory76.jpg",
-      "taskHiddenArea": { "x": 0, "y": 0, "w": 1023, "h": 185 },
+      "taskHiddenArea": { "x": 0, "y": 0, "w": 1024, "h": 185 },
       "widgets": [
         {
           "id": "w1",
           "type": "drawing",
-          "x": 0, "y": 172, "w": 1023, "h": 651,
+          "x": 0, "y": 172, "w": 1024, "h": 479,
           "referenceImage": "images/memory75_reference.jpg",
           "matchThreshold": 0.75,
           "answer": "drawn"

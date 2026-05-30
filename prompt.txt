@@ -181,14 +181,15 @@ prompt update 22 (done)
 информационная картинка 1-я отображается слишком большой, она должна отображаться также как картинки заданий и не видно кнопки переключения на следующую информационную картинку.
 The information picture 1 is displayed too large, it should be displayed as well as the task pictures and the button for switching to the next information picture is not visible.
 
+prompt update 23 (done)
+Made the better algorithm for checking user's drawn images, because now even the blanc user's image passed 75% threshold, user this reference images as clues.
+attachments: reference images
+
 prompt update 23
 Сделай выбор картинок в вопросах типа "circle" по нажатию на 50% прямоугольник внутри картинки, чтобы при нажатии на край картинки она не выбиралась.
 Make a selection of pictures in the "circle" type of answers by clicking on the 50% rectangle inside the picture so that when user clicks on the edge of the picture, it does not get selected.
 
 prompt update 24
-Улучшить точность алгоритма проверки рисунков карандашом
-
-prompt update 25
 При повторных случайных играх выбирать только из несыгранных ранее карточек, когда останется количество карточек меньшее 10, начать случайный отбор из полного набора карточек.
 
 

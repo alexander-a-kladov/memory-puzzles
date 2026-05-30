@@ -25,10 +25,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;
 #info-screen{position:fixed;inset:0;background:#0a0a0f;z-index:600;
   display:none;flex-direction:column;overflow:hidden}
 #info-screen.show{display:flex}
-#info-img-wrap{flex:1;min-height:0;display:flex;align-items:center;
-  justify-content:center;overflow:hidden;padding:8px}
-#info-img{max-width:100%;max-height:100%;width:auto;height:auto;
-  object-fit:contain;display:block;user-select:none;-webkit-user-drag:none}
+#info-img-wrap{flex:1;min-height:0;position:relative;overflow:hidden}
+#info-img{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:contain;object-position:center;display:block;
+  user-select:none;-webkit-user-drag:none}
 #info-bar{flex-shrink:0;height:60px;background:rgba(8,8,16,.98);
   display:flex;align-items:center;justify-content:space-between;
   padding:0 16px;border-top:1px solid rgba(255,255,255,.1);gap:12px;

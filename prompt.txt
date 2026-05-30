@@ -185,11 +185,15 @@ prompt update 23 (done)
 Made the better algorithm for checking user's drawn images, because now even the blanc user's image passed 75% threshold, user this reference images as clues.
 attachments: reference images
 
-prompt update 23
-Сделай выбор картинок в вопросах типа "circle" по нажатию на 50% прямоугольник внутри картинки, чтобы при нажатии на край картинки она не выбиралась.
-Make a selection of pictures in the "circle" type of answers by clicking on the 50% rectangle inside the picture so that when user clicks on the edge of the picture, it does not get selected.
+prompt update 24 (done)
+сделай информационные картинки в начале такими чтобы они масштабировались на размер экрана также как вопросные картинки
+make the information images at the beginning so that they scale to the size of the screen, just like the question images
 
-prompt update 24
+prompt update 25
+Сделай выбор картинок в вопросах типа "circle" выбор нажатие на 50% прямоугольник внутри картинки, чтобы при нажатии на край картинки она не выбиралась. И разберись с их размером, они снова на низких разрешениях стали слишком большие, а на высоких маленькие, привяжи их размер к размеру карточек вопросов (учитывая масштабирование)
+Make a selection of pictures in questions type "circle" by clicking on the 50% rectangle inside the picture so that when you click on the edge of the picture, it does not get selected. And figure out their size, they have become too big again at low resolutions, and small at high resolutions, link their size to the size of the question cards (taking into account scaling)
+
+prompt update 26
 При повторных случайных играх выбирать только из несыгранных ранее карточек, когда останется количество карточек меньшее 10, начать случайный отбор из полного набора карточек.
 
 

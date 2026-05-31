@@ -831,7 +831,7 @@ async function checkAnswers() {
 
   const card = cards[ci];
   let correct = 0;
-  const total = card.widgets.length;
+  let total = card.widgets.length;
 
   if (card.widgets[0]?.type === 'drawing') {
     const result = await evalDrawing(card.widgets[0]);
@@ -861,10 +861,42 @@ async function checkAnswers() {
       markWidget(w, ok);
     });
   } else {
+    // For checkbox cards: total = number of "true" answers (the ones to find)
+    // For other widget types: total = all widgets
+    const hasCheckboxes = card.widgets.every(w => w.type === 'checkbox');
+    if (hasCheckboxes) {
+      // Recount total as number of expected "true" answers
+      total = card.widgets.filter(w => w.answer.toLowerCase() === 'true').length;
+    }
+
     card.widgets.forEach(w => {
-      const ok = evalWidget(w);
-      if (ok) correct++;
-      markWidget(w, ok);
+      if (w.type === 'checkbox') {
+        const userChecked   = !!S.cbState[w.id];
+        const shouldBeTrue  = w.answer.toLowerCase() === 'true';
+
+        // Scoring: correct only if should=true AND user checked it
+        const ok = shouldBeTrue && userChecked;
+        if (ok) correct++;
+
+        // Marking rules:
+        // ✅  should=true  AND checked  (correct hit)
+        // ❌  should=false AND checked  (false positive)
+        // ❌  should=true  AND unchecked (missed)
+        // (no mark) should=false AND unchecked (correct non-selection)
+        const showTick  = shouldBeTrue  && userChecked;
+        const showCross = (!shouldBeTrue && userChecked) || (shouldBeTrue && !userChecked);
+
+        if (showTick || showCross) {
+          const el = wlayer.querySelector(`[data-wid="${w.id}"]`);
+          if (el) el.classList.add(showTick ? 'ok' : 'bad');
+          const icon = wlayer.querySelector(`[data-icon-for="${w.id}"]`);
+          if (icon) { icon.textContent = showTick ? '✅' : '❌'; icon.classList.add('show'); }
+        }
+      } else {
+        const ok = evalWidget(w);
+        if (ok) correct++;
+        markWidget(w, ok);
+      }
     });
   }
 
@@ -938,6 +970,12 @@ function buildWidgets(card) {
   const fsPx       = Math.min(28, Math.max(9, Math.round(baseFontPx * imgScale)));
   wlayer.style.setProperty('--wfs', fsPx + 'px');
 
+  // Auto-compute checkbox limit = number of widgets with answer "true"
+  const cbTrueCount = card.widgets.filter(
+    w => w.type === 'checkbox' && w.answer.toLowerCase() === 'true'
+  ).length;
+  const cbLimit = cbTrueCount > 0 ? cbTrueCount : null;
+
   card.widgets.forEach(w => {
     const sp = i2s(w.x, w.y);   // top-left of widget in stage px
 
@@ -953,7 +991,7 @@ function buildWidgets(card) {
       case 'month':    input = makeMonSel(w);  break;
       case 'digit':    input = makeDigSel(w);  break;
       case 'text':     input = makeText(w);    break;
-      case 'checkbox': input = makeCB(w, card.checkboxLimit ?? null); break;
+      case 'checkbox': input = makeCB(w, cbLimit); break;
       case 'select':   input = makeListSel(w); break;
     }
     if (input) anchor.appendChild(input);
@@ -967,11 +1005,8 @@ function buildWidgets(card) {
     wlayer.appendChild(anchor);
   });
 
-  placeCheckBtn(card);
+  placeCheckBtn(card, cbLimit);
 }
-
-// ═══════════════════════════════════════════════════
-//  WIDGET FACTORIES
 // ═══════════════════════════════════════════════════
 
 // Build number select: uses w.values[] if present, else min..max range
@@ -1065,7 +1100,7 @@ function addOpt(s, v, t) {
   o.value = String(v); o.textContent = String(t); s.appendChild(o);
 }
 
-function placeCheckBtn(card) {
+function placeCheckBtn(card, limit = null) {
   const cb  = card.checkButton;
   const sp  = i2s(cb.x, cb.y);   // top-left of button
   const btn = document.createElement('button');
@@ -1076,18 +1111,17 @@ function placeCheckBtn(card) {
   btn.addEventListener('click', checkAnswers);
   wlayer.appendChild(btn);
 
-  // If card has checkboxLimit, show a counter badge above the check button
-  if (card.checkboxLimit != null) {
+  // Show counter badge: "Отмечено N / M" where M = number of true answers
+  if (limit != null) {
     const badge = document.createElement('div');
     badge.id = 'cb-counter';
     badge.style.cssText =
       `position:absolute;left:${sp.x}px;top:${sp.y - 28}px;` +
-      `transform:translateX(-0%);` +
       `font-size:12px;font-weight:700;letter-spacing:.5px;` +
       `color:rgba(255,255,255,.6);pointer-events:none;white-space:nowrap;` +
       `background:rgba(8,8,18,.75);padding:3px 9px;border-radius:6px;` +
       `border:1px solid rgba(255,255,255,.1);`;
-    badge.textContent = `Отмечено: 0 / ${card.checkboxLimit}`;
+    badge.textContent = `Отмечено: 0 / ${limit}`;
     wlayer.appendChild(badge);
   }
 }

@@ -104,7 +104,6 @@
       "taskImage": "images/memory11.jpg",
       "answerImage": "images/memory12.jpg",
       "taskHiddenArea": { "x": 0, "y": 0, "w": 648, "h": 250 },
-      "checkboxLimit": 4,
       "widgets": [
         { "id": "w1",  "type": "checkbox", "x": 183, "y": 371, "answer": "true" },
         { "id": "w2",  "type": "checkbox", "x": 271, "y": 193, "answer": "false" },
@@ -332,7 +331,6 @@
       "taskImage": "images/memory33.jpg",
       "answerImage": "images/memory34.jpg",
       "taskHiddenArea": { "x": 0, "y": 0, "w": 644, "h": 271 },
-      "checkboxLimit": 4,
       "widgets": [
         { "id": "w1",  "type": "checkbox", "x": 108, "y": 230, "answer": "false" },
         { "id": "w2",  "type": "checkbox", "x": 297, "y": 235, "answer": "true" },

@@ -209,10 +209,11 @@ update:
 что-то работает не правильно, кнопка "Проверить" нажалась на странице с checkbox, время остановилось, но дальше ничего не происходит
 something is not working correctly, the "Проверить" button is pressed on the checkbox page, time has stopped, but nothing happens next.
 
-prompt update 28
+prompt update 28 (done)
 При повторных "случайных играх" выбирать только из несыгранных ранее карточек, когда останется количество карточек меньшее 10, дополнить количество до 10 из ранее сыгранных карточек.
 После того как все карточки были сыграны в следующий раз снова выбирать 10 из всех карточек.
-
+In case of repeated "random games", choose only from previously unplayed cards, when the number of cards remaining is less than 10, add up to 10 from the previously played cards.
+After all the cards have been played, choose 10 of all the cards again the next time.
 
 
 

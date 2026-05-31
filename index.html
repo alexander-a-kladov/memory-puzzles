@@ -1974,15 +1974,40 @@ btnAnswer.addEventListener('click', () => startAnswer());
 // Menu buttons
 ge('menu-all').addEventListener('click', () => startGame(CONFIG.cards.slice()));
 
+// Tracks which card IDs have been played in random mode
+const playedCardIds = new Set();
+
+function shuffleArr(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
 ge('menu-10').addEventListener('click', () => {
   const all = CONFIG.cards.slice();
-  // Fisher-Yates shuffle
-  for (let i = all.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [all[i], all[j]] = [all[j], all[i]];
+  const N   = Math.min(10, all.length);
+
+  // If all cards have been played → reset and start fresh
+  if (playedCardIds.size >= all.length) playedCardIds.clear();
+
+  const unplayed = shuffleArr(all.filter(c => !playedCardIds.has(c.id)));
+  const played   = shuffleArr(all.filter(c =>  playedCardIds.has(c.id)));
+
+  let selected;
+  if (unplayed.length >= N) {
+    // Enough unplayed cards — take from them only
+    selected = unplayed.slice(0, N);
+  } else {
+    // Take all remaining unplayed, fill up to N from previously played
+    selected = unplayed.concat(played.slice(0, N - unplayed.length));
   }
-  // Always take exactly 10 (or all if fewer), always start at index 0
-  startGame(all.slice(0, Math.min(10, all.length)), 0);
+
+  // Mark this batch as played
+  selected.forEach(c => playedCardIds.add(c.id));
+
+  startGame(selected, 0);
 });
 
 // Final screen buttons
